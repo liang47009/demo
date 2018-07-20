@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">Demo</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password (required)</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+    <string name="demo_login_string">Login</string>
+    <string name="to_gaode_string">show in gaode</string>
+    <string name="to_baidu_string">show in baidu</string>
+    <string name="btn_home">btn_home</string>
+    <string name="btn_center">btn_center</string>
+    <string name="btn_me">btn_me</string>
+    <string name="to_do">TODO</string>
+    <string name="empty" />
+    <string name="order">order dinner</string>
+</resources>

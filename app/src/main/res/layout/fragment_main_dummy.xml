@@ -1,0 +1,36 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:text="@string/app_name"
+        android:id="@+id/location_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/login_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="login"
+        android:text="@string/demo_login_string" />
+
+    <Button
+        android:id="@+id/btn_to_gaode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="toGaoDe"
+        android:text="@string/to_gaode_string" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="toBaiDu"
+        android:text="@string/to_baidu_string" />
+    <!--    <com.amap.api.maps.MapView
+            android:id="@+id/map_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />-->
+
+</LinearLayout>

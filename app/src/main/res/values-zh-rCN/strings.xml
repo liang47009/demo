@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">测试</string>
+    <!-- Strings related to login -->
+    <string name="prompt_email">邮箱</string>
+    <string name="prompt_password">密码</string>
+    <string name="action_sign_in">登录/注册</string>
+    <string name="action_sign_in_short">登录</string>
+    <string name="error_invalid_email">邮箱格式不正确</string>
+    <string name="error_invalid_password">密码长度太短</string>
+    <string name="error_incorrect_password">密码格式不正确</string>
+    <string name="error_field_required">必填项</string>
+    <string name="permission_rationale">需要读取联系人权限</string>
+    <string name="demo_login_string">登录</string>
+    <string name="to_gaode_string">高德地图</string>
+    <string name="to_baidu_string">百度地图</string>
+    <string name="btn_home">首页</string>
+    <string name="btn_center">中间</string>
+    <string name="btn_me">我</string>
+    <string name="empty" />
+    <string name="order">订餐</string>
+</resources>
