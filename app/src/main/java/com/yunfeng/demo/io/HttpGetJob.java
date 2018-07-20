@@ -1,6 +1,8 @@
 package com.yunfeng.demo.io;
 
-import com.yunfeng.demo.utils.Okhttp3Utils;
+import android.util.Log;
+
+import com.yunfeng.demo.utils.OkHttp3Utils;
 import com.yunfeng.demo.utils.ThreadPool;
 
 import java.io.IOException;
@@ -20,8 +22,10 @@ public class HttpGetJob implements HttpJob {
     @Override
     public HttpResponse run(ThreadPool.JobContext jc) {
         try {
-            String resp = Okhttp3Utils.getJsonContent(url);
-            HttpGetResponse hgr = new HttpGetResponse();
+            String resp = OkHttp3Utils.getJsonContent(url);
+            Log.e("demo", "resp:" + resp);
+            HttpResponse hgr = new HttpGetResponse();
+            hgr.setResult(resp);
             return hgr;
         } catch (IOException e) {
             e.printStackTrace();
