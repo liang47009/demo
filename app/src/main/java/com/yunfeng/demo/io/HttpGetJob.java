@@ -2,10 +2,9 @@ package com.yunfeng.demo.io;
 
 import android.util.Log;
 
-import com.yunfeng.demo.utils.OkHttp3Utils;
+import com.yunfeng.demo.utils.OkHttpUtils;
 import com.yunfeng.demo.utils.ThreadPool;
 
-import java.io.IOException;
 
 /**
  * ok3 get
@@ -20,16 +19,11 @@ public class HttpGetJob implements HttpJob {
     }
 
     @Override
-    public HttpResponse run(ThreadPool.JobContext jc) {
-        try {
-            String resp = OkHttp3Utils.getJsonContent(url);
-            Log.e("demo", "resp:" + resp);
-            HttpResponse hgr = new HttpGetResponse();
-            hgr.setResult(resp);
-            return hgr;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
+    public HttpResponse run(ThreadPool.JobContext jc) throws Exception {
+        String resp = OkHttpUtils.getJsonContent(url);
+        Log.e("demo", "resp:" + resp);
+        HttpResponse hgr = new HttpGetResponse();
+        hgr.setResult(resp);
+        return hgr;
     }
 }

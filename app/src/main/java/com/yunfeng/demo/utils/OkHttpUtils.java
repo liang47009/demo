@@ -19,7 +19,7 @@ import okhttp3.ResponseBody;
  * okhttps
  * Created by xll on 2018/7/20.
  */
-public class OkHttp3Utils {
+public class OkHttpUtils {
     /**
      * 通过okhttp的get请求方式获取网络数据
      */
