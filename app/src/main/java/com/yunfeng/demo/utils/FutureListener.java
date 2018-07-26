@@ -17,5 +17,5 @@
 package com.yunfeng.demo.utils;
 
 public interface FutureListener<T> {
-    public void onFutureDone(Future<T> future);
+    void onFutureDone(Future<T> future);
 }

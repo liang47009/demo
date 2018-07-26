@@ -6,10 +6,15 @@ package com.yunfeng.demo.io;
  */
 public class HttpGetResponse implements HttpResponse {
 
-    private Object result;
+    private String result;
 
     @Override
-    public void setResult(Object result) {
+    public void setResult(String result) {
         this.result = result;
     }
+
+    public String getResult() {
+        return result;
+    }
+
 }

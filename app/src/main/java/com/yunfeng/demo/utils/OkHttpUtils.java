@@ -3,6 +3,7 @@ package com.yunfeng.demo.utils;
 import android.util.Log;
 
 import com.yunfeng.demo.io.HttpGetJob;
+import com.yunfeng.demo.io.IHttpRequestListener;
 
 import java.io.IOException;
 import java.util.Map;
@@ -76,14 +77,7 @@ public class OkHttpUtils {
         return null;
     }
 
-    public static void createGetRequest(final String url) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Future ret = ThreadPool.getInstance().submit(new HttpGetJob(url));
-                Object obj = ret.get();
-                Log.e("demo", "ret: " + obj);
-            }
-        }).start();
+    public static void createGetRequest(final String url, final IHttpRequestListener requestListener) {
+        ThreadPool.getInstance().submit(new HttpGetJob(url), requestListener);
     }
 }

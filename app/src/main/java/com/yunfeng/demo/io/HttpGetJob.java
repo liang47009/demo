@@ -19,10 +19,10 @@ public class HttpGetJob implements HttpJob {
     }
 
     @Override
-    public HttpResponse run(ThreadPool.JobContext jc) throws Exception {
+    public HttpGetResponse run(ThreadPool.JobContext jc) throws Exception {
         String resp = OkHttpUtils.getJsonContent(url);
         Log.e("demo", "resp:" + resp);
-        HttpResponse hgr = new HttpGetResponse();
+        HttpGetResponse hgr = new HttpGetResponse();
         hgr.setResult(resp);
         return hgr;
     }
