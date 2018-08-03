@@ -60,7 +60,12 @@
         <!--<meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="37b598b6e954d2ebfe97684c7dbdc189" />-->
-        <service android:name="com.yunfeng.demo.service.MyService" />
+        <service
+            android:name="com.yunfeng.demo.service.AIDLService"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="com.yunfeng"
+            android:process=":aidl" />
     </application>
 
 </manifest>

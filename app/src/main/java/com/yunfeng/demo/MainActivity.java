@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ShareUtils.sendFileByOtherApp(this, "/sdcard/DCIM/a.png");
+
         Bitmap bitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.a6m);
         bitmap = BitmapUtils.W(bitmap);
 
