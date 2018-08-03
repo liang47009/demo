@@ -9,17 +9,17 @@ import java.util.List;
 import java.util.Locale;
 
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
-    private List<Fragment> mFragments = new ArrayList<Fragment>(4);
+    private List<MMFragment> mFragments = new ArrayList<>(4);
 
     public SectionsPagerAdapter(FragmentManager fm) {
         super(fm);
-        Fragment fragment1 = new DummySectionFragment();
+        MMFragment fragment1 = new DummySectionFragment();
         mFragments.add(fragment1);
-        Fragment fragment2 = new EmptyFragment();
+        MMFragment fragment2 = new EmptyFragment();
         mFragments.add(fragment2);
-        Fragment fragment3 = new EmptyFragment();
+        MMFragment fragment3 = new MeFragment();
         mFragments.add(fragment3);
-        Fragment fragment4 = new EmptyFragment();
+        MMFragment fragment4 = new EmptyFragment();
         mFragments.add(fragment4);
     }
 
@@ -47,5 +47,10 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
                 return "title_section3";
         }
         return "";
+    }
+
+    public void onPageScrolled(int position, float positionOffset) {
+        ((MMFragment) getItem(position)).setPositionOffset(positionOffset);
+        ((MMFragment) getItem(position + 1)).setPositionOffset(positionOffset);
     }
 }

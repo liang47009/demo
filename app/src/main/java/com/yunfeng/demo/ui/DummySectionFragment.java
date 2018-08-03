@@ -16,7 +16,7 @@ import com.yunfeng.demo.io.HttpResponse;
 import com.yunfeng.demo.utils.Future;
 import com.yunfeng.demo.utils.ThreadPool;
 
-public class DummySectionFragment extends Fragment {
+public class DummySectionFragment extends MMFragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -43,6 +43,11 @@ public class DummySectionFragment extends Fragment {
             }
         }, 2000);
         return rootView;
+    }
+
+    @Override
+    void setPositionOffset(float positionOffset) {
+
     }
 }
 

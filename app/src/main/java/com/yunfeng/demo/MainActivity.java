@@ -1,23 +1,32 @@
 package com.yunfeng.demo;
 
 import android.Manifest;
+import android.animation.ArgbEvaluator;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.yunfeng.demo.ui.SectionsPagerAdapter;
+import com.yunfeng.demo.utils.BitmapUtils;
 import com.yunfeng.demo.utils.Constants;
 import com.yunfeng.demo.utils.GPSUtil;
 import com.yunfeng.demo.utils.PermissionHelper;
 import com.yunfeng.demo.utils.PermissionListener;
+import com.yunfeng.demo.utils.ShareUtils;
 
 public class MainActivity extends AppCompatActivity {
     private String location = "0,0";
@@ -30,29 +39,41 @@ public class MainActivity extends AppCompatActivity {
     ImageView layout2;
     ImageView layout3;
 
+    int PAGE_COLOR_ONE;
+    int PAGE_COLOR_TWO;
+    int PAGE_COLOR_THREE;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ShareUtils.sendFileByOtherApp(this, "/sdcard/DCIM/a.png");
+        Bitmap bitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.a6m);
+        bitmap = BitmapUtils.W(bitmap);
+
+        PAGE_COLOR_ONE = ContextCompat.getColor(this, R.color.colorPrimary);
+        PAGE_COLOR_TWO = ContextCompat.getColor(this, R.color.colorGrey);
+        PAGE_COLOR_THREE = ContextCompat.getColor(this, R.color.colorAccent);
+
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-        mViewPager = findViewById(R.id.view_pager);
+        mViewPager = (ViewPager) findViewById(R.id.view_pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
         // 初始化三个按钮
-        layout1 = findViewById(R.id.id_tab_1);
+        layout1 = (ImageView) findViewById(R.id.id_tab_1);
         layout1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mViewPager.setCurrentItem(0);
             }
         });
-        layout2 = findViewById(R.id.id_tab_2);
+        layout2 = (ImageView) findViewById(R.id.id_tab_2);
         layout2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mViewPager.setCurrentItem(1);
             }
         });
-        layout3 = findViewById(R.id.id_tab_3);
+        layout3 = (ImageView) findViewById(R.id.id_tab_3);
         layout3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -60,12 +81,27 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         setCurrentItemPic(mViewPager.getCurrentItem());
-        mViewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                Log.d("app", "onPageScrolled: " + position + ", positionOffset: " + positionOffset);
+                changeBackColor(position, positionOffset);
+                if (positionOffset > 0) {
+                    mSectionsPagerAdapter.onPageScrolled(position, positionOffset);
+                }
+            }
+
             @Override
             public void onPageSelected(int position) {
                 setCurrentItemPic(position);
             }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                Log.d("app", "onPageScrollStateChanged: " + state);
+            }
         });
+        layout3.setImageBitmap(bitmap);
 //        mTextView = findViewById(R.id.location_text);
         if (!PermissionHelper.hasPermission(this)) {
             PermissionHelper.requestPermissions(this, new PermissionListener() {
@@ -91,6 +127,26 @@ public class MainActivity extends AppCompatActivity {
 //            mTextView.setText(location);
         }
 //120.627138,31.310937
+    }
+
+    private ArgbEvaluator argbEvaluator = new ArgbEvaluator();//渐变色计算类
+
+    private void changeBackColor(int position, float positionOffset) {
+        switch (position) {
+            case 0:
+                int currentLastColor = (int) (argbEvaluator.evaluate(positionOffset, PAGE_COLOR_ONE, PAGE_COLOR_TWO));
+                layout1.setColorFilter(currentLastColor);
+                break;
+            case 1:
+                int currentLastColor1 = (int) (argbEvaluator.evaluate(positionOffset, PAGE_COLOR_ONE, PAGE_COLOR_TWO));
+                layout2.setColorFilter(currentLastColor1);
+                break;
+            case 2:
+                int currentLastColor2 = (int) (argbEvaluator.evaluate(positionOffset, PAGE_COLOR_ONE, PAGE_COLOR_TWO));
+                layout3.setColorFilter(currentLastColor2);
+            default:
+                break;
+        }
     }
 
     private void setCurrentItemPic(int position) {

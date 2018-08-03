@@ -19,11 +19,16 @@ import com.yunfeng.demo.utils.OkHttpUtils;
 
 import java.lang.ref.WeakReference;
 
-public class EmptyFragment extends Fragment {
+public class EmptyFragment extends MMFragment {
 
     private static final int HTTP_RET = 1;
 
     private final HttpHandler m_handler = new HttpHandler(this);
+
+    @Override
+    void setPositionOffset(float positionOffset) {
+
+    }
 
     private static class HttpHandler extends Handler {
         WeakReference<EmptyFragment> w_emptyFragment;
