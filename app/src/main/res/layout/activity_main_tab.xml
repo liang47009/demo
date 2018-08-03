@@ -1,0 +1,50 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/id_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@drawable/tab_background"
+        android:orientation="horizontal"
+        android:paddingBottom="3dp"
+        android:paddingTop="1dp">
+
+        <com.yunfeng.demo.ui.widget.ShadeView
+            android:id="@+id/sv_home"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="5dp"
+            app:icon="@drawable/a6l"
+            app:text="@string/btn_home" />
+
+        <com.yunfeng.demo.ui.widget.ShadeView
+            android:id="@+id/sv_center"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="5dp"
+            app:icon="@drawable/a6p"
+            app:text="@string/btn_center" />
+
+        <com.yunfeng.demo.ui.widget.ShadeView
+            android:id="@+id/sv_me"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="5dp"
+            app:icon="@drawable/a6n"
+            app:text="@string/btn_me" />
+
+    </LinearLayout>
+
+</LinearLayout>

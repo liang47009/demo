@@ -68,4 +68,6 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
 //    implementation 'com.google.android.gms:play-services-maps:15.0.1'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation 'xiaofei.library:hermes-eventbus:0.3.0'
+    implementation 'xiaofei.library:hermes:0.7.0'
 }

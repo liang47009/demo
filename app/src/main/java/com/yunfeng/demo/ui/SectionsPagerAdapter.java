@@ -48,9 +48,4 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
         }
         return "";
     }
-
-    public void onPageScrolled(int position, float positionOffset) {
-        ((MMFragment) getItem(position)).setPositionOffset(positionOffset);
-        ((MMFragment) getItem(position + 1)).setPositionOffset(positionOffset);
-    }
 }
