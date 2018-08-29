@@ -54,14 +54,21 @@
         </activity>
         <activity
             android:name="com.yunfeng.demo.MainTabActivity"
-            android:launchMode="singleTask">
+            android:launchMode="singleTask"></activity>
+        <activity
+            android:name="com.yunfeng.ddd.MainActivity"
+            android:exported="true" />
+        <activity
+            android:name="com.yunfeng.nativefork.MainActivity"
+            android:exported="true" />
+        <activity android:name="com.yunfeng.aop.MainActivity">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.yunfeng.ddd.MainActivity" android:exported="true" />
         <!-- <service android:name="com.amap.api.location.APSService"></service>-->
         <!--<meta-data
             android:name="com.amap.api.v2.apikey"
