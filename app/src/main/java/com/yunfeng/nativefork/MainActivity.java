@@ -6,8 +6,8 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.FrameLayout;
-import android.widget.FrameLayout.LayoutParams;
+import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
 
 /**
  * native
@@ -24,26 +24,40 @@ public class MainActivity extends Activity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        FrameLayout layout = new FrameLayout(this);
+        LinearLayout layout = new LinearLayout(this);
+        layout.setOrientation(LinearLayout.VERTICAL);
         final LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
         layout.setLayoutParams(params);
 
-        Button button = new Button(this);
-        final LayoutParams paramsBtn = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-        button.setLayoutParams(paramsBtn);
-        button.setText("NativeFork");
-        button.setOnClickListener(new View.OnClickListener() {
+        View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("app", "native fork on click!");
-                fork();
+                Log.d("app", "button on click!");
+                if (v.getTag().equals("native fork")) {
+                    fork();
+                } else if (v.getTag().equals("test")) {
+                    test();
+                }
             }
-        });
+        };
+        createButton(layout, "native fork", listener);
+        createButton(layout, "test", listener);
 
-        layout.addView(button);
         setContentView(layout);
-        fork();
+    }
+
+    private void createButton(LinearLayout layout, String name, View.OnClickListener listener) {
+        Button button = new Button(this);
+        button.setTag(name);
+        final LayoutParams paramsBtn = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        button.setLayoutParams(paramsBtn);
+        button.setText(name);
+        button.setOnClickListener(listener);
+        layout.addView(button);
     }
 
     private static native void fork();
+
+    private static native void test();
+
 }

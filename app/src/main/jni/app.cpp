@@ -1,8 +1,19 @@
 #include <jni.h>
 #include <unistd.h>
 #include <android/log.h>
+#include <stdlib.h>
+#include <time.h>
 
 #define  LOGI(...) __android_log_print(ANDROID_LOG_INFO, "APP", __VA_ARGS__)
+
+void Func(char str[3]) {
+    int len = sizeof(str);
+    LOGI("len: %d", len);
+    LOGI("str: %s", str);
+    void *p = malloc(100);
+    len = sizeof(p);
+    LOGI("len: %d", len);
+}
 
 extern "C"
 {
@@ -21,6 +32,109 @@ JNIEXPORT void JNICALL Java_com_yunfeng_nativefork_MainActivity_fork(JNIEnv *env
         count++;
     }
     LOGI("统计结果是: %d", count);
+}
+
+//void GetMemory(char *p) {
+//    p = (char *) malloc(100);
+//}
+//void Test(void) {
+//    char *str = NULL;
+//    GetMemory(str);
+//    strcpy(str, "hello world");
+//    LOGI("str: %s", str);
+//}
+//char *GetMemory(void) {
+//    char p[] = "hello world";
+//    return p;
+//}
+//void Test(void) {
+//    char *str = NULL;
+//    str = GetMemory();
+//    LOGI("str: %s", str);
+//}
+//void GetMemory2(char **p, size_t num) {
+//    *p = (char *) malloc(num);
+//}
+//void Test(void) {
+//    char *str = NULL;
+//    GetMemory2(&str, 100);
+//    strcpy(str, "hello");
+//    LOGI("str: %s", str);
+//}
+void Test(void) {
+    char *str = (char *) malloc(6);
+    char *cr = (char *) malloc(1);
+    LOGI("str: %p", str);
+    LOGI("cr: %p", cr);
+
+    strcpy(str, "hello");
+    strcpy(cr, "123");
+    free(str);
+    free(cr);
+    if (str != NULL) {
+        strcpy(cr, "3244546");
+        LOGI("str: %s", cr);
+        strcpy(str, "hello world");
+        LOGI("str: %s", str);
+    }
+}
+/**
+ * strcpy - Copy a %NUL terminated string
+ * @dest: Where to copy the string to
+ * @src: Where to copy the string from
+ */
+char *strcpy_custom1(char *dest, const char *src) {
+    char *tmp = dest;
+
+    while ((*dest++ = *src++) != '\0')
+        /* nothing */;
+    return tmp;
+}
+
+char *strcpy_custom(char *dst, const char *src) {
+    char *q = dst;
+    const char *p = src;
+    char ch;
+
+    do {
+        *q++ = ch = *p++;
+    } while (ch);
+
+    return dst;
+}
+
+int getMillisecond() {
+    struct timeval tv;
+    gettimeofday(&tv, NULL);
+    return tv.tv_sec * 1000 + tv.tv_usec / 1000;
+}
+
+JNIEXPORT void JNICALL Java_com_yunfeng_nativefork_MainActivity_test(JNIEnv *env, jclass type) {
+    char str[] = "Hellocxvklsahfildsajofjas;lfj lkasdjfklqwyufoiweqfj slakdjf klsdufieowfuyewoihflksafhjlkdsajf woieyfweoih flkesah flkesaj foieawuf oiwjflekwaj fweoiufiwoeyf ieowhaflkewjafi lweuafiow ahfoiwha flk";
+    char *p = str;
+    int n = 10;
+    int len = sizeof(str);
+    LOGI("len: %d", len);
+    len = sizeof(p);
+    LOGI("len: %d", len);
+    len = sizeof(n);
+    LOGI("len: %d", len);
+    Func(str);
+//    Test();
+    {
+        int start = getMillisecond();
+        p = strcpy_custom(str, p);
+        int end = getMillisecond();
+        int t = end - start;
+        LOGI("strcpy_custom: %p, t: %d", p, t);
+    }
+    {
+        int start = getMillisecond();
+        p = strcpy_custom1(str, p);
+        int end = getMillisecond();
+        int t = end - start;
+        LOGI("strcpy_custom: %p, t: %d", p, t);
+    }
 }
 
 }
