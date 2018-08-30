@@ -15,14 +15,17 @@ public class MethodProxyExecuter {
                 MethodProxy methodProxy = new MethodProxy(superClass, methodName, argsType);
                 return interceptors[callbackFilter.accept(object.getClass().getDeclaredMethod(methodName, argsType))].intercept(object, argsValue, methodProxy);
             }
-            MethodProxy methodProxy = new MethodProxy(superClass, methodName, argsType);
-            return interceptor.intercept(object, argsValue, methodProxy);
+            if (interceptor != null) {
+                MethodProxy methodProxy = new MethodProxy(superClass, methodName, argsType);
+                return interceptor.intercept(object, argsValue, methodProxy);
+            }
         } catch (Exception e) {
             throw new ProxyException(e.getMessage());
         }
+        return null;
     }
 
-    public static Object executeMethod(Class subClass, String methodName, Class[] argsType, Object[] argsValue, Object object) {
+    public static Object executeMethod(Class subClass, String methodName, Class<?>[] argsType, Object[] argsValue, Object object) {
         try {
             Method method = subClass.getDeclaredMethod(methodName + Const.SUBCLASS_INVOKE_SUPER_SUFFIX, argsType);
             return method.invoke(object, argsValue);
