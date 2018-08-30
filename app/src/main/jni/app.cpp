@@ -137,4 +137,34 @@ JNIEXPORT void JNICALL Java_com_yunfeng_nativefork_MainActivity_test(JNIEnv *env
     }
 }
 
+void inplace_swap(int *x, int *y) {
+    *y = *x ^ *y;
+    *x = *x ^ *y;
+    *y = *x ^ *y;
+}
+
+void reverse_array(int array[], int cnt) {
+    int first, last;
+    for (first = 0, last = cnt - 1;
+         first < last;
+         first++, last--) {
+        inplace_swap(&array[first], &array[last]);
+        LOGI("reverse_array---> first:%d, last:%d", first, last);
+    }
+}
+
+JNIEXPORT void JNICALL Java_com_yunfeng_nativefork_MainActivity_math_1game(JNIEnv *, jclass) {
+//    int x, y;
+//    x = 5;
+//    y = 8;
+//    LOGI("math game---> x:%d, y:%d", x, y);
+//    inplace_swap(&x, &y);
+//    LOGI("math game---> x:%d, y:%d", x, y);
+    int array[6] = {6, 5, 4, 3, 2, 1};
+    reverse_array(array, 6);
+    for (int i = 0; i < 6; ++i) {
+        LOGI("math game---> array[i]: %d", array[i]);
+    }
+}
+
 }

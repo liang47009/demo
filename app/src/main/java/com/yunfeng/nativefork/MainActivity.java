@@ -37,11 +37,14 @@ public class MainActivity extends Activity {
                     fork();
                 } else if (v.getTag().equals("test")) {
                     test();
+                } else if (v.getTag().equals("math_game")) {
+                    math_game();
                 }
             }
         };
         createButton(layout, "native fork", listener);
         createButton(layout, "test", listener);
+        createButton(layout, "math_game", listener);
 
         setContentView(layout);
     }
@@ -59,5 +62,7 @@ public class MainActivity extends Activity {
     private static native void fork();
 
     private static native void test();
+
+    private static native void math_game();
 
 }
