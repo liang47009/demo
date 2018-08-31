@@ -3,6 +3,7 @@
 #include <android/log.h>
 #include <stdlib.h>
 #include <time.h>
+#include "app.h"
 
 #define  LOGI(...) __android_log_print(ANDROID_LOG_INFO, "APP", __VA_ARGS__)
 
@@ -13,6 +14,10 @@ void Func(char str[3]) {
     void *p = malloc(100);
     len = sizeof(p);
     LOGI("len: %d", len);
+}
+
+void Test_Test(void) {
+    LOGI("Test_Test");
 }
 
 extern "C"
@@ -62,6 +67,7 @@ JNIEXPORT void JNICALL Java_com_yunfeng_nativefork_MainActivity_fork(JNIEnv *env
 //    LOGI("str: %s", str);
 //}
 void Test(void) {
+    clazz->test();
     char *str = (char *) malloc(6);
     char *cr = (char *) malloc(1);
     LOGI("str: %p", str);
@@ -165,6 +171,10 @@ JNIEXPORT void JNICALL Java_com_yunfeng_nativefork_MainActivity_math_1game(JNIEn
     for (int i = 0; i < 6; ++i) {
         LOGI("math game---> array[i]: %d", array[i]);
     }
+}
+
+void game_start(void) {
+
 }
 
 }
