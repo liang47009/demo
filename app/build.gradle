@@ -12,6 +12,9 @@ android {
 
         externalNativeBuild {
             cmake {
+                arguments "-DANDROID_ARM_NEON=TRUE", "-DANDROID_TOOLCHAIN=clang"
+                cFlags "-D__STDC_FORMAT_MACROS"
+                cppFlags "-fexceptions", "-frtti", "-std=c++11"
                 abiFilters "armeabi-v7a", "x86"
             }
         }

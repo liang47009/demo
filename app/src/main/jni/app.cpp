@@ -1,11 +1,9 @@
 #include <jni.h>
 #include <unistd.h>
-#include <android/log.h>
 #include <stdlib.h>
 #include <time.h>
 #include "app.h"
 
-#define  LOGI(...) __android_log_print(ANDROID_LOG_INFO, "APP", __VA_ARGS__)
 
 void Func(char str[3]) {
     int len = sizeof(str);
@@ -66,8 +64,9 @@ JNIEXPORT void JNICALL Java_com_yunfeng_nativefork_MainActivity_fork(JNIEnv *env
 //    strcpy(str, "hello");
 //    LOGI("str: %s", str);
 //}
-void Test(void) {
-    clazz->test();
+void Test(int i) {
+    LOGI("cr: %d", i);
+    clazz->test("sadf");
     char *str = (char *) malloc(6);
     char *cr = (char *) malloc(1);
     LOGI("str: %p", str);

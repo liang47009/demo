@@ -34,11 +34,12 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Log.d("app", "nativecall button on click!");
-                test();
+                if (v.getTag().equals("test")) {
+                    test();
+                }
             }
         };
         createButton(layout, "test", listener);
-
         MyGLSurfaceView view = new MyGLSurfaceView(this);
         view.setEGLContextClientVersion(2);
         view.setRenderer(new MyRenderer());

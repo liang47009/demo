@@ -2,12 +2,7 @@
 #include <dlfcn.h>
 #include "Clazz.h"
 
-#include <android/log.h>
-
-#define  LOGI(...) __android_log_print(ANDROID_LOG_INFO, "APP", __VA_ARGS__)
-
-typedef void (*func)(void);
-
+typedef void (*func)(int);
 
 extern "C"
 {
@@ -31,7 +26,8 @@ JNIEXPORT void JNICALL Java_com_yunfeng_nativecall_MainActivity_test(JNIEnv *, j
         error = dlerror();
         LOGI("error: %s", error);
         if (f) {
-            f();
+            f(5);
+            Invoke<LoggingAspect>(f, 1);
         }
     }
 }

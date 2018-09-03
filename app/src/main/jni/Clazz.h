@@ -1,10 +1,12 @@
 #pragma once
 
+#include "macros.h"
+
 class Clazz {
 public:
     Clazz();
 
     ~Clazz();
 
-    void test();
+    void test(const char *v);
 };
