@@ -99,6 +99,8 @@ public:
     bool Bind( ndk_helper::TapCamera* camera );
     void Unload();
     void UpdateViewport();
+
+    void Rotation(ndk_helper::Vec3 x);
 };
 
 #endif

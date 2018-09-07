@@ -121,3 +121,17 @@ void Sensor::onSurFaceChanged(jint width, jint height) {
     LOGI("Sensor::onSurFaceChanged, %d, %d", width, height);
 }
 
+const ndk_helper::Vec3 ZERO_VEC3 = ndk_helper::Vec3(0.0f, 0.0f, 0.0f);
+
+void Sensor::onSensorChangedRotation(float x, float y, float z) {
+    ndk_helper::Vec3 newVec(x, y, z);
+    if (temp == ZERO_VEC3) {
+        temp = newVec;
+    } else {
+        ndk_helper::Vec3 delta_vec3 = (newVec - temp) * 0.01;
+        teapotRenderer->Rotation(delta_vec3);
+        temp = newVec;
+    }
+
+}
+

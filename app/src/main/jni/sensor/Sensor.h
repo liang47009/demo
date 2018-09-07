@@ -17,11 +17,14 @@ public:
 
     bool ReadFile(const char *fileName, std::vector<uint8_t> *buffer_ref);
 
+    void onSensorChangedRotation(float x, float y, float z);
+
 private:
     AAssetManager *aAssetManager;
     TeapotRenderer *teapotRenderer;
     ndk_helper::TapCamera *camera;
     ndk_helper::PerfMonitor *monitor_;
+    ndk_helper::Vec3 temp;
 
     mutable pthread_mutex_t mutex_;
 };

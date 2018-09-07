@@ -99,6 +99,15 @@ void TeapotRenderer::UpdateViewport() {
     mat_projection_ = ndk_helper::Mat4::Perspective(fAspect, 1.f, CAM_NEAR, CAM_FAR);
 }
 
+void TeapotRenderer::Rotation(ndk_helper::Vec3 vec) {
+    float x, y, z;
+    vec.Value(x, y, z);
+    ndk_helper::Mat4 matX = ndk_helper::Mat4::RotationX(x);
+    ndk_helper::Mat4 matY = ndk_helper::Mat4::RotationY(y);
+    ndk_helper::Mat4 matZ = ndk_helper::Mat4::RotationZ(z);
+    mat_model_ = matX * matY * matZ * mat_model_;
+}
+
 void TeapotRenderer::Unload() {
     if (vbo_) {
         glDeleteBuffers(1, &vbo_);

@@ -30,3 +30,8 @@ JNIEXPORT void JNICALL Java_com_yunfeng_common_jni_JNILib_nativeOnSurfaceChanged
     sensor->onSurFaceChanged(width, height);
 }
 
+JNIEXPORT void JNICALL
+Java_com_yunfeng_common_jni_JNILib_nativeOnSensorChangedRotation(JNIEnv *env, jclass type, jfloat x,
+                                                                 jfloat y, jfloat z) {
+    sensor->onSensorChangedRotation(x, y, z);
+}
