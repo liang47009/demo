@@ -108,6 +108,10 @@ void TeapotRenderer::Rotation(ndk_helper::Vec3 vec) {
     mat_model_ = matX * matY * matZ * mat_model_;
 }
 
+void TeapotRenderer::Rotation(ndk_helper::Mat4 mat4) {
+    mat_model_ = mat4 * mat_model_;
+}
+
 void TeapotRenderer::Unload() {
     if (vbo_) {
         glDeleteBuffers(1, &vbo_);

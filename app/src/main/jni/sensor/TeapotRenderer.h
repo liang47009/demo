@@ -101,6 +101,8 @@ public:
     void UpdateViewport();
 
     void Rotation(ndk_helper::Vec3 x);
+
+    void Rotation(ndk_helper::Mat4 mat4);
 };
 
 #endif

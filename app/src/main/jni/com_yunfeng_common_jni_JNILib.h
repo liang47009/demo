@@ -39,6 +39,9 @@ JNIEXPORT void JNICALL Java_com_yunfeng_common_jni_JNILib_nativeOnSurfaceChanged
 JNIEXPORT void JNICALL Java_com_yunfeng_common_jni_JNILib_nativeOnSensorChangedRotation
         (JNIEnv *env, jclass type, jfloat x, jfloat y, jfloat z);
 
+JNIEXPORT void JNICALL Java_com_yunfeng_common_jni_JNILib_nativeOnSensorChangedRotationMatrix
+        (JNIEnv *env, jclass type, jfloatArray rotationMatrix_);
+
 #ifdef __cplusplus
 }
 #endif

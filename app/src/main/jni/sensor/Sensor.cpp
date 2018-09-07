@@ -107,6 +107,9 @@ void Sensor::onSurfaceCreated(AAssetManager *pManager) {
 }
 
 void Sensor::onDrawFrame() {
+    float fps;
+    monitor_->Update(fps);
+//    LOGI("Sensor::onDrawFrame: %f", fps);
     teapotRenderer->Update(monitor_->GetCurrentTime());
     // Just fill the screen with a color.
     glClearColor(0.5f, 0.5f, 0.5f, 1.f);
@@ -133,5 +136,9 @@ void Sensor::onSensorChangedRotation(float x, float y, float z) {
         temp = newVec;
     }
 
+}
+
+void Sensor::onSensorChangedRotation(ndk_helper::Mat4 mat4) {
+    teapotRenderer->Rotation(mat4);
 }
 

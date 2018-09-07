@@ -19,6 +19,8 @@ public:
 
     void onSensorChangedRotation(float x, float y, float z);
 
+    void onSensorChangedRotation(ndk_helper::Mat4 mat4);
+
 private:
     AAssetManager *aAssetManager;
     TeapotRenderer *teapotRenderer;
