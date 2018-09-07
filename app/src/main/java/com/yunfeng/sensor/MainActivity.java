@@ -1,7 +1,9 @@
-package com.yunfeng.nativecall;
+package com.yunfeng.sensor;
 
 import android.app.Activity;
-import android.opengl.GLSurfaceView;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -17,10 +19,10 @@ import com.yunfeng.common.ui.MyGLSurfaceView;
  * <p>
  * Created by xll on 2018/8/22.
  */
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements SensorEventListener {
 
     static {
-        System.loadLibrary("updater");
+        System.loadLibrary("sensor");
     }
 
     @Override
@@ -37,7 +39,7 @@ public class MainActivity extends Activity {
             public void onClick(View v) {
                 Log.d("app", "nativecall button on click!");
                 if (v.getTag().equals("test")) {
-                    test();
+
                 }
             }
         };
@@ -57,6 +59,13 @@ public class MainActivity extends Activity {
         layout.addView(button);
     }
 
-    private static native void test();
+    @Override
+    public void onSensorChanged(SensorEvent event) {
 
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+    }
 }
