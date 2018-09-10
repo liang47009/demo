@@ -6,17 +6,17 @@
 Sensor *sensor;
 
 JNIEXPORT jint JNI_OnLoad(JavaVM *vm, void *reserved) {
+    sensor = new Sensor;
     return JNI_VERSION_1_6;
 }
 
 JNIEXPORT void JNI_OnUnload(JavaVM *vm, void *reserved) {
-
+    delete sensor;
 }
 
 JNIEXPORT void JNICALL Java_com_yunfeng_common_jni_JNILib_nativeOnSurfaceCreated
         (JNIEnv *env, jobject, jobject jobj) {
     AAssetManager *assetManager = AAssetManager_fromJava(env, jobj);
-    sensor = new Sensor;
     sensor->onSurfaceCreated(assetManager);
 }
 

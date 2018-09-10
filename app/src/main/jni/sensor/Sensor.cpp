@@ -1,12 +1,17 @@
 
 #include "Sensor.h"
 
-#include <android/log.h>
-#include <fstream>
-
-#define  LOGI(...) __android_log_print(ANDROID_LOG_INFO, "APP", __VA_ARGS__)
+#include <utils/CHelper.h>
 
 Sensor::Sensor() {
+    Init();
+}
+
+Sensor::~Sensor() {
+
+}
+
+void Sensor::Init() {
     EGLDisplay display_ = eglGetDisplay(EGL_DEFAULT_DISPLAY);
     eglInitialize(display_, 0, 0);
 
@@ -37,59 +42,16 @@ Sensor::Sensor() {
     }
 
     if (!num_configs) {
-        LOGW("Unable to retrieve EGL config");
+        LOGI("Unable to retrieve EGL config");
         return;
     }
     EGLint format;
     eglGetConfigAttrib(display_, config_, EGL_NATIVE_VISUAL_ID, &format);
 }
 
-Sensor::~Sensor() {
-
-}
-
-//---------------------------------------------------------------------------
-//readFile
-//---------------------------------------------------------------------------
-bool Sensor::ReadFile(const char *fileName, std::vector<uint8_t> *buffer_ref) {
-    std::ifstream f(fileName, std::ios::binary);
-    if (f) {
-        LOGI("reading:%s", fileName);
-        f.seekg(0, std::ifstream::end);
-        int32_t fileSize = f.tellg();
-        f.seekg(0, std::ifstream::beg);
-        buffer_ref->reserve(fileSize);
-        buffer_ref->assign(std::istreambuf_iterator<char>(f), std::istreambuf_iterator<char>());
-        f.close();
-        pthread_mutex_unlock(&mutex_);
-        return true;
-    } else {
-        //Fallback to assetManager
-        AAsset *assetFile = AAssetManager_open(aAssetManager, fileName, AASSET_MODE_BUFFER);
-        if (!assetFile) {
-            pthread_mutex_unlock(&mutex_);
-            return false;
-        }
-        uint8_t *data = (uint8_t *) AAsset_getBuffer(assetFile);
-        int32_t size = AAsset_getLength(assetFile);
-        if (data == NULL) {
-            AAsset_close(assetFile);
-
-            LOGI("Failed to load:%s", fileName);
-            pthread_mutex_unlock(&mutex_);
-            return false;
-        }
-        buffer_ref->reserve(size);
-        buffer_ref->assign(data, data + size);
-        AAsset_close(assetFile);
-        pthread_mutex_unlock(&mutex_);
-        return true;
-    }
-}
-
 void Sensor::onSurfaceCreated(AAssetManager *pManager) {
     aAssetManager = pManager;
-    teapotRenderer = new TeapotRenderer;
+    teapotRenderer = new TeapotRenderer(aAssetManager);
     camera = new ndk_helper::TapCamera;
     teapotRenderer->Init(this);
     teapotRenderer->Bind(camera);
@@ -141,4 +103,3 @@ void Sensor::onSensorChangedRotation(float x, float y, float z) {
 void Sensor::onSensorChangedRotation(ndk_helper::Mat4 mat4) {
     teapotRenderer->Rotation(mat4);
 }
-
