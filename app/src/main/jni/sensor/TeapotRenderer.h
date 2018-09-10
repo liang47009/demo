@@ -91,7 +91,7 @@ public:
 
     virtual ~TeapotRenderer();
 
-    void Init(Sensor *pSensor);
+    void Init();
 
     void Render();
 

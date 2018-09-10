@@ -44,7 +44,7 @@ TeapotRenderer::~TeapotRenderer() {
     Unload();
 }
 
-void TeapotRenderer::Init(Sensor *pSensor) {
+void TeapotRenderer::Init() {
     //Settings
     glFrontFace(GL_CCW);
 
@@ -203,7 +203,7 @@ bool
 TeapotRenderer::LoadShaders(SHADER_PARAMS *params, const char strVsh[27], const char strFsh[24]) {
     GLuint program;
     GLuint vert_shader, frag_shader;
-    char *vert_shader_pathname, *frag_shader_pathname;
+    vert_shader = frag_shader = 0;
 
     // Create shader program
     program = glCreateProgram();

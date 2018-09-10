@@ -53,7 +53,7 @@ void Sensor::onSurfaceCreated(AAssetManager *pManager) {
     aAssetManager = pManager;
     teapotRenderer = new TeapotRenderer(aAssetManager);
     camera = new ndk_helper::TapCamera;
-    teapotRenderer->Init(this);
+    teapotRenderer->Init();
     teapotRenderer->Bind(camera);
 
     // Initialize GL state.
