@@ -5,11 +5,6 @@
 #include <pthread.h>
 #include <android/asset_manager.h>
 
-#include <android/log.h>
-
-#define  LOGI(...) __android_log_print(ANDROID_LOG_INFO, "APP", __VA_ARGS__)
-#define  LOGE(...) __android_log_print(ANDROID_LOG_ERROR, "APP", __VA_ARGS__)
-
 bool CHelper::ReadFile(AAssetManager *aAssetManager, const char *fileName,
                        std::vector<uint8_t> *buffer_ref) {
     std::ifstream f(fileName, std::ios::binary);

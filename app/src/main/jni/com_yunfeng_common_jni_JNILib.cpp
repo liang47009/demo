@@ -2,6 +2,7 @@
 
 #include <android/asset_manager_jni.h>
 #include <sensor/Sensor.h>
+#include <dlfcn.h>
 
 Sensor *sensor;
 
@@ -31,16 +32,39 @@ JNIEXPORT void JNICALL Java_com_yunfeng_common_jni_JNILib_nativeOnSurfaceChanged
 }
 
 JNIEXPORT void JNICALL
-Java_com_yunfeng_common_jni_JNILib_nativeOnSensorChangedRotation(JNIEnv *env, jclass type, jfloat x,
-                                                                 jfloat y, jfloat z) {
+Java_com_yunfeng_common_jni_JNILib_nativeOnSensorChangedRotation
+        (JNIEnv *env, jclass type, jfloat x, jfloat y, jfloat z) {
     sensor->onSensorChangedRotation(x, y, z);
 }
 
 JNIEXPORT void JNICALL
-Java_com_yunfeng_common_jni_JNILib_nativeOnSensorChangedRotationMatrix(JNIEnv *env, jclass type,
-                                                                       jfloatArray rotationMatrix_) {
+Java_com_yunfeng_common_jni_JNILib_nativeOnSensorChangedRotationMatrix
+        (JNIEnv *env, jclass type, jfloatArray rotationMatrix_) {
     jfloat *rotationMatrix = env->GetFloatArrayElements(rotationMatrix_, NULL);
     ndk_helper::Mat4 rotationMax4 = rotationMatrix;
     sensor->onSensorChangedRotation(rotationMax4);
     env->ReleaseFloatArrayElements(rotationMatrix_, rotationMatrix, 0);
+}
+
+JNIEXPORT long JNICALL
+Java_com_yunfeng_common_jni_JNILib_nativeLoadLibrary
+        (JNIEnv *env, jclass type, jstring path_) {
+    const char *path = env->GetStringUTFChars(path_, 0);
+    void *handle = dlopen(path, RTLD_LAZY);
+    const char *error = dlerror();
+    LOGI("error: %s", error);
+    if (handle) {
+        LOGI("handle: %p", handle);
+    }
+    env->ReleaseStringUTFChars(path_, path);
+    return reinterpret_cast<long>(handle);
+}
+
+JNIEXPORT void JNICALL
+Java_com_yunfeng_common_jni_JNILib_nativeUnloadLibrary
+        (JNIEnv *, jclass, jlong handler) {
+    if (handler) {
+        int ret = dlclose(reinterpret_cast<void *>(handler));
+        LOGI("nativeUnloadLibrary: ret=>%d", ret);
+    }
 }

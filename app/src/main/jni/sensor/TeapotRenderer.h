@@ -33,13 +33,13 @@
 #include <GLES/gl.h>
 
 #include <android/sensor.h>
-#include <android/log.h>
 #include <android_native_app_glue.h>
 #include <android/native_window_jni.h>
 #include <cpu-features.h>
 
-#include "NDKHelper.h"
-
+#include <shader.h>            //Shader compiler support
+#include <vecmath.h>            //Vector math support, C++ implementation n current version
+#include <tapCamera.h>          //Tap/Pinch camera control
 
 #define BUFFER_OFFSET(i) ((char *)NULL + (i))
 

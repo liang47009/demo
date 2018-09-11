@@ -90,6 +90,7 @@ const ndk_helper::Vec3 ZERO_VEC3 = ndk_helper::Vec3(0.0f, 0.0f, 0.0f);
 
 void Sensor::onSensorChangedRotation(float x, float y, float z) {
     ndk_helper::Vec3 newVec(x, y, z);
+//    LOGI("Rotation: %f, %f, %f", x, y, z);
     if (temp == ZERO_VEC3) {
         temp = newVec;
     } else {

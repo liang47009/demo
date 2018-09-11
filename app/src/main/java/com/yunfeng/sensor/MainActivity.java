@@ -40,6 +40,8 @@ public class MainActivity extends Activity implements SensorEventListener {
     private float timestamp;
     private float angle[] = new float[3];
 
+    private long handler;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,13 +54,18 @@ public class MainActivity extends Activity implements SensorEventListener {
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("app", "nativecall button on click!");
-                if (v.getTag().equals("test")) {
-
+                Log.d("app", "sensor button on click!");
+                if (v.getTag().equals("load")) {
+                    handler = JNILib.nativeLoadLibrary("/data/data/com.yunfeng.demo/lib/libupdater.so");
+                } else if (v.getTag().equals("unload")) {
+                    JNILib.nativeUnloadLibrary(handler);
+                    handler = 0;
                 }
             }
         };
-        createButton(layout, "test", listener);
+        createButton(layout, "load", listener);
+        createButton(layout, "unload", listener);
+
         MyGLSurfaceView view = new MyGLSurfaceView(this);
         layout.addView(view);
         setContentView(layout);
@@ -179,7 +186,7 @@ public class MainActivity extends Activity implements SensorEventListener {
             } else if (Math.abs(orientations[1]) < 10) {
                 getWindow().getDecorView().setBackgroundColor(Color.WHITE);
             }
-            JNILib.nativeOnSensorChangedRotation(orientations[1], orientations[1], orientations[2]);
+            JNILib.nativeOnSensorChangedRotation(orientations[0], orientations[1], orientations[2]);
         }
     }
 

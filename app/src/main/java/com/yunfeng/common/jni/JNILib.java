@@ -15,4 +15,8 @@ public class JNILib {
     public native static void nativeOnSensorChangedRotation(float x, float y, float z);
 
     public native static void nativeOnSensorChangedRotationMatrix(float[] rotationMatrix);
+
+    public native static void nativeUnloadLibrary(long handler);
+
+    public native static long nativeLoadLibrary(String path);
 }

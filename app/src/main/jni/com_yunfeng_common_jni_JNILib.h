@@ -42,6 +42,12 @@ JNIEXPORT void JNICALL Java_com_yunfeng_common_jni_JNILib_nativeOnSensorChangedR
 JNIEXPORT void JNICALL Java_com_yunfeng_common_jni_JNILib_nativeOnSensorChangedRotationMatrix
         (JNIEnv *env, jclass type, jfloatArray rotationMatrix_);
 
+JNIEXPORT void JNICALL Java_com_yunfeng_common_jni_JNILib_nativeUnloadLibrary
+        (JNIEnv *, jclass, jlong);
+
+JNIEXPORT long JNICALL Java_com_yunfeng_common_jni_JNILib_nativeLoadLibrary
+        (JNIEnv *, jclass, jstring);
+
 #ifdef __cplusplus
 }
 #endif
