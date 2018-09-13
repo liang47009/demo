@@ -11,12 +11,12 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 
 import com.yunfeng.common.jni.JNILib;
 import com.yunfeng.common.ui.MyGLSurfaceView;
+import com.yunfeng.common.util.UiUtils;
 
 /**
  * native
@@ -42,6 +42,10 @@ public class MainActivity extends Activity implements SensorEventListener {
 
     private long handler;
 
+    public native static void nativeOnSensorChangedRotation(float x, float y, float z);
+
+    public native static void nativeOnSensorChangedRotationMatrix(float[] rotationMatrix);
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,8 +67,8 @@ public class MainActivity extends Activity implements SensorEventListener {
                 }
             }
         };
-        createButton(layout, "load", listener);
-        createButton(layout, "unload", listener);
+        UiUtils.createButton(layout, "load", listener);
+        UiUtils.createButton(layout, "unload", listener);
 
         MyGLSurfaceView view = new MyGLSurfaceView(this);
         layout.addView(view);
@@ -87,16 +91,6 @@ public class MainActivity extends Activity implements SensorEventListener {
 //            sensorManager.registerListener(this, accelerometerSensor, SensorManager.SENSOR_DELAY_UI);
 //            sensorManager.registerListener(this, gyroscopeSensor, SensorManager.SENSOR_DELAY_UI);
         }
-    }
-
-    private void createButton(LinearLayout layout, String name, View.OnClickListener listener) {
-        Button button = new Button(this);
-        button.setTag(name);
-        final LayoutParams paramsBtn = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-        button.setLayoutParams(paramsBtn);
-        button.setText(name);
-        button.setOnClickListener(listener);
-        layout.addView(button);
     }
 
     @Override
@@ -186,7 +180,7 @@ public class MainActivity extends Activity implements SensorEventListener {
             } else if (Math.abs(orientations[1]) < 10) {
                 getWindow().getDecorView().setBackgroundColor(Color.WHITE);
             }
-            JNILib.nativeOnSensorChangedRotation(orientations[0], orientations[1], orientations[2]);
+            nativeOnSensorChangedRotation(orientations[0], orientations[1], orientations[2]);
         }
     }
 

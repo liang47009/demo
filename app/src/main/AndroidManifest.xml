@@ -85,6 +85,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name="com.yunfeng.gui.MainActivity">
+
+        </activity>
         <!-- <service android:name="com.amap.api.location.APSService"></service>-->
         <!--<meta-data
             android:name="com.amap.api.v2.apikey"
