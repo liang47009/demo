@@ -27,12 +27,3 @@ add_library(sensor SHARED src/main/jni/sensor/Sensor.cpp
 
 target_link_libraries(sensor log ndk_helper cpufeatures android EGL GLESv2)
 #----------------------------------------------------sensor-----------------------------------------------------------------
-
-
-#----------------------------------------------------gui----------------------------------------------------------
-#include_directories( src/main/jni src/main/jni/include )
-#add_library(gui SHARED src/main/jni/com_yunfeng_common_jni_JNILib.cpp
-#                       src/main/jni/gui/com_yunfeng_gui_MainActivity.cpp
-#                       src/main/jni/renderer/Renderer.cpp)
-#target_link_libraries(gui log android EGL GLESv2)
-#----------------------------------------------------gui-----------------------------------------------------------------
