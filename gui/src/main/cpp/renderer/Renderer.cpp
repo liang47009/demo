@@ -127,6 +127,7 @@ Renderer::~Renderer() {
 }
 
 bool Renderer::init(AAssetManager *pManager) {
+    FreeImage_Initialise(true);
     m_AAssetManager = pManager;
     return true;
 }
