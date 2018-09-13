@@ -28,3 +28,18 @@ private:
 
     void Init();
 };
+
+extern "C" {
+
+/*
+ * Class:     com_yunfeng_common_jni_JNILib
+ * Method:    nativeOnSensorChangedRotation
+ * Signature: (FFF)V
+ */
+JNIEXPORT void JNICALL Java_com_yunfeng_sensor_MainActivity_nativeOnSensorChangedRotation
+        (JNIEnv *env, jclass type, jfloat x, jfloat y, jfloat z);
+
+JNIEXPORT void JNICALL Java_com_yunfeng_sensor_MainActivity_nativeOnSensorChangedRotationMatrix
+        (JNIEnv *env, jclass type, jfloatArray rotationMatrix_);
+
+}

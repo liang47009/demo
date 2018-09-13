@@ -3,6 +3,23 @@
 
 #include <utils/CHelper.h>
 
+extern Sensor *sensor;
+
+JNIEXPORT void JNICALL
+Java_com_yunfeng_sensor_MainActivity_nativeOnSensorChangedRotation
+        (JNIEnv *env, jclass type, jfloat x, jfloat y, jfloat z) {
+    sensor->onSensorChangedRotation(x, y, z);
+}
+
+JNIEXPORT void JNICALL
+Java_com_yunfeng_sensor_MainActivity_nativeOnSensorChangedRotationMatrix
+        (JNIEnv *env, jclass type, jfloatArray rotationMatrix_) {
+    jfloat *rotationMatrix = env->GetFloatArrayElements(rotationMatrix_, NULL);
+    ndk_helper::Mat4 rotationMax4 = rotationMatrix;
+    sensor->onSensorChangedRotation(rotationMax4);
+    env->ReleaseFloatArrayElements(rotationMatrix_, rotationMatrix, 0);
+}
+
 Sensor::Sensor() {
     Init();
 }

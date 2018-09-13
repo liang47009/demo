@@ -31,21 +31,6 @@ JNIEXPORT void JNICALL Java_com_yunfeng_common_jni_JNILib_nativeOnSurfaceChanged
     sensor->onSurFaceChanged(width, height);
 }
 
-JNIEXPORT void JNICALL
-Java_com_yunfeng_common_jni_JNILib_nativeOnSensorChangedRotation
-        (JNIEnv *env, jclass type, jfloat x, jfloat y, jfloat z) {
-    sensor->onSensorChangedRotation(x, y, z);
-}
-
-JNIEXPORT void JNICALL
-Java_com_yunfeng_common_jni_JNILib_nativeOnSensorChangedRotationMatrix
-        (JNIEnv *env, jclass type, jfloatArray rotationMatrix_) {
-    jfloat *rotationMatrix = env->GetFloatArrayElements(rotationMatrix_, NULL);
-    ndk_helper::Mat4 rotationMax4 = rotationMatrix;
-    sensor->onSensorChangedRotation(rotationMax4);
-    env->ReleaseFloatArrayElements(rotationMatrix_, rotationMatrix, 0);
-}
-
 JNIEXPORT long JNICALL
 Java_com_yunfeng_common_jni_JNILib_nativeLoadLibrary
         (JNIEnv *env, jclass type, jstring path_) {
