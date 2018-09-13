@@ -10,5 +10,5 @@ set_target_properties(ndk_helper PROPERTIES IMPORTED_LOCATION ${Project_SOURCE_D
 add_library(gui SHARED  src/main/cpp/com_yunfeng_gui_JNILib.cpp
                         src/main/cpp/renderer/Renderer.cpp)
 
-target_link_libraries(gui log android EGL GLESv2 ndk_helper freeiamge_shared)
+target_link_libraries(gui log android EGL GLESv2 ndk_helper freeimage_shared)
 #----------------------------------------------------gui-----------------------------------------------------------------
