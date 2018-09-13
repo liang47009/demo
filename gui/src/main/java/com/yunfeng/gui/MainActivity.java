@@ -15,6 +15,10 @@ import javax.microedition.khronos.opengles.GL10;
  */
 public class MainActivity extends Activity {
 
+    static {
+        System.loadLibrary("freeimage_shared");
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
