@@ -406,7 +406,7 @@ double Mat4::length(float x, float y, float z) {
     return sqrt(x * x + y * y + z * z);
 }
 
-void Mat4::setLookAtM(Mat4 &rm, int rmOffset,
+void Mat4::setLookAtM(float rm[], int rmOffset,
                       float eyeX, float eyeY, float eyeZ,
                       float centerX, float centerY, float centerZ, float upX, float upY,
                       float upZ) {
@@ -440,119 +440,119 @@ void Mat4::setLookAtM(Mat4 &rm, int rmOffset,
     float uy = sz * fx - sx * fz;
     float uz = sx * fy - sy * fx;
 
-    rm.f_[rmOffset + 0] = sx;
-    rm.f_[rmOffset + 1] = ux;
-    rm.f_[rmOffset + 2] = -fx;
-    rm.f_[rmOffset + 3] = 0.0f;
+    rm[rmOffset + 0] = sx;
+    rm[rmOffset + 1] = ux;
+    rm[rmOffset + 2] = -fx;
+    rm[rmOffset + 3] = 0.0f;
 
-    rm.f_[rmOffset + 4] = sy;
-    rm.f_[rmOffset + 5] = uy;
-    rm.f_[rmOffset + 6] = -fy;
-    rm.f_[rmOffset + 7] = 0.0f;
+    rm[rmOffset + 4] = sy;
+    rm[rmOffset + 5] = uy;
+    rm[rmOffset + 6] = -fy;
+    rm[rmOffset + 7] = 0.0f;
 
-    rm.f_[rmOffset + 8] = sz;
-    rm.f_[rmOffset + 9] = uz;
-    rm.f_[rmOffset + 10] = -fz;
-    rm.f_[rmOffset + 11] = 0.0f;
+    rm[rmOffset + 8] = sz;
+    rm[rmOffset + 9] = uz;
+    rm[rmOffset + 10] = -fz;
+    rm[rmOffset + 11] = 0.0f;
 
-    rm.f_[rmOffset + 12] = 0.0f;
-    rm.f_[rmOffset + 13] = 0.0f;
-    rm.f_[rmOffset + 14] = 0.0f;
-    rm.f_[rmOffset + 15] = 1.0f;
+    rm[rmOffset + 12] = 0.0f;
+    rm[rmOffset + 13] = 0.0f;
+    rm[rmOffset + 14] = 0.0f;
+    rm[rmOffset + 15] = 1.0f;
 
     Mat4::translateM(rm, rmOffset, -eyeX, -eyeY, -eyeZ);
 }
 
-void Mat4::translateM(Mat4 &m, int mOffset, float x, float y, float z) {
+void Mat4::translateM(float m[], int mOffset, float x, float y, float z) {
     for (int i = 0; i < 4; i++) {
         int mi = mOffset + i;
-        m.f_[12 + mi] += m.f_[mi] * x + m.f_[4 + mi] * y + m.f_[8 + mi] * z;
+        m[12 + mi] += m[mi] * x + m[4 + mi] * y + m[8 + mi] * z;
     }
 }
 
-void Mat4::translateM(Mat4 &tm, int tmOffset, Mat4 &m, int mOffset, float x, float y, float z) {
+void Mat4::translateM(float tm[], int tmOffset, float m[], int mOffset, float x, float y, float z) {
     for (int i = 0; i < 12; i++) {
-        tm.f_[tmOffset + i] = m.f_[mOffset + i];
+        tm[tmOffset + i] = m[mOffset + i];
     }
     for (int i = 0; i < 4; i++) {
         int tmi = tmOffset + i;
         int mi = mOffset + i;
-        tm.f_[12 + tmi] = m.f_[mi] * x + m.f_[4 + mi] * y + m.f_[8 + mi] * z +
-                          m.f_[12 + mi];
+        tm[12 + tmi] = m[mi] * x + m[4 + mi] * y + m[8 + mi] * z +
+                       m[12 + mi];
     }
 }
 
 #define I(_i, _j) ((_j)+ 4*(_i))
 
-void Mat4::multiplyMM(Mat4 &r, int resultOffset,
-                      Mat4 &lhs, int lhsOffset,
-                      Mat4 &rhs, int rhsOffset) {
-    r = r.f_ + resultOffset;
-    lhs = lhs.f_ + lhsOffset;
-    rhs = rhs.f_ + rhsOffset;
+void Mat4::multiplyMM(float r[], int resultOffset,
+                      float lhs[], int lhsOffset,
+                      float rhs[], int rhsOffset) {
+    r = r + resultOffset;
+    lhs = lhs + lhsOffset;
+    rhs = rhs + rhsOffset;
     for (int i = 0; i < 4; i++) {
-        const float rhs_i0 = rhs.f_[I(i, 0)];
-        float ri0 = lhs.f_[I(0, 0)] * rhs_i0;
-        float ri1 = lhs.f_[I(0, 1)] * rhs_i0;
-        float ri2 = lhs.f_[I(0, 2)] * rhs_i0;
-        float ri3 = lhs.f_[I(0, 3)] * rhs_i0;
+        const float rhs_i0 = rhs[I(i, 0)];
+        float ri0 = lhs[I(0, 0)] * rhs_i0;
+        float ri1 = lhs[I(0, 1)] * rhs_i0;
+        float ri2 = lhs[I(0, 2)] * rhs_i0;
+        float ri3 = lhs[I(0, 3)] * rhs_i0;
         for (int j = 1; j < 4; j++) {
-            const float rhs_ij = rhs.f_[I(i, j)];
-            ri0 += lhs.f_[I(j, 0)] * rhs_ij;
-            ri1 += lhs.f_[I(j, 1)] * rhs_ij;
-            ri2 += lhs.f_[I(j, 2)] * rhs_ij;
-            ri3 += lhs.f_[I(j, 3)] * rhs_ij;
+            const float rhs_ij = rhs[I(i, j)];
+            ri0 += lhs[I(j, 0)] * rhs_ij;
+            ri1 += lhs[I(j, 1)] * rhs_ij;
+            ri2 += lhs[I(j, 2)] * rhs_ij;
+            ri3 += lhs[I(j, 3)] * rhs_ij;
         }
-        r.f_[I(i, 0)] = ri0;
-        r.f_[I(i, 1)] = ri1;
-        r.f_[I(i, 2)] = ri2;
-        r.f_[I(i, 3)] = ri3;
+        r[I(i, 0)] = ri0;
+        r[I(i, 1)] = ri1;
+        r[I(i, 2)] = ri2;
+        r[I(i, 3)] = ri3;
     }
 }
 
 static double PI = 3.14159265358979323846;
 
-void Mat4::setRotateM(Mat4 &rm, int rmOffset, float a, float x, float y, float z) {
-    rm.f_[rmOffset + 3] = 0;
-    rm.f_[rmOffset + 7] = 0;
-    rm.f_[rmOffset + 11] = 0;
-    rm.f_[rmOffset + 12] = 0;
-    rm.f_[rmOffset + 13] = 0;
-    rm.f_[rmOffset + 14] = 0;
-    rm.f_[rmOffset + 15] = 1;
+void Mat4::setRotateM(float rm[], int rmOffset, float a, float x, float y, float z) {
+    rm[rmOffset + 3] = 0;
+    rm[rmOffset + 7] = 0;
+    rm[rmOffset + 11] = 0;
+    rm[rmOffset + 12] = 0;
+    rm[rmOffset + 13] = 0;
+    rm[rmOffset + 14] = 0;
+    rm[rmOffset + 15] = 1;
     a *= (float) (PI / 180.0f);
     float s = (float) sin(a);
     float c = (float) cos(a);
     if (1.0f == x && 0.0f == y && 0.0f == z) {
-        rm.f_[rmOffset + 5] = c;
-        rm.f_[rmOffset + 10] = c;
-        rm.f_[rmOffset + 6] = s;
-        rm.f_[rmOffset + 9] = -s;
-        rm.f_[rmOffset + 1] = 0;
-        rm.f_[rmOffset + 2] = 0;
-        rm.f_[rmOffset + 4] = 0;
-        rm.f_[rmOffset + 8] = 0;
-        rm.f_[rmOffset + 0] = 1;
+        rm[rmOffset + 5] = c;
+        rm[rmOffset + 10] = c;
+        rm[rmOffset + 6] = s;
+        rm[rmOffset + 9] = -s;
+        rm[rmOffset + 1] = 0;
+        rm[rmOffset + 2] = 0;
+        rm[rmOffset + 4] = 0;
+        rm[rmOffset + 8] = 0;
+        rm[rmOffset + 0] = 1;
     } else if (0.0f == x && 1.0f == y && 0.0f == z) {
-        rm.f_[rmOffset + 0] = c;
-        rm.f_[rmOffset + 10] = c;
-        rm.f_[rmOffset + 8] = s;
-        rm.f_[rmOffset + 2] = -s;
-        rm.f_[rmOffset + 1] = 0;
-        rm.f_[rmOffset + 4] = 0;
-        rm.f_[rmOffset + 6] = 0;
-        rm.f_[rmOffset + 9] = 0;
-        rm.f_[rmOffset + 5] = 1;
+        rm[rmOffset + 0] = c;
+        rm[rmOffset + 10] = c;
+        rm[rmOffset + 8] = s;
+        rm[rmOffset + 2] = -s;
+        rm[rmOffset + 1] = 0;
+        rm[rmOffset + 4] = 0;
+        rm[rmOffset + 6] = 0;
+        rm[rmOffset + 9] = 0;
+        rm[rmOffset + 5] = 1;
     } else if (0.0f == x && 0.0f == y && 1.0f == z) {
-        rm.f_[rmOffset + 0] = c;
-        rm.f_[rmOffset + 5] = c;
-        rm.f_[rmOffset + 1] = s;
-        rm.f_[rmOffset + 4] = -s;
-        rm.f_[rmOffset + 2] = 0;
-        rm.f_[rmOffset + 6] = 0;
-        rm.f_[rmOffset + 8] = 0;
-        rm.f_[rmOffset + 9] = 0;
-        rm.f_[rmOffset + 10] = 1;
+        rm[rmOffset + 0] = c;
+        rm[rmOffset + 5] = c;
+        rm[rmOffset + 1] = s;
+        rm[rmOffset + 4] = -s;
+        rm[rmOffset + 2] = 0;
+        rm[rmOffset + 6] = 0;
+        rm[rmOffset + 8] = 0;
+        rm[rmOffset + 9] = 0;
+        rm[rmOffset + 10] = 1;
     } else {
         float len = length(x, y, z);
         if (1.0f != len) {
@@ -568,14 +568,23 @@ void Mat4::setRotateM(Mat4 &rm, int rmOffset, float a, float x, float y, float z
         float xs = x * s;
         float ys = y * s;
         float zs = z * s;
-        rm.f_[rmOffset + 0] = x * x * nc + c;
-        rm.f_[rmOffset + 4] = xy * nc - zs;
-        rm.f_[rmOffset + 8] = zx * nc + ys;
-        rm.f_[rmOffset + 1] = xy * nc + zs;
-        rm.f_[rmOffset + 5] = y * y * nc + c;
-        rm.f_[rmOffset + 9] = yz * nc - xs;
-        rm.f_[rmOffset + 2] = zx * nc - ys;
-        rm.f_[rmOffset + 6] = yz * nc + xs;
-        rm.f_[rmOffset + 10] = z * z * nc + c;
+        rm[rmOffset + 0] = x * x * nc + c;
+        rm[rmOffset + 4] = xy * nc - zs;
+        rm[rmOffset + 8] = zx * nc + ys;
+        rm[rmOffset + 1] = xy * nc + zs;
+        rm[rmOffset + 5] = y * y * nc + c;
+        rm[rmOffset + 9] = yz * nc - xs;
+        rm[rmOffset + 2] = zx * nc - ys;
+        rm[rmOffset + 6] = yz * nc + xs;
+        rm[rmOffset + 10] = z * z * nc + c;
+    }
+}
+
+void Mat4::setIdentityM(float sm[], int smOffset) {
+    for (int i = 0; i < 16; i++) {
+        sm[smOffset + i] = 0;
+    }
+    for (int i = 0; i < 16; i += 5) {
+        sm[smOffset + i] = 1.0f;
     }
 }

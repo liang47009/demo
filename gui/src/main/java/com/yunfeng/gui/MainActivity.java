@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.content.res.AssetManager;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
+import android.opengl.GLUtils;
 import android.opengl.Matrix;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.LinearLayout;
 
 import javax.microedition.khronos.egl.EGLConfig;
@@ -30,6 +32,14 @@ public class MainActivity extends Activity {
         final LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
         layout.setLayoutParams(params);
 
+//        MyGLSurfaceView view = new MyGLSurfaceView(this);
+        View view = createSystemView();
+
+        layout.addView(view);
+        setContentView(layout);
+    }
+
+    public View createSystemView() {
         GLSurfaceView view = new GLSurfaceView(this);
         view.setEGLContextClientVersion(2);
         view.setEGLConfigChooser(8, 8, 8, 8, 16, 0);
@@ -50,9 +60,7 @@ public class MainActivity extends Activity {
             }
         });
         view.setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
-
-        layout.addView(view);
-        setContentView(layout);
+        return view;
     }
 
 
@@ -61,5 +69,6 @@ public class MainActivity extends Activity {
 //        Matrix.setLookAtM();
 //        Matrix.multiplyMM();
 //        GLES20.glUniformMatrix4fv();
+//        GLUtils.texImage2D();
     }
 }

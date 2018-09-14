@@ -18,6 +18,7 @@
 #define VECMATH_H_
 
 #include <math.h>
+#include <pthread.h>
 
 /******************************************************************
  * Helper class for vector math operations
@@ -646,7 +647,6 @@ public:
 class Mat4 {
 private:
     float f_[16];
-
 public:
     friend class Vec3;
 
@@ -814,10 +814,11 @@ public:
              float far);
 
     static void
-    setLookAtM(Mat4 &rm, int rmOffset, float eyeX, float eyeY, float eyeZ, float centerX,
+    setLookAtM(float rm[], int rmOffset, float eyeX, float eyeY, float eyeZ, float centerX,
                float centerY, float centerZ, float upX, float upY, float upZ);
 
-    static void translateM(Mat4 &tm, int tmOffset, Mat4 &m, int mOffset, float x, float y, float z);
+    static void
+    translateM(float tm[], int tmOffset, float m[], int mOffset, float x, float y, float z);
 
     static double length(float x, float y, float z);
 
@@ -849,13 +850,15 @@ public:
 //        LOGI("%f %f %f %f", f_[12], f_[13], f_[14], f_[15]);
     }
 
-    static void translateM(Mat4 &m, int mOffset, float x, float y, float z);
+    static void translateM(float m[], int mOffset, float x, float y, float z);
 
     static void
-    multiplyMM(Mat4 &r, int resultOffset, Mat4 &lhs, int lhsOffset, Mat4 &rhs, int rhsOffset);
+    multiplyMM(float r[], int resultOffset, float lhs[], int lhsOffset, float rhs[], int rhsOffset);
 
-    static void setRotateM(Mat4 &rm, int rmOffset,
+    static void setRotateM(float rm[], int rmOffset,
                            float a, float x, float y, float z);
+
+    static void setIdentityM(float sm[], int smOffset);
 };
 
 /******************************************************************

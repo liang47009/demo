@@ -10,6 +10,8 @@ set_target_properties(ndk_helper PROPERTIES IMPORTED_LOCATION ${Project_SOURCE_D
 add_library(gui SHARED  src/main/cpp/com_yunfeng_gui_JNILib.cpp
                         src/main/cpp/renderer/vecmath.cpp
                         src/main/cpp/renderer/Renderer.cpp
+                        src/main/cpp/renderer/utils.cpp
+                        src/main/cpp/renderer/Square.cpp
                         src/main/cpp/renderer/Triangle.cpp)
 
 target_link_libraries(gui log android EGL GLESv2 ndk_helper freeimage_shared)

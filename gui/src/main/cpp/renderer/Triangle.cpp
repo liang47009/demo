@@ -4,12 +4,6 @@
 
 #include "Triangle.h"
 
-struct Vertex {
-    float x, y, z;
-//        float u, v;
-//        float r, g, b, a;
-};
-
 Triangle::Triangle() {
     _textureId = -1;
     mAngle = 0.0f;
@@ -25,20 +19,20 @@ bool Triangle::init() {
     return true;
 }
 
-void Triangle::render() {
+void Triangle::draw(Mat4 &mat_model_) {
     mAngle += 0.1f;
     if (mAngle > 360) {
         mAngle = 0.0f;
     }
     // 设置相机矩阵
-    Mat4::setLookAtM(mViewMatrix, 0, 0, 0, -3, 0, 0, 0, 0, 1.0f, 0);
+    Mat4::setLookAtM(mViewMatrix.Ptr(), 0, 0, 0, -3, 0, 0, 0, 0, 1.0f, 0);
     // 透视投影矩阵与相机矩阵相乘，得到最后的矩阵mMVPMatrix
-    Mat4::multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mViewMatrix, 0);
-    Mat4::setRotateM(mRotationMatrix, 0, mAngle, 0, 0, -1.0f);
+    Mat4::multiplyMM(mat_model_.Ptr(), 0, mProjectionMatrix.Ptr(), 0, mViewMatrix.Ptr(), 0);
+    Mat4::setRotateM(mRotationMatrix.Ptr(), 0, mAngle, 0, 0, -1.0f);
     Mat4 scratch;
-    Mat4::multiplyMM(scratch, 0, mMVPMatrix, 0, mRotationMatrix, 0);
+    Mat4::multiplyMM(scratch.Ptr(), 0, mat_model_.Ptr(), 0, mRotationMatrix.Ptr(), 0);
 
-    Vertex vertexs[] = {0, 0.5f, 0, -0.5f, -0.5f, 0, 0.5f, -0.5f, 0};
+    VertexTriangle vertexs[] = {0, 0.5f, 0, -0.5f, -0.5f, 0, 0.5f, -0.5f, 0};
     _shader.begin();
     glEnableVertexAttribArray(_shader._position);
     glVertexAttribPointer(_shader._position, 3, GL_FLOAT, false, 0, vertexs);

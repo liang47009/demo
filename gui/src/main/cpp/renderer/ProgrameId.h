@@ -229,6 +229,64 @@ public:
     }
 };
 
+class PROGRAM_Tr_TEX : public ProgramId {
+public:
+    int _position;
+    int _color;
+    int _mvp;
+public:
+    PROGRAM_Tr_TEX() {
+        _position = -1;
+        _color = -1;
+        _mvp = -1;
+    }
+
+    ~PROGRAM_Tr_TEX() {
+    }
+
+    /// 初始化函数
+    virtual bool initialize() {
+        const char *vs =
+                {
+                        "attribute vec4 _position;"
+                                "uniform mat4 _mvp;"
+                                "void main() {"
+                                "   gl_Position = _mvp * _position;"
+                                "}"
+                };
+        const char *ps =
+                {
+                        "uniform vec4 _color;"
+                                "void main() {"
+                                "   gl_FragColor = _color;"
+                                "}"
+                };
+        bool res = createProgram(vs, ps);
+        if (res) {
+            _position = glGetAttribLocation(_programId, "_position");
+            _color = glGetUniformLocation(_programId, "_color");
+            _mvp = glGetUniformLocation(_programId, "_mvp");
+        }
+        return res;
+    }
+
+    /**
+    *   使用程序
+    */
+    virtual void begin() {
+        glUseProgram(_programId);
+        glEnableVertexAttribArray(_position);
+    }
+
+    /**
+    *   使用完成
+    */
+    virtual void end() {
+        glDisableVertexAttribArray(_position);
+        glUseProgram(0);
+    }
+};
+
 class PROGRAM_P2_C4 : public ProgramId {
 public:
     typedef int attribute;
@@ -371,7 +429,6 @@ public:
     }
 };
 
-
 class PROGRAM_P2_UV_AC4 : public ProgramId {
 public:
     typedef int attribute;
@@ -473,6 +530,78 @@ public:
     }
 };
 
+class PROGRAM_P3_TEX : public ProgramId {
+public:
+    typedef int attribute;
+    typedef int uniform;
+public:
+    attribute _position;
+    attribute _uv;
+    uniform _MVP;
+    uniform _texture;
+public:
+    PROGRAM_P3_TEX() {
+        _position = -1;
+        _uv = -1;
+        _texture = -1;
+        _MVP = -1;
+    }
+
+    ~PROGRAM_P3_TEX() {
+    }
+
+    /// 初始化函数
+    virtual bool initialize() {
+        const char *vs =
+                {
+                        "precision mediump float; "
+                                "uniform   mat4 _MVP;"
+                                "attribute vec4 _position;"
+                                "attribute vec2 _uv;"
+                                "varying   vec2 _outUV;"
+                                "void main()"
+                                "{"
+                                "   gl_Position =   _MVP * _position;"
+                                "   _outUV      =   _uv;"
+                                "}"
+                };
+        const char *ps =
+                {
+                        "precision  mediump float; "
+                                "uniform   sampler2D _texture;"
+                                "varying   vec2      _outUV;"
+                                "void main()"
+                                "{"
+                                "   gl_FragColor = texture2D(_texture,_outUV);"
+                                "}"
+                };
+
+        bool res = createProgram(vs, ps);
+        if (res) {
+            _position = glGetAttribLocation(_programId, "_position");
+            _uv = glGetAttribLocation(_programId, "_uv");
+            _texture = glGetUniformLocation(_programId, "_texture");
+            _MVP = glGetUniformLocation(_programId, "_MVP");
+
+        }
+        return res;
+    }
+
+    /**
+    *   使用程序
+    */
+    virtual void begin() {
+        glUseProgram(_programId);
+
+    }
+
+    /**
+    *   使用完成
+    */
+    virtual void end() {
+        glUseProgram(0);
+    }
+};
 
 class PROGRAM_P3_UV : public ProgramId {
 public:
@@ -553,7 +682,6 @@ public:
         glUseProgram(0);
     }
 };
-
 
 class PROGRAM_P3_T2_C3 : public ProgramId {
 public:
@@ -645,5 +773,23 @@ public:
         glUseProgram(0);
     }
 };
+
+struct VertexTriangle {
+    float x, y, z;
+//        float u, v;
+//        float r, g, b, a;
+};
+
+struct VertexSquare {
+    float x;
+    float y;
+
+    VertexSquare(float x_, float y_) {
+        x = x_;
+        y = y_;
+    }
+
+};
+
 
 #endif
