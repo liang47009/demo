@@ -2,7 +2,9 @@ package com.yunfeng.gui;
 
 import android.app.Activity;
 import android.content.res.AssetManager;
+import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
+import android.opengl.Matrix;
 import android.os.Bundle;
 import android.widget.LinearLayout;
 
@@ -53,4 +55,11 @@ public class MainActivity extends Activity {
         setContentView(layout);
     }
 
+
+    public void test() {
+//        Matrix.frustumM();
+//        Matrix.setLookAtM();
+//        Matrix.multiplyMM();
+//        GLES20.glUniformMatrix4fv();
+    }
 }

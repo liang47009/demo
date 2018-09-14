@@ -1,13 +1,14 @@
 #include <GLES2/gl2.h>
 #include <fstream>
 #include <freeimage.h>
+#include <vector>
 #include "Renderer.h"
 
 bool
 ReadFile(AAssetManager *aAssetManager, const char *fileName, std::vector<uint8_t> *buffer_ref) {
     std::ifstream f(fileName, std::ios::binary);
     if (f) {
-        LOGI("reading:%s", fileName);
+//        LOGI("reading:%s", fileName);
         f.seekg(0, std::ifstream::end);
         std::fpos<mbstate_t> fileSize = f.tellg();
         f.seekg(0, std::ifstream::beg);
@@ -17,20 +18,20 @@ ReadFile(AAssetManager *aAssetManager, const char *fileName, std::vector<uint8_t
         return true;
     } else {
         if (NULL == aAssetManager) {
-            LOGE("AssetManager is null!");
+//            LOGE("AssetManager is null!");
             return false;
         }
         //Fallback to assetManager
         AAsset *assetFile = AAssetManager_open(aAssetManager, fileName, AASSET_MODE_BUFFER);
         if (!assetFile) {
-            LOGE("assetFile is null: %s", fileName);
+//            LOGE("assetFile is null: %s", fileName);
             return false;
         }
         uint8_t *data = (uint8_t *) AAsset_getBuffer(assetFile);
         int32_t size = AAsset_getLength(assetFile);
         if (data == NULL) {
             AAsset_close(assetFile);
-            LOGE("Failed to load:%s", fileName);
+//            LOGE("Failed to load:%s", fileName);
             return false;
         }
         buffer_ref->reserve(size);
@@ -46,28 +47,25 @@ unsigned int loadTexture(AAssetManager *aAssetManager, const char *fileName) {
     std::vector<uint8_t> vert_data;
     ReadFile(aAssetManager, fileName, &vert_data);
     int size = vert_data.size();
-    LOGE("image size=%d", size);
     FIMEMORY *m_mem = FreeImage_OpenMemory(vert_data.data(), size);
-    LOGE("FreeImage_OpenMemory m_mem=%p", m_mem);
     FREE_IMAGE_FORMAT fif = FreeImage_GetFileTypeFromMemory(m_mem, size);
-    LOGE("FreeImage_OpenMemory fif=%p", &fif);
-//    if (fif == FIF_UNKNOWN) {
-//        fif = FreeImage_GetFIFFromFilename(fileName);
-//    }
-//    if (fif == FIF_UNKNOWN) {
-//        FreeImage_CloseMemory(m_mem);
+    if (fif == FIF_UNKNOWN) {
+        fif = FreeImage_GetFIFFromFilename(fileName);
+    }
+    if (fif == FIF_UNKNOWN) {
+        FreeImage_CloseMemory(m_mem);
 //        LOGE("FIF_UNKNOWN");
-//        return 0;
-//    }
-//    if (!FreeImage_FIFSupportsReading(fif)) {
-//        FreeImage_CloseMemory(m_mem);
+        return 0;
+    }
+    if (!FreeImage_FIFSupportsReading(fif)) {
+        FreeImage_CloseMemory(m_mem);
 //        LOGE("FreeImage_FIFSupportsReading: fif");
-//        return 0;
-//    }
+        return 0;
+    }
     dib = FreeImage_LoadFromMemory(fif, m_mem, 0);
     if (!dib) {
         FreeImage_CloseMemory(m_mem);
-        LOGE("FreeImage_LoadFromMemory dib = 0");
+//        LOGE("FreeImage_LoadFromMemory dib = 0");
         return 0;
     }
 
@@ -115,7 +113,6 @@ unsigned int loadTexture(AAssetManager *aAssetManager, const char *fileName) {
     */
     FreeImage_Unload(dib);
     FreeImage_CloseMemory(m_mem);
-    LOGE("textureId = %d", textureId);
     return textureId;
 }
 
@@ -135,7 +132,7 @@ bool Renderer::init(AAssetManager *pManager) {
 }
 
 bool Renderer::onChanged(int width, int height) {
-
+    m_triangle.changed(width, height);
     return true;
 }
 

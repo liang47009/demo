@@ -171,6 +171,64 @@ public:
     }
 };
 
+class PROGRAM_Tr_U1 : public ProgramId {
+public:
+    int _position;
+    int _color;
+    int _mvp;
+public:
+    PROGRAM_Tr_U1() {
+        _position = -1;
+        _color = -1;
+        _mvp = -1;
+    }
+
+    ~PROGRAM_Tr_U1() {
+    }
+
+    /// 初始化函数
+    virtual bool initialize() {
+        const char *vs =
+                {
+                        "attribute vec4 _position;"
+                                "uniform mat4 _mvp;"
+                                "void main() {"
+                                "   gl_Position = _mvp * _position;"
+                                "}"
+                };
+        const char *ps =
+                {
+                        "uniform vec4 _color;"
+                                "void main() {"
+                                "   gl_FragColor = _color;"
+                                "}"
+                };
+        bool res = createProgram(vs, ps);
+        if (res) {
+            _position = glGetAttribLocation(_programId, "_position");
+            _color = glGetUniformLocation(_programId, "_color");
+            _mvp = glGetUniformLocation(_programId, "_mvp");
+        }
+        return res;
+    }
+
+    /**
+    *   使用程序
+    */
+    virtual void begin() {
+        glUseProgram(_programId);
+        glEnableVertexAttribArray(_position);
+    }
+
+    /**
+    *   使用完成
+    */
+    virtual void end() {
+        glDisableVertexAttribArray(_position);
+        glUseProgram(0);
+    }
+};
+
 class PROGRAM_P2_C4 : public ProgramId {
 public:
     typedef int attribute;
