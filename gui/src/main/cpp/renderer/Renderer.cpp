@@ -128,104 +128,23 @@ Renderer::~Renderer() {
 
 bool Renderer::init(AAssetManager *pManager) {
     FreeImage_Initialise(true);
-    _shader.initialize();
+    m_triangle.init();
+//    _shader.initialize();
     m_AAssetManager = pManager;
     return true;
 }
 
 bool Renderer::onChanged(int width, int height) {
-    // Initialize GL state.
-    glEnable(GL_CULL_FACE);
-    glEnable(GL_DEPTH_TEST);
-    glDepthFunc(GL_LEQUAL);
 
-    glViewport(0, 0, width, height);
-
-    int32_t viewport[4];
-    glGetIntegerv(GL_VIEWPORT, viewport);
-    float fAspect = (float) viewport[2] / (float) viewport[3];
-
-    const float CAM_NEAR = 5.f;
-    const float CAM_FAR = 10000.f;
-    mat_projection_ = Mat4::Perspective(fAspect, 1.f, CAM_NEAR, CAM_FAR);
-    _textureId = loadTexture(m_AAssetManager, "models/andy.png");
     return true;
 }
 
 void Renderer::onDrawFrame() {
     glClearColor(0.5f, 0.5f, 0.5f, 1.f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-    update();
-
-    struct Vertex {
-        float x, y, z;
-        float u, v;
-        float r, g, b, a;
-    };
-
-    //设置摄像机位置参数矩阵:摄像机位置向量,观察点位置向量,摄像机顶端指向向量
-    Vertex vertexs[] =
-            {
-                    {-1.0f, -1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f},
-                    //{ 1.0f, -1.0f, 1.0f, 1.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f },
-                    //{ 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f },
-
-                    //{ -1.0f, -1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f },
-                    //{ 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f },
-                    //{ -1.0f, 1.0f, 1.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f },
-            };
-
-    float gSize = 100;
-    float gPos = -5;
-    float rept = 100;
-
-    //顺时针方向环绕
-    Vertex grounds[] =
-            {
-                    {-gSize, gPos, -gSize, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f},
-                    {gSize,  gPos, -gSize, rept, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f},
-                    {gSize,  gPos, gSize,  rept, rept, 1.0f, 1.0f, 1.0f, 1.0f},
-
-                    {-gSize, gPos, -gSize, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f},
-                    {gSize,  gPos, gSize,  rept, rept, 1.0f, 1.0f, 1.0f, 1.0f},
-                    {-gSize, gPos, gSize,  0.0f, rept, 1.0f, 1.0f, 1.0f, 1.0f},
-            };
-
-    _shader.begin();
-    {
-        Mat4 matWorld;
-        //摄像机投影矩阵*摄像机位置矩阵*物体变换矩阵
-        Mat4 MVP = mat_projection_ * mat_view_ * matWorld;
-        glUniform1i(_shader._texture, 0);
-        //绘制地面
-        glBindTexture(GL_TEXTURE_2D, _textureId);
-        glUniformMatrix4fv(_shader._MVP, 1, false, MVP.Ptr());
-
-        //sizeof(Vertex)=36 sizeof(grounds)=216
-        glVertexAttribPointer(_shader._positionAttr, 3, GL_FLOAT, false, sizeof(Vertex),
-                              &grounds[0].x);
-        glVertexAttribPointer(_shader._uvAttr, 2, GL_FLOAT, false, sizeof(Vertex), &grounds[0].u);
-        glVertexAttribPointer(_shader._colorAttr, 4, GL_FLOAT, false, sizeof(Vertex),
-                              &grounds[0].r);
-        //sizeof(grounds)/sizeof(grounds[0])=6
-        glDrawArrays(GL_TRIANGLES, 0, sizeof(grounds) / sizeof(grounds[0]));
-    }
-    _shader.end();
-
+    m_triangle.render();
 }
 
 void Renderer::update() {
-    const float CAM_X = 0.f;
-    const float CAM_Y = 0.f;
-    const float CAM_Z = 700.f;
 
-    mat_view_ = Mat4::LookAt(Vec3(CAM_X, CAM_Y, CAM_Z),
-                             Vec3(0.f, 0.f, 0.f),
-                             Vec3(0.f, 1.f, 0.f));
-//    mat_view_ = mat_view_ * mat_model_;
-    //
-    // Feed Projection and Model View matrices to the shaders
-//    Mat4 mat_vp = mat_projection_ * mat_view_;
-    
 }

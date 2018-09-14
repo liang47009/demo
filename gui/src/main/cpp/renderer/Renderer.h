@@ -4,6 +4,7 @@
 #include <vecmath.h>
 #include "Singleton.h"
 #include "ProgrameId.h"
+#include "Triangle.h"
 
 using namespace ndk_helper;
 
@@ -26,8 +27,7 @@ private:
     Mat4 mat_projection_;
     Mat4 mat_view_;
     Mat4 mat_model_;
-    PROGRAM_P3_T2_C3 _shader;
-    GLuint _textureId;
+    Triangle m_triangle;
 };
 
 #endif//_RENDERER_H_
