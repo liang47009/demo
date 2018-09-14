@@ -128,6 +128,7 @@ Renderer::~Renderer() {
 
 bool Renderer::init(AAssetManager *pManager) {
     FreeImage_Initialise(true);
+    _shader.initialize();
     m_AAssetManager = pManager;
     return true;
 }
@@ -219,11 +220,12 @@ void Renderer::update() {
     const float CAM_Y = 0.f;
     const float CAM_Z = 700.f;
 
-    Mat4 mat_view_ = Mat4::LookAt(Vec3(CAM_X, CAM_Y, CAM_Z),
-                                  Vec3(0.f, 0.f, 0.f),
-                                  Vec3(0.f, 1.f, 0.f));
-    mat_view_ = mat_view_ * mat_model_;
+    mat_view_ = Mat4::LookAt(Vec3(CAM_X, CAM_Y, CAM_Z),
+                             Vec3(0.f, 0.f, 0.f),
+                             Vec3(0.f, 1.f, 0.f));
+//    mat_view_ = mat_view_ * mat_model_;
     //
     // Feed Projection and Model View matrices to the shaders
-    Mat4 mat_vp = mat_projection_ * mat_view_;
+//    Mat4 mat_vp = mat_projection_ * mat_view_;
+    
 }
