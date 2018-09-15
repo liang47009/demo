@@ -9,12 +9,17 @@ android {
         versionName "1.0"
 
         externalNativeBuild {
-            cmake {
-                arguments "-DANDROID_ARM_NEON=TRUE", "-DANDROID_TOOLCHAIN=clang"
+            ndkBuild {
                 cFlags "-D__STDC_FORMAT_MACROS"
                 cppFlags "-fexceptions", "-frtti", "-std=c++11", "-Wno-c++11-narrowing"
                 abiFilters "armeabi-v7a", "x86"
             }
+//            cmake {
+//                arguments "-DANDROID_ARM_NEON=TRUE", "-DANDROID_TOOLCHAIN=clang", "-DANDROID_PLATFORM=android-10"
+//                cFlags "-D__STDC_FORMAT_MACROS"
+//                cppFlags "-fexceptions", "-frtti", "-std=c++11", "-Wno-c++11-narrowing"
+//                abiFilters "armeabi-v7a", "x86"
+//            }
         }
     }
 
@@ -31,9 +36,12 @@ android {
     }
 
     externalNativeBuild {
-        cmake {
-            path 'CMakeLists.txt'
+        ndkBuild {
+            path "Android.mk"
         }
+//        cmake {
+//            path 'CMakeLists.txt'
+//        }
     }
 }
 

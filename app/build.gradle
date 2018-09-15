@@ -11,17 +11,17 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         externalNativeBuild {
-            cmake {
-                arguments "-DANDROID_ARM_NEON=TRUE", "-DANDROID_TOOLCHAIN=clang"
-                cFlags "-D__STDC_FORMAT_MACROS"
-                cppFlags "-fexceptions", "-frtti", "-std=c++11"
-                abiFilters "armeabi-v7a", "x86"
-            }
+//            cmake {
+//                arguments "-DANDROID_ARM_NEON=TRUE", "-DANDROID_TOOLCHAIN=clang", "-DANDROID_PLATFORM=android-10"
+//                cFlags "-D__STDC_FORMAT_MACROS"
+//                cppFlags "-fexceptions", "-frtti", "-std=c++11", "-fno-inline"
+//                abiFilters "armeabi-v7a", "x86"
+//            }
         }
     }
     sourceSets {
         main {
-            jniLibs.srcDirs = ['jniLibs']
+//            jniLibs.srcDirs = ['jniLibs']
         }
     }
     //签名
@@ -65,9 +65,9 @@ android {
         }
     }
     externalNativeBuild {
-        cmake {
-            path 'CMakeLists.txt'
-        }
+//        cmake {
+//            path 'CMakeLists.txt'
+//        }
     }
     lintOptions {
         checkReleaseBuilds false

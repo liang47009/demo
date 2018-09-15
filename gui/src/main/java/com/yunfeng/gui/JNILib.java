@@ -6,10 +6,6 @@ package com.yunfeng.gui;
  */
 public class JNILib {
 
-    static {
-        System.loadLibrary("gui");
-    }
-
     public native static void nativeOnSurfaceCreated(Object assets);
 
     public native static void nativeOnSurfaceChanged(int width, int height);

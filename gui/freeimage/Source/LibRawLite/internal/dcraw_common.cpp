@@ -45,6 +45,17 @@ void swab(const void *from, void *to, ssize_t n) {
     }
 }
 
+//#include <stdint.h>
+//#include <linux/swab.h>
+//void swab(const void *from, void *to, ssize_t n) {
+//    if (n < 0)
+//        return;
+//
+//    for (ssize_t i = 0; i < (n / 2) * 2; i += 2) {
+//        *((uint16_t *) to + i) = ___constant_swab16(*((uint16_t *) from + i));
+//    }
+//}
+
 #endif
 
 #ifndef __GLIBC__

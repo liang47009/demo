@@ -6,9 +6,14 @@
 #define _UTILS_H__
 
 #include <android/asset_manager.h>
+#include <android/log.h>
 #include <FreeImage.h>
 #include <vector>
 #include "vecmath.h"
+
+#ifndef LOGI
+#define LOGI(...) __android_log_print(ANDROID_LOG_INFO, "YUNFENG", __VA_ARGS__)
+#endif
 
 class utils {
 public:

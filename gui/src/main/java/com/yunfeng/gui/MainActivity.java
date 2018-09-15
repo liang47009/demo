@@ -20,7 +20,7 @@ import javax.microedition.khronos.opengles.GL10;
 public class MainActivity extends Activity {
 
     static {
-        System.loadLibrary("freeimage_shared");
+        System.loadLibrary("gui");
     }
 
     @Override

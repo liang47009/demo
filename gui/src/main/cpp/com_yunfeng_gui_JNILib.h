@@ -4,16 +4,19 @@
 
 #ifndef _Included_com_yunfeng_gui_JNILib
 #define _Included_com_yunfeng_gui_JNILib
-#ifdef __cplusplus
+
 extern "C" {
-#endif
+
+JNIEXPORT jint JNI_OnLoad(JavaVM *, void *);
+
+JNIEXPORT void JNI_OnUnload(JavaVM *, void *);
 /*
  * Class:     com_yunfeng_gui_JNILib
  * Method:    nativeOnSurfaceCreated
  * Signature: (Ljava/lang/Object;)V
  */
 JNIEXPORT void JNICALL Java_com_yunfeng_gui_JNILib_nativeOnSurfaceCreated
-  (JNIEnv *, jclass, jobject);
+        (JNIEnv *, jclass, jobject);
 
 /*
  * Class:     com_yunfeng_gui_JNILib
@@ -21,7 +24,7 @@ JNIEXPORT void JNICALL Java_com_yunfeng_gui_JNILib_nativeOnSurfaceCreated
  * Signature: (II)V
  */
 JNIEXPORT void JNICALL Java_com_yunfeng_gui_JNILib_nativeOnSurfaceChanged
-  (JNIEnv *, jclass, jint, jint);
+        (JNIEnv *, jclass, jint, jint);
 
 /*
  * Class:     com_yunfeng_gui_JNILib
@@ -29,9 +32,8 @@ JNIEXPORT void JNICALL Java_com_yunfeng_gui_JNILib_nativeOnSurfaceChanged
  * Signature: ()V
  */
 JNIEXPORT void JNICALL Java_com_yunfeng_gui_JNILib_nativeOnDrawFrame
-  (JNIEnv *, jclass);
+        (JNIEnv *, jclass);
 
-#ifdef __cplusplus
 }
-#endif
+
 #endif

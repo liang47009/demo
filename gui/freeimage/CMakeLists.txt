@@ -551,4 +551,4 @@ set(FreeImage_LIBRARY_DBG FreeImage CACHE STRING "" FORCE)
 set(FreeImage_LIBRARY_REL FreeImage CACHE STRING "" FORCE)
 mark_as_advanced(FreeImage_INCLUDE_DIR FreeImage_LIBRARY_DBG FreeImage_LIBRARY_REL)
 
-add_library(freeimage_shared SHARED ${FreeImage_SOURCES})
+#add_library(freeimage_shared SHARED ${FreeImage_SOURCES})
