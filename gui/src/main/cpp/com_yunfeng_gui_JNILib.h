@@ -4,8 +4,9 @@
 
 #ifndef _Included_com_yunfeng_gui_JNILib
 #define _Included_com_yunfeng_gui_JNILib
-
+#ifdef __cplusplus
 extern "C" {
+#endif
 
 JNIEXPORT jint JNI_OnLoad(JavaVM *, void *);
 
@@ -34,6 +35,7 @@ JNIEXPORT void JNICALL Java_com_yunfeng_gui_JNILib_nativeOnSurfaceChanged
 JNIEXPORT void JNICALL Java_com_yunfeng_gui_JNILib_nativeOnDrawFrame
         (JNIEnv *, jclass);
 
+#ifdef __cplusplus
 }
-
+#endif
 #endif

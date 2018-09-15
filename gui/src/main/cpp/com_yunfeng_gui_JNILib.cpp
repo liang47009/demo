@@ -4,7 +4,9 @@
 #include "renderer/Renderer.h"
 #include "renderer/utils.h"
 
+#ifdef __cplusplus
 extern "C" {
+#endif
 
 JNIEXPORT jint JNI_OnLoad(JavaVM *, void *) {
     LOGI("JNI_OnLoad");
@@ -31,4 +33,6 @@ JNIEXPORT void JNICALL Java_com_yunfeng_gui_JNILib_nativeOnDrawFrame
     Renderer::getInstance()->onDrawFrame();
 }
 
+#ifdef __cplusplus
 }
+#endif
