@@ -1,12 +1,34 @@
 
 #include "Sensor.h"
 
-#include <android/log.h>
-#include <fstream>
+#include <utils/CHelper.h>
 
-#define  LOGI(...) __android_log_print(ANDROID_LOG_INFO, "APP", __VA_ARGS__)
+extern Sensor *sensor;
+
+JNIEXPORT void JNICALL
+Java_com_yunfeng_sensor_MainActivity_nativeOnSensorChangedRotation
+        (JNIEnv *env, jclass type, jfloat x, jfloat y, jfloat z) {
+    sensor->onSensorChangedRotation(x, y, z);
+}
+
+JNIEXPORT void JNICALL
+Java_com_yunfeng_sensor_MainActivity_nativeOnSensorChangedRotationMatrix
+        (JNIEnv *env, jclass type, jfloatArray rotationMatrix_) {
+    jfloat *rotationMatrix = env->GetFloatArrayElements(rotationMatrix_, NULL);
+    ndk_helper::Mat4 rotationMax4 = rotationMatrix;
+    sensor->onSensorChangedRotation(rotationMax4);
+    env->ReleaseFloatArrayElements(rotationMatrix_, rotationMatrix, 0);
+}
 
 Sensor::Sensor() {
+    Init();
+}
+
+Sensor::~Sensor() {
+
+}
+
+void Sensor::Init() {
     EGLDisplay display_ = eglGetDisplay(EGL_DEFAULT_DISPLAY);
     eglInitialize(display_, 0, 0);
 
@@ -37,61 +59,18 @@ Sensor::Sensor() {
     }
 
     if (!num_configs) {
-        LOGW("Unable to retrieve EGL config");
+        LOGI("Unable to retrieve EGL config");
         return;
     }
     EGLint format;
     eglGetConfigAttrib(display_, config_, EGL_NATIVE_VISUAL_ID, &format);
 }
 
-Sensor::~Sensor() {
-
-}
-
-//---------------------------------------------------------------------------
-//readFile
-//---------------------------------------------------------------------------
-bool Sensor::ReadFile(const char *fileName, std::vector<uint8_t> *buffer_ref) {
-    std::ifstream f(fileName, std::ios::binary);
-    if (f) {
-        LOGI("reading:%s", fileName);
-        f.seekg(0, std::ifstream::end);
-        int32_t fileSize = f.tellg();
-        f.seekg(0, std::ifstream::beg);
-        buffer_ref->reserve(fileSize);
-        buffer_ref->assign(std::istreambuf_iterator<char>(f), std::istreambuf_iterator<char>());
-        f.close();
-        pthread_mutex_unlock(&mutex_);
-        return true;
-    } else {
-        //Fallback to assetManager
-        AAsset *assetFile = AAssetManager_open(aAssetManager, fileName, AASSET_MODE_BUFFER);
-        if (!assetFile) {
-            pthread_mutex_unlock(&mutex_);
-            return false;
-        }
-        uint8_t *data = (uint8_t *) AAsset_getBuffer(assetFile);
-        int32_t size = AAsset_getLength(assetFile);
-        if (data == NULL) {
-            AAsset_close(assetFile);
-
-            LOGI("Failed to load:%s", fileName);
-            pthread_mutex_unlock(&mutex_);
-            return false;
-        }
-        buffer_ref->reserve(size);
-        buffer_ref->assign(data, data + size);
-        AAsset_close(assetFile);
-        pthread_mutex_unlock(&mutex_);
-        return true;
-    }
-}
-
 void Sensor::onSurfaceCreated(AAssetManager *pManager) {
     aAssetManager = pManager;
-    teapotRenderer = new TeapotRenderer;
+    teapotRenderer = new TeapotRenderer(aAssetManager);
     camera = new ndk_helper::TapCamera;
-    teapotRenderer->Init(this);
+    teapotRenderer->Init();
     teapotRenderer->Bind(camera);
 
     // Initialize GL state.
@@ -128,6 +107,7 @@ const ndk_helper::Vec3 ZERO_VEC3 = ndk_helper::Vec3(0.0f, 0.0f, 0.0f);
 
 void Sensor::onSensorChangedRotation(float x, float y, float z) {
     ndk_helper::Vec3 newVec(x, y, z);
+//    LOGI("Rotation: %f, %f, %f", x, y, z);
     if (temp == ZERO_VEC3) {
         temp = newVec;
     } else {
@@ -141,4 +121,3 @@ void Sensor::onSensorChangedRotation(float x, float y, float z) {
 void Sensor::onSensorChangedRotation(ndk_helper::Mat4 mat4) {
     teapotRenderer->Rotation(mat4);
 }
-

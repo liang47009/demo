@@ -2,21 +2,22 @@
 
 #include <android/asset_manager_jni.h>
 #include <sensor/Sensor.h>
+#include <dlfcn.h>
 
 Sensor *sensor;
 
 JNIEXPORT jint JNI_OnLoad(JavaVM *vm, void *reserved) {
+    sensor = new Sensor;
     return JNI_VERSION_1_6;
 }
 
 JNIEXPORT void JNI_OnUnload(JavaVM *vm, void *reserved) {
-
+    delete sensor;
 }
 
 JNIEXPORT void JNICALL Java_com_yunfeng_common_jni_JNILib_nativeOnSurfaceCreated
         (JNIEnv *env, jobject, jobject jobj) {
     AAssetManager *assetManager = AAssetManager_fromJava(env, jobj);
-    sensor = new Sensor;
     sensor->onSurfaceCreated(assetManager);
 }
 
@@ -30,17 +31,25 @@ JNIEXPORT void JNICALL Java_com_yunfeng_common_jni_JNILib_nativeOnSurfaceChanged
     sensor->onSurFaceChanged(width, height);
 }
 
-JNIEXPORT void JNICALL
-Java_com_yunfeng_common_jni_JNILib_nativeOnSensorChangedRotation(JNIEnv *env, jclass type, jfloat x,
-                                                                 jfloat y, jfloat z) {
-    sensor->onSensorChangedRotation(x, y, z);
+JNIEXPORT long JNICALL
+Java_com_yunfeng_common_jni_JNILib_nativeLoadLibrary
+        (JNIEnv *env, jclass type, jstring path_) {
+    const char *path = env->GetStringUTFChars(path_, 0);
+    void *handle = dlopen(path, RTLD_LAZY);
+    const char *error = dlerror();
+    LOGI("error: %s", error);
+    if (handle) {
+        LOGI("handle: %p", handle);
+    }
+    env->ReleaseStringUTFChars(path_, path);
+    return reinterpret_cast<long>(handle);
 }
 
 JNIEXPORT void JNICALL
-Java_com_yunfeng_common_jni_JNILib_nativeOnSensorChangedRotationMatrix(JNIEnv *env, jclass type,
-                                                                       jfloatArray rotationMatrix_) {
-    jfloat *rotationMatrix = env->GetFloatArrayElements(rotationMatrix_, NULL);
-    ndk_helper::Mat4 rotationMax4 = rotationMatrix;
-    sensor->onSensorChangedRotation(rotationMax4);
-    env->ReleaseFloatArrayElements(rotationMatrix_, rotationMatrix, 0);
+Java_com_yunfeng_common_jni_JNILib_nativeUnloadLibrary
+        (JNIEnv *, jclass, jlong handler) {
+    if (handler) {
+        int ret = dlclose(reinterpret_cast<void *>(handler));
+        LOGI("nativeUnloadLibrary: ret=>%d", ret);
+    }
 }

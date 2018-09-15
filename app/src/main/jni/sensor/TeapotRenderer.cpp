@@ -21,6 +21,7 @@
 //--------------------------------------------------------------------------------
 // Include files
 //--------------------------------------------------------------------------------
+#include <utils/CHelper.h>
 #include "TeapotRenderer.h"
 
 //--------------------------------------------------------------------------------
@@ -32,8 +33,8 @@
 //--------------------------------------------------------------------------------
 // Ctor
 //--------------------------------------------------------------------------------
-TeapotRenderer::TeapotRenderer() {
-
+TeapotRenderer::TeapotRenderer(AAssetManager *pManager) {
+    m_assetManager = pManager;
 }
 
 //--------------------------------------------------------------------------------
@@ -43,12 +44,12 @@ TeapotRenderer::~TeapotRenderer() {
     Unload();
 }
 
-void TeapotRenderer::Init(Sensor *pSensor) {
+void TeapotRenderer::Init() {
     //Settings
     glFrontFace(GL_CCW);
 
     //Load shader
-    LoadShaders(&shader_param_, "Shaders/VS_ShaderPlain.vsh", "Shaders/ShaderPlain.fsh", pSensor);
+    LoadShaders(&shader_param_, "Shaders/VS_ShaderPlain.vsh", "Shaders/ShaderPlain.fsh");
 
     //Create Index buffer
     num_indices_ = sizeof(teapotIndices) / sizeof(teapotIndices[0]);
@@ -199,18 +200,17 @@ void TeapotRenderer::Render() {
 }
 
 bool
-TeapotRenderer::LoadShaders(SHADER_PARAMS *params, const char strVsh[27], const char strFsh[24],
-                            Sensor *pSensor) {
+TeapotRenderer::LoadShaders(SHADER_PARAMS *params, const char strVsh[27], const char strFsh[24]) {
     GLuint program;
     GLuint vert_shader, frag_shader;
-    char *vert_shader_pathname, *frag_shader_pathname;
+    vert_shader = frag_shader = 0;
 
     // Create shader program
     program = glCreateProgram();
     LOGI("Created Shader %d", program);
 
     std::vector<uint8_t> vert_data;
-    bool b = pSensor->ReadFile(strVsh, &vert_data);
+    bool b = CHelper::ReadFile(m_assetManager, strVsh, &vert_data);
     if (b) {
         // Create and compile vertex shader
         if (!ndk_helper::shader::CompileShader(&vert_shader, GL_VERTEX_SHADER, vert_data)) {
@@ -221,7 +221,7 @@ TeapotRenderer::LoadShaders(SHADER_PARAMS *params, const char strVsh[27], const 
     }
 
     std::vector<uint8_t> frag_data;
-    bool b_f = pSensor->ReadFile(strFsh, &frag_data);
+    bool b_f = CHelper::ReadFile(m_assetManager, strFsh, &frag_data);
     if (b_f) {
         // Create and compile fragment shader
         if (!ndk_helper::shader::CompileShader(&frag_shader, GL_FRAGMENT_SHADER, frag_data)) {

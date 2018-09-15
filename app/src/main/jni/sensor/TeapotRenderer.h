@@ -33,29 +33,26 @@
 #include <GLES/gl.h>
 
 #include <android/sensor.h>
-#include <android/log.h>
 #include <android_native_app_glue.h>
 #include <android/native_window_jni.h>
 #include <cpu-features.h>
 
-#include "NDKHelper.h"
-
+#include <shader.h>            //Shader compiler support
+#include <vecmath.h>            //Vector math support, C++ implementation n current version
+#include <tapCamera.h>          //Tap/Pinch camera control
 
 #define BUFFER_OFFSET(i) ((char *)NULL + (i))
 
-struct TEAPOT_VERTEX
-{
+struct TEAPOT_VERTEX {
     float pos[3];
     float normal[3];
 };
 
-enum SHADER_ATTRIBUTES
-{
+enum SHADER_ATTRIBUTES {
     ATTRIB_VERTEX, ATTRIB_NORMAL, ATTRIB_UV,
 };
 
-struct SHADER_PARAMS
-{
+struct SHADER_PARAMS {
     GLuint program_;
     GLuint light0_;
     GLuint material_diffuse_;
@@ -66,8 +63,7 @@ struct SHADER_PARAMS
     GLuint matrix_view_;
 };
 
-struct TEAPOT_MATERIALS
-{
+struct TEAPOT_MATERIALS {
     float diffuse_color[3];
     float specular_color[4];
     float ambient_color[3];
@@ -75,34 +71,44 @@ struct TEAPOT_MATERIALS
 
 class Sensor;
 
-class TeapotRenderer
-{
+class TeapotRenderer {
     int32_t num_indices_;
     int32_t num_vertices_;
     GLuint ibo_;
     GLuint vbo_;
 
     SHADER_PARAMS shader_param_;
-    bool LoadShaders(SHADER_PARAMS *params, const char strVsh[27], const char strFsh[24], Sensor *pSensor);
+
+    bool LoadShaders(SHADER_PARAMS *params, const char strVsh[27], const char strFsh[24]);
 
     ndk_helper::Mat4 mat_projection_;
     ndk_helper::Mat4 mat_view_;
     ndk_helper::Mat4 mat_model_;
 
-    ndk_helper::TapCamera* camera_;
+    ndk_helper::TapCamera *camera_;
 public:
-    TeapotRenderer();
+    TeapotRenderer(AAssetManager *pManager);
+
     virtual ~TeapotRenderer();
-    void Init(Sensor *pSensor);
+
+    void Init();
+
     void Render();
-    void Update( float dTime );
-    bool Bind( ndk_helper::TapCamera* camera );
+
+    void Update(float dTime);
+
+    bool Bind(ndk_helper::TapCamera *camera);
+
     void Unload();
+
     void UpdateViewport();
 
     void Rotation(ndk_helper::Vec3 x);
 
     void Rotation(ndk_helper::Mat4 mat4);
+
+private:
+    AAssetManager *m_assetManager;
 };
 
 #endif

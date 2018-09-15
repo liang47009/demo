@@ -95,13 +95,12 @@ public:
 //Ctor
 //-------------------------------------------------------------------------
 Engine::Engine() :
-                initialized_resources_( false ),
-                has_focus_( false ),
-                app_( NULL ),
-                sensor_manager_( NULL ),
-                accelerometer_sensor_( NULL ),
-                sensor_event_queue_( NULL )
-{
+        initialized_resources_( false ),
+        has_focus_( false ),
+        app_( NULL ),
+        sensor_manager_( NULL ),
+        accelerometer_sensor_( NULL ),
+        sensor_event_queue_( NULL ), renderer_(nullptr) {
     gl_context_ = ndk_helper::GLContext::GetInstance();
 }
 
