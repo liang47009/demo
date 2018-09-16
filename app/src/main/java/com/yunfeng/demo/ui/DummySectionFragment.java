@@ -21,7 +21,7 @@ public class DummySectionFragment extends MMFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main_dummy, container, false);
-        final Button view = rootView.findViewById(R.id.login_btn);
+        final Button view = (Button) rootView.findViewById(R.id.login_btn);
         view.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -34,7 +34,7 @@ public class DummySectionFragment extends MMFragment {
             }
         }, 2000);
 
-        final Button toGaodeBtn = rootView.findViewById(R.id.btn_to_gaode);
+        final Button toGaodeBtn = (Button) rootView.findViewById(R.id.btn_to_gaode);
         toGaodeBtn.postDelayed(new Runnable() {
             @Override
             public void run() {

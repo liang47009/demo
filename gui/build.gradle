@@ -47,7 +47,7 @@ android {
         }
     }
     packagingOptions {
-        doNotStrip "*.so"
+//        doNotStrip "*.so"
     }
 //    externalNativeBuild {
 //        ndkBuild {

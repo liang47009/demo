@@ -64,7 +64,7 @@ public class EmptyFragment extends MMFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main_empty, container, false);
-        Button order_view = rootView.findViewById(R.id.order);
+        Button order_view = (Button) rootView.findViewById(R.id.order);
         pb = rootView.findViewById(R.id.progressBar);
         pb.setVisibility(View.GONE);
         content = rootView.findViewById(R.id.contentPanel);

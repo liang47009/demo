@@ -23,7 +23,7 @@ public class ShareActivity extends Activity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_share);
-        imageView = this.findViewById(R.id.share_imgview);
+        imageView = (ImageView) this.findViewById(R.id.share_imgview);
         Intent intent = this.getIntent();
         if (intent != null) {
             String action = intent.getAction();
