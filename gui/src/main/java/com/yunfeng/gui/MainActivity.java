@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.widget.LinearLayout;
 
+import com.yunfeng.gui.view.MyGLSurfaceView;
+
 /**
  * main
  * Created by xll on 2018/9/11.

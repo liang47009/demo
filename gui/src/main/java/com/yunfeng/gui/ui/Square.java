@@ -1,66 +1,16 @@
-package com.yunfeng.gui;
+package com.yunfeng.gui.ui;
 
 import android.content.Context;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.opengl.GLES20;
-import android.opengl.GLSurfaceView;
-import android.opengl.GLUtils;
 import android.opengl.Matrix;
-import android.util.AttributeSet;
+
+import com.yunfeng.gui.helper.TextureHelper;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 
-import javax.microedition.khronos.egl.EGLConfig;
-import javax.microedition.khronos.opengles.GL10;
-
-/**
- * sdf
- * Created by xll on 2018/9/14.
- */
-public class MyGLSurfaceView extends GLSurfaceView implements GLSurfaceView.Renderer {
-    private Context mContext;
-    private Square mSquare;
-
-    private float[] mMVPMatrix = new float[16];
-    private float[] mProjectionMatrix = new float[16];
-    private float[] mCameraMatrix = new float[16];
-
-    public MyGLSurfaceView(Context context) {
-        super(context);
-        mContext = context;
-        setEGLContextClientVersion(2);
-        setRenderer(this);
-        setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
-    }
-
-    @Override
-    public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-        GLES20.glClearColor(0, 0, 0.5f, 0);
-        mSquare = new Square(mContext);
-    }
-
-    @Override
-    public void onSurfaceChanged(GL10 gl, int width, int height) {
-        GLES20.glViewport(0, 0, width, height);
-
-        float ratio = (float) width / (float) height;
-        Matrix.frustumM(mProjectionMatrix, 0, -ratio, ratio, -1f, 1f, 3f, 7f);
-    }
-
-    @Override
-    public void onDrawFrame(GL10 gl) {
-        Matrix.setLookAtM(mCameraMatrix, 0, 0, 0, 5f, 0, 0, 0, 0, 1f, 0);
-        Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mCameraMatrix, 0);
-        GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
-        mSquare.draw(mMVPMatrix);
-    }
-}
-
-class Square {
+public class Square {
     Context mContext;
 
     // 正方形的顶点坐标
@@ -115,7 +65,7 @@ class Square {
         mMatrixHandle = GLES20.glGetUniformLocation(program, MVP_MATRIX_NAME);
         mTextureVertextHandle = GLES20.glGetAttribLocation(program, TEXTURE_VERTEXT_NAME);
 
-        TextureHelper.loadTexture(context.getResources(), R.drawable.andy);
+        TextureHelper.loadTexture(context, "andy", "drawable");
 
         Matrix.setIdentityM(mTransformMatrix, 0);
         Matrix.rotateM(mTransformMatrix, 0, 90, 0, 0, 1.0f);
@@ -148,26 +98,3 @@ class Square {
 
 }
 
-class TextureHelper {
-
-    public static int loadTexture(Resources res, int resId) {
-        final int[] textureId = new int[1];
-        // 生成文理ID
-        GLES20.glGenTextures(1, textureId, 0);
-        // 绑定文理ID
-        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureId[0]);
-        // 设置缩小时采用最近点采样
-        GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_NEAREST);
-        // 设置放大时采用线性采样
-        GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR);
-
-        final Bitmap bitmap = BitmapFactory.decodeResource(res, resId);
-        // 加载纹理进显存
-        GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, bitmap, 0);
-
-        bitmap.recycle();
-
-        return textureId[0];
-    }
-
-}
