@@ -21,7 +21,8 @@ public class GLES2Renderer implements IRenderer {
     @Override
     public boolean init() {
         GLES20.glClearColor(0, 0, 0.5f, 0);
-        mSquare = new Square(mContext);
+        mSquare = new Square();
+        mSquare.init(mContext);
         return true;
     }
 
