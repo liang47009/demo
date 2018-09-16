@@ -5,6 +5,7 @@ import android.opengl.GLES20;
 import android.opengl.Matrix;
 
 import com.yunfeng.gui.render.IProgramId;
+import com.yunfeng.gui.render.MatrixState;
 import com.yunfeng.gui.render.SquareProgramId;
 
 import java.nio.ByteBuffer;
@@ -47,11 +48,23 @@ public class Triangle implements IGeometry {
         return true;
     }
 
+    private float angle = 0.1f;
+
     @Override
-    public void draw(float[] mvpMatrix) {
+    public void draw() {
+        if (angle > 360) {
+            angle = 0.1f;
+        } else {
+            angle += 0.1f;
+        }
+
+        Matrix.rotateM(mTransformMatrix, 0, angle, 0, 0, 0);
+
+        float[] mvpMatrix = MatrixState.getMvpMatrix();
+
         GLES20.glVertexAttribPointer(mPositionHandle, COORDS_PER_VERTEX, GLES20.GL_FLOAT, false, 0, mSquareCoordsBuffer);
         GLES20.glEnableVertexAttribArray(mPositionHandle);
-        Matrix.multiplyMM(mvpMatrix, 0, mvpMatrix, 0, mTransformMatrix, 0);
+
         GLES20.glUniformMatrix4fv(mMatrixHandle, 1, false, mvpMatrix, 0);
         //设置绘制三角形的颜色
         GLES20.glUniform4fv(mColorHandle, 1, color, 0);

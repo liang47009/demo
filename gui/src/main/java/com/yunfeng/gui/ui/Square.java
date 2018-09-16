@@ -6,6 +6,7 @@ import android.opengl.Matrix;
 
 import com.yunfeng.gui.helper.TextureHelper;
 import com.yunfeng.gui.render.IProgramId;
+import com.yunfeng.gui.render.MatrixState;
 import com.yunfeng.gui.render.SquareProgramId;
 
 import java.nio.ByteBuffer;
@@ -58,11 +59,11 @@ public class Square implements IGeometry {
     }
 
     @Override
-    public void draw(float[] mvpMatrix) {
+    public void draw() {
 
         GLES20.glVertexAttribPointer(mPositionHandle, COORDS_PER_VERTEX, GLES20.GL_FLOAT, false, 0, mSquareCoordsBuffer);
         GLES20.glEnableVertexAttribArray(mPositionHandle);
-
+        float[] mvpMatrix = MatrixState.getMvpMatrix();
         Matrix.multiplyMM(mvpMatrix, 0, mvpMatrix, 0, mTransformMatrix, 0);
 
         GLES20.glUniformMatrix4fv(mMatrixHandle, 1, false, mvpMatrix, 0);
