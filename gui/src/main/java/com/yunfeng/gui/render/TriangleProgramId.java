@@ -9,7 +9,7 @@ import com.yunfeng.gui.helper.ShaderHelper;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SquareProgramId implements IProgramId {
+public class TriangleProgramId implements IProgramId {
     private static final String POSITION_NAME = "aPosition";
     private static final String COLOR_NAME = "vColor";
     private static final String MVP_MATRIX_NAME = "uMVPMatrix";
@@ -18,8 +18,8 @@ public class SquareProgramId implements IProgramId {
     private Map<String, Integer> handlers = new HashMap<>(16);
 
     public void init(Context context) {
-        String mVertexShader = FileHelper.readShaderFromStream(context, "shaders/square.vert");
-        String mfragmentShader = FileHelper.readShaderFromStream(context, "shaders/square.frag");
+        String mVertexShader = FileHelper.readShaderFromStream(context, "shaders/triangle.vert");
+        String mfragmentShader = FileHelper.readShaderFromStream(context, "shaders/triangle.frag");
         int vertexShader = ShaderHelper.loadShader(GLES20.GL_VERTEX_SHADER, mVertexShader);
         int fragmentShader = ShaderHelper.loadShader(GLES20.GL_FRAGMENT_SHADER, mfragmentShader);
         int program = GLES20.glCreateProgram();
