@@ -22,7 +22,7 @@ public abstract class View implements IGeometry {
         }
         shaderProgram.start();
         drawFrame();
-        shaderProgram.end();
+//        shaderProgram.end();
     }
 
 //    public IProgramId getShaderProgram() {

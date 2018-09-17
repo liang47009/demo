@@ -1,1 +1,1 @@
-include ':app', ':gui_native'
+include ':app', ':gui'
