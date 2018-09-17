@@ -17,11 +17,13 @@ public class Triangle extends View {
             -0.5f, -0.5f, 0.0f, 1.0f,// bottom left
             0.5f, -0.5f, 0.0f, 1.0f // bottom right
     };
-    private float color[] = {1.0f, 1.0f, 1.0f, 1.0f}; //白色
+    //设置颜色
+    private float color[] = {0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f};
 
     private static final int COORDS_PER_VERTEX = 4;
 
     private FloatBuffer mSquareCoordsBuffer;
+    private FloatBuffer mColorBuffer;
 
     private int mMatrixHandle = -1;
     private int mPositionHandle = -1;
@@ -31,6 +33,9 @@ public class Triangle extends View {
     public boolean init(Context context) {
         mSquareCoordsBuffer = ByteBuffer.allocateDirect(triangleCoords.length * 4).order(ByteOrder.nativeOrder()).asFloatBuffer();
         mSquareCoordsBuffer.put(triangleCoords).position(0);
+
+        mColorBuffer = ByteBuffer.allocateDirect(color.length * 4).order(ByteOrder.nativeOrder()).asFloatBuffer();
+        mColorBuffer.put(color).position(0);
 
         shaderProgram = new TriangleProgramId();
         shaderProgram.init(context);
@@ -56,15 +61,21 @@ public class Triangle extends View {
 
         Matrix.multiplyMM(scratch, 0, MatrixState.getMvpMatrix(), 0, mTransformMatrix, 0);
 
-        GLES20.glVertexAttribPointer(mPositionHandle, COORDS_PER_VERTEX, GLES20.GL_FLOAT, false, 0, mSquareCoordsBuffer);
         GLES20.glEnableVertexAttribArray(mPositionHandle);
+        GLES20.glVertexAttribPointer(mPositionHandle, COORDS_PER_VERTEX, GLES20.GL_FLOAT, false, 0, mSquareCoordsBuffer);
+
+        //设置绘制三角形的颜色
+        GLES20.glEnableVertexAttribArray(mColorHandle);
+        GLES20.glVertexAttribPointer(mColorHandle, COORDS_PER_VERTEX, GLES20.GL_FLOAT, false, 0, mColorBuffer);
 
         GLES20.glUniformMatrix4fv(mMatrixHandle, 1, false, scratch, 0);
         //设置绘制三角形的颜色
-        GLES20.glUniform4fv(mColorHandle, 1, color, 0);
+//        GLES20.glUniform4fv(mColorHandle, 3, color, 0);
+
         //绘制三角形
         GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, 3);
         GLES20.glDisableVertexAttribArray(mPositionHandle);
+        GLES20.glDisableVertexAttribArray(mColorHandle);
     }
 
     @Override

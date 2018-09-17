@@ -11,7 +11,7 @@ import java.util.Map;
 
 public class TriangleProgramId implements IProgramId {
     private static final String POSITION_NAME = "aPosition";
-    private static final String COLOR_NAME = "vColor";
+    private static final String COLOR_NAME = "aColor";
     private static final String MVP_MATRIX_NAME = "uMVPMatrix";
     private static final String TEXTURE_VERTEXT_NAME = "aTextureCoords";
 
@@ -29,7 +29,8 @@ public class TriangleProgramId implements IProgramId {
         GLES20.glLinkProgram(program);
 
         int mPositionHandle = GLES20.glGetAttribLocation(program, POSITION_NAME);
-        int mColorHandle = GLES20.glGetUniformLocation(program, COLOR_NAME);
+//        int mColorHandle = GLES20.glGetUniformLocation(program, COLOR_NAME);
+        int mColorHandle = GLES20.glGetAttribLocation(program, COLOR_NAME);
         int mMatrixHandle = GLES20.glGetUniformLocation(program, MVP_MATRIX_NAME);
         int mTextureVertextHandle = GLES20.glGetAttribLocation(program, TEXTURE_VERTEXT_NAME);
 
