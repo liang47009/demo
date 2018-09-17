@@ -84,7 +84,8 @@
             android:screenOrientation="portrait">
 
         </activity>
-        <activity android:name="com.yunfeng.gui.GuiMainActivity">
+        <activity android:name="com.yunfeng.gui.GuiMainActivity"></activity>
+        <activity android:name="com.yunfeng.guinative.GuiNativeMainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
