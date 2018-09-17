@@ -45,7 +45,7 @@ public class MyGLSurfaceView extends GLSurfaceView implements GLSurfaceView.Rend
         this.queueEvent(new Runnable() {
             @Override
             public void run() {
-                mRenderer.addView(geometry, x / 1000, y / 1000);
+                mRenderer.addView(geometry, x, y);
             }
         });
     }

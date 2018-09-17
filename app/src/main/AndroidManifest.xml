@@ -84,15 +84,16 @@
             android:screenOrientation="portrait">
 
         </activity>
-        <activity android:name="com.yunfeng.gui.GuiMainActivity">
+        <activity
+            android:name="com.yunfeng.gui.GuiMainActivity"
+            android:configChanges="orientation|keyboardHidden|navigation|keyboard|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.yunfeng.guinative.GuiNativeMainActivity">
-        </activity>
+        <activity android:name="com.yunfeng.guinative.GuiNativeMainActivity"></activity>
         <!-- <service android:name="com.amap.api.location.APSService"></service>-->
         <!--<meta-data
             android:name="com.amap.api.v2.apikey"

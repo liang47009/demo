@@ -57,7 +57,7 @@ public class Triangle extends View {
             mAngle += 0.1f;
         }
 
-        Matrix.setRotateM(mTransformMatrix, 0, mAngle, mPosition.getX(), mPosition.getY(), mPosition.getZ());
+        Matrix.setRotateM(mTransformMatrix, 0, mAngle, 0, 0, -0.1f);
 
         Matrix.multiplyMM(scratch, 0, MatrixState.getMvpMatrix(), 0, mTransformMatrix, 0);
 

@@ -3,6 +3,7 @@ package com.yunfeng.gui.render;
 import android.content.Context;
 import android.opengl.GLES20;
 
+import com.yunfeng.gui.helper.CoordersHelper;
 import com.yunfeng.gui.ui.IGeometry;
 import com.yunfeng.gui.ui.Square;
 import com.yunfeng.gui.ui.Triangle;
@@ -28,6 +29,7 @@ public class GLES2Renderer implements IRenderer {
 //        for (IGeometry geometry : viewList) {
 //            geometry.init(mContext);
 //        }
+        MatrixState.setLookAtM(0, 0, 5f, 0, 0, 0, 0, 1f, 0);
 
         return true;
     }
@@ -36,7 +38,12 @@ public class GLES2Renderer implements IRenderer {
     public void sizeChanged(int width, int height) {
         GLES20.glViewport(0, 0, width, height);
         float ratio = (float) width / (float) height;
-
+        CoordersHelper.ratio = ratio;
+        CoordersHelper.screenWidth = width;
+        CoordersHelper.screenHeight = height;
+        // 计算长和宽的比例，由于在OpenGLes坐标系里最大是1，具体的算法是:
+        // x / width = 1 / height;
+        // 所以 x = width /height;
         MatrixState.frustumM(-ratio, ratio, -1f, 1f, 3f, 7f);
 
         for (IGeometry geometry : viewList) {
@@ -49,7 +56,13 @@ public class GLES2Renderer implements IRenderer {
 
     public void addView(IGeometry geometry, float x, float y) {
         geometry.init(mContext);
-        geometry.setPosition(x, y, -1.0f);
+//        x = event.getX()*(x2-x1)/w + x1;
+//        y = (h-event.getY())*(y2-y1)/h + y1;
+
+        float tempX = CoordersHelper.toGLX(x);
+        float tempY = CoordersHelper.toGLY(y);
+
+        geometry.setPosition(tempX, tempY, -1.0f);
         viewList.add(geometry);
     }
 
@@ -71,7 +84,6 @@ public class GLES2Renderer implements IRenderer {
 //    GL_SRC_ALPHA_SATURATE	(i, i, i)	1
     @Override
     public void drawFrame() {
-        MatrixState.setLookAtM(0, 0, 5f, 0, 0, 0, 0, 1f, 0);
         MatrixState.multiplyMM(0, 0, 0);
 
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
