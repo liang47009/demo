@@ -13,8 +13,7 @@ import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 
 public class Triangle implements IGeometry {
-    private float triangleCoords[] = {
-            0.5f, 0.5f, 0.0f, // top
+    private float triangleCoords[] = {0.5f, 0.5f, 0.0f, // top
             -0.5f, -0.5f, 0.0f, // bottom left
             0.5f, -0.5f, 0.0f  // bottom right
     };
@@ -25,6 +24,8 @@ public class Triangle implements IGeometry {
     private FloatBuffer mSquareCoordsBuffer;
 
     private float[] mTransformMatrix = new float[16];
+
+    private float[] scratch = new float[16];
 
     private int mMatrixHandle = -1;
     private int mPositionHandle = -1;
@@ -48,24 +49,24 @@ public class Triangle implements IGeometry {
         return true;
     }
 
-    private float angle = 0.1f;
+    private float mAngle = 0.1f;
 
     @Override
     public void draw() {
-        if (angle > 360) {
-            angle = 0.1f;
+        if (mAngle > 360) {
+            mAngle = 0.1f;
         } else {
-            angle += 0.1f;
+            mAngle += 0.1f;
         }
 
-        Matrix.rotateM(mTransformMatrix, 0, angle, 0, 0, 0);
+        Matrix.setRotateM(mTransformMatrix, 0, mAngle, 0, 0, -1.0f);
 
-        float[] mvpMatrix = MatrixState.getMvpMatrix();
+        Matrix.multiplyMM(scratch, 0, MatrixState.getMvpMatrix(), 0, mTransformMatrix, 0);
 
         GLES20.glVertexAttribPointer(mPositionHandle, COORDS_PER_VERTEX, GLES20.GL_FLOAT, false, 0, mSquareCoordsBuffer);
         GLES20.glEnableVertexAttribArray(mPositionHandle);
 
-        GLES20.glUniformMatrix4fv(mMatrixHandle, 1, false, mvpMatrix, 0);
+        GLES20.glUniformMatrix4fv(mMatrixHandle, 1, false, scratch, 0);
         //设置绘制三角形的颜色
         GLES20.glUniform4fv(mColorHandle, 1, color, 0);
         //绘制三角形

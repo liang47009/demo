@@ -87,8 +87,8 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'com.android.support:appcompat-v7:25.3.0'
-    implementation 'com.android.support:design:25.3.0'
+    implementation 'com.android.support:appcompat-v7:25.0.1'
+    implementation 'com.android.support:design:25.0.1'
     implementation 'com.squareup.okhttp3:okhttp:3.8.1'
     implementation 'org.apache.httpcomponents:httpcore:4.2.5'
     testImplementation 'junit:junit:4.12'
