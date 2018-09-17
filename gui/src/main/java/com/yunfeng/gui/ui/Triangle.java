@@ -57,7 +57,7 @@ public class Triangle extends View {
             mAngle += 0.1f;
         }
 
-        Matrix.setRotateM(mTransformMatrix, 0, mAngle, 0, 0, -1.0f);
+        Matrix.setRotateM(mTransformMatrix, 0, mAngle, mPosition.getX(), mPosition.getY(), mPosition.getZ());
 
         Matrix.multiplyMM(scratch, 0, MatrixState.getMvpMatrix(), 0, mTransformMatrix, 0);
 
@@ -81,5 +81,13 @@ public class Triangle extends View {
     @Override
     public void sizeChanged(int width, int height) {
 
+    }
+
+    @Override
+    public void setPosition(float x, float y, float z) {
+        this.mPosition.set(x, y, z);
+        mSquareCoordsBuffer.put(0, x);
+        mSquareCoordsBuffer.put(1, y);
+        mSquareCoordsBuffer.put(2, z);
     }
 }

@@ -3,6 +3,7 @@ package com.yunfeng.gui.ui;
 import android.util.Log;
 
 import com.yunfeng.gui.render.IProgramId;
+import com.yunfeng.gui.render.Position;
 
 /**
  * view base
@@ -13,6 +14,8 @@ public abstract class View implements IGeometry {
     protected float[] scratch = new float[16];
 
     protected IProgramId shaderProgram;
+
+    protected Position mPosition = new Position(0.0f, 0.0f, 0.0f);
 
     @Override
     public void draw() {

@@ -2,8 +2,10 @@ package com.yunfeng.gui;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.widget.LinearLayout;
 
+import com.yunfeng.gui.ui.Triangle;
 import com.yunfeng.gui.view.MyGLSurfaceView;
 
 /**
@@ -11,6 +13,7 @@ import com.yunfeng.gui.view.MyGLSurfaceView;
  * Created by xll on 2018/9/11.
  */
 public class GuiMainActivity extends Activity {
+    private MyGLSurfaceView view;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,10 +24,19 @@ public class GuiMainActivity extends Activity {
         final LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
         layout.setLayoutParams(params);
 
-        MyGLSurfaceView view = new MyGLSurfaceView(this);
+        view = new MyGLSurfaceView(this);
 
         layout.addView(view);
         setContentView(layout);
     }
 
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_UP:
+                view.addView(new Triangle(), event.getX(), event.getY());
+                break;
+        }
+        return super.onTouchEvent(event);
+    }
 }

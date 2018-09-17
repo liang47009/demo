@@ -75,5 +75,10 @@ public class Square extends View {
 
     }
 
+    @Override
+    public void setPosition(float x, float y, float z) {
+
+    }
+
 }
 

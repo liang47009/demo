@@ -5,6 +5,7 @@ import android.opengl.GLSurfaceView;
 
 import com.yunfeng.gui.render.GLES2Renderer;
 import com.yunfeng.gui.render.IRenderer;
+import com.yunfeng.gui.ui.IGeometry;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -39,4 +40,14 @@ public class MyGLSurfaceView extends GLSurfaceView implements GLSurfaceView.Rend
     public void onDrawFrame(GL10 gl) {
         mRenderer.drawFrame();
     }
+
+    public void addView(final IGeometry geometry, final float x, final float y) {
+        this.queueEvent(new Runnable() {
+            @Override
+            public void run() {
+                mRenderer.addView(geometry, x / 1000, y / 1000);
+            }
+        });
+    }
+
 }

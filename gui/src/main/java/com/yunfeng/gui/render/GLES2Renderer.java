@@ -7,10 +7,15 @@ import com.yunfeng.gui.ui.IGeometry;
 import com.yunfeng.gui.ui.Square;
 import com.yunfeng.gui.ui.Triangle;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class GLES2Renderer implements IRenderer {
     private Context mContext;
-    private IGeometry mSquare;
-    private IGeometry mTriangle;
+//    private IGeometry mSquare;
+//    private IGeometry mTriangle;
+
+    private List<IGeometry> viewList = new ArrayList<>(16);
 
     public GLES2Renderer(Context context) {
         this.mContext = context;
@@ -18,11 +23,12 @@ public class GLES2Renderer implements IRenderer {
 
     @Override
     public boolean init() {
-        mSquare = new Square();
-        mSquare.init(mContext);
+//        mSquare = new Square();
+//        mTriangle = new Triangle();
+//        for (IGeometry geometry : viewList) {
+//            geometry.init(mContext);
+//        }
 
-        mTriangle = new Triangle();
-        mTriangle.init(mContext);
         return true;
     }
 
@@ -33,8 +39,18 @@ public class GLES2Renderer implements IRenderer {
 
         MatrixState.frustumM(-ratio, ratio, -1f, 1f, 3f, 7f);
 
-        mSquare.sizeChanged(width, height);
-        mTriangle.sizeChanged(width, height);
+        for (IGeometry geometry : viewList) {
+            geometry.sizeChanged(width, height);
+        }
+
+//        mSquare.sizeChanged(width, height);
+//        mTriangle.sizeChanged(width, height);
+    }
+
+    public void addView(IGeometry geometry, float x, float y) {
+        geometry.init(mContext);
+        geometry.setPosition(x, y, -1.0f);
+        viewList.add(geometry);
     }
 
     //    Parameter	RGB Factor	Alpha Factor
@@ -64,8 +80,12 @@ public class GLES2Renderer implements IRenderer {
         GLES20.glEnable(GLES20.GL_BLEND);
         GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
 
-        mSquare.draw();
-        mTriangle.draw();
+        for (IGeometry geometry : viewList) {
+            geometry.draw();
+        }
+
+//        mSquare.draw();
+//        mTriangle.draw();
 
         GLES20.glDisable(GLES20.GL_BLEND);
         GLES20.glDisable(GLES20.GL_DEPTH_TEST);
