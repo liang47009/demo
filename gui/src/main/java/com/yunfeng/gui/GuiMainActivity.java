@@ -10,7 +10,7 @@ import com.yunfeng.gui.view.MyGLSurfaceView;
  * main
  * Created by xll on 2018/9/11.
  */
-public class MainActivity extends Activity {
+public class GuiMainActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
