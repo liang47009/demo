@@ -16,17 +16,17 @@ public class TriangleProgramId implements IProgramId {
     private static final String TEXTURE_VERTEXT_NAME = "aTextureCoords";
 
     private Map<String, Integer> handlers = new HashMap<>(16);
+    private int program = -1;
 
     public void init(Context context) {
         String mVertexShader = FileHelper.readShaderFromStream(context, "shaders/triangle.vert");
         String mfragmentShader = FileHelper.readShaderFromStream(context, "shaders/triangle.frag");
         int vertexShader = ShaderHelper.loadShader(GLES20.GL_VERTEX_SHADER, mVertexShader);
         int fragmentShader = ShaderHelper.loadShader(GLES20.GL_FRAGMENT_SHADER, mfragmentShader);
-        int program = GLES20.glCreateProgram();
+        program = GLES20.glCreateProgram();
         GLES20.glAttachShader(program, vertexShader);
         GLES20.glAttachShader(program, fragmentShader);
         GLES20.glLinkProgram(program);
-        GLES20.glUseProgram(program);
 
         int mPositionHandle = GLES20.glGetAttribLocation(program, POSITION_NAME);
         int mColorHandle = GLES20.glGetUniformLocation(program, COLOR_NAME);
@@ -43,6 +43,16 @@ public class TriangleProgramId implements IProgramId {
     @Override
     public int get(String key) {
         return handlers.get(key);
+    }
+
+    @Override
+    public void start() {
+        GLES20.glUseProgram(program);
+    }
+
+    @Override
+    public void end() {
+        GLES20.glDeleteProgram(program);
     }
 
 }

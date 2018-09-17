@@ -12,4 +12,8 @@ public interface IProgramId {
     void init(Context context);
 
     int get(String key);
+
+    void start();
+
+    void end();
 }

@@ -2,7 +2,6 @@ package com.yunfeng.gui.ui;
 
 import android.content.Context;
 import android.opengl.GLES20;
-import android.opengl.Matrix;
 
 import com.yunfeng.gui.helper.TextureHelper;
 import com.yunfeng.gui.render.IProgramId;
@@ -13,7 +12,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 
-public class Square implements IGeometry {
+public class Square extends View {
     private Context mContext;
 
     // 正方形的顶点坐标
@@ -26,8 +25,6 @@ public class Square implements IGeometry {
 
     private FloatBuffer mSquareCoordsBuffer;
     private FloatBuffer mTextureCoordsBuffer;
-
-    private float[] mTransformMatrix = new float[16];
 
     private int mMatrixHandle = -1;
     private int mPositionHandle = -1;
@@ -43,13 +40,10 @@ public class Square implements IGeometry {
         mTextureCoordsBuffer = ByteBuffer.allocateDirect(TEXTURE_COORDS.length * 4).order(ByteOrder.nativeOrder()).asFloatBuffer();
         mTextureCoordsBuffer.put(TEXTURE_COORDS).position(0);
 
-        IProgramId shaderProgram = new SquareProgramId();
+        shaderProgram = new SquareProgramId();
         shaderProgram.init(context);
 
         TextureHelper.loadTexture(context, "andy", "drawable");
-
-        Matrix.setIdentityM(mTransformMatrix, 0);
-        Matrix.rotateM(mTransformMatrix, 0, 90, 0, 0, 1.0f);
 
         mPositionHandle = shaderProgram.get(IProgramId.POSITION);
         mMatrixHandle = shaderProgram.get(IProgramId.MATRIX);
@@ -59,12 +53,11 @@ public class Square implements IGeometry {
     }
 
     @Override
-    public void draw() {
-
+    protected void drawFrame() {
         GLES20.glVertexAttribPointer(mPositionHandle, COORDS_PER_VERTEX, GLES20.GL_FLOAT, false, 0, mSquareCoordsBuffer);
         GLES20.glEnableVertexAttribArray(mPositionHandle);
+
         float[] mvpMatrix = MatrixState.getMvpMatrix();
-        Matrix.multiplyMM(mvpMatrix, 0, mvpMatrix, 0, mTransformMatrix, 0);
 
         GLES20.glUniformMatrix4fv(mMatrixHandle, 1, false, mvpMatrix, 0);
 

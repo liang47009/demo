@@ -6,26 +6,22 @@ import android.opengl.Matrix;
 
 import com.yunfeng.gui.render.IProgramId;
 import com.yunfeng.gui.render.MatrixState;
-import com.yunfeng.gui.render.SquareProgramId;
+import com.yunfeng.gui.render.TriangleProgramId;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 
-public class Triangle implements IGeometry {
-    private float triangleCoords[] = {0.5f, 0.5f, 0.0f, // top
-            -0.5f, -0.5f, 0.0f, // bottom left
-            0.5f, -0.5f, 0.0f  // bottom right
+public class Triangle extends View {
+    private float triangleCoords[] = {0.5f, 0.5f, 0.0f, 1.0f,// top
+            -0.5f, -0.5f, 0.0f, 1.0f,// bottom left
+            0.5f, -0.5f, 0.0f, 1.0f // bottom right
     };
     private float color[] = {1.0f, 1.0f, 1.0f, 1.0f}; //白色
 
-    private static final int COORDS_PER_VERTEX = 2;
+    private static final int COORDS_PER_VERTEX = 4;
 
     private FloatBuffer mSquareCoordsBuffer;
-
-    private float[] mTransformMatrix = new float[16];
-
-    private float[] scratch = new float[16];
 
     private int mMatrixHandle = -1;
     private int mPositionHandle = -1;
@@ -36,11 +32,8 @@ public class Triangle implements IGeometry {
         mSquareCoordsBuffer = ByteBuffer.allocateDirect(triangleCoords.length * 4).order(ByteOrder.nativeOrder()).asFloatBuffer();
         mSquareCoordsBuffer.put(triangleCoords).position(0);
 
-        IProgramId shaderProgram = new SquareProgramId();
+        shaderProgram = new TriangleProgramId();
         shaderProgram.init(context);
-
-        Matrix.setIdentityM(mTransformMatrix, 0);
-        Matrix.rotateM(mTransformMatrix, 0, 90, 0, 0, 1.0f);
 
         mPositionHandle = shaderProgram.get(IProgramId.POSITION);
         mMatrixHandle = shaderProgram.get(IProgramId.MATRIX);
@@ -52,7 +45,7 @@ public class Triangle implements IGeometry {
     private float mAngle = 0.1f;
 
     @Override
-    public void draw() {
+    protected void drawFrame() {
         if (mAngle > 360) {
             mAngle = 0.1f;
         } else {

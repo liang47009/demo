@@ -17,12 +17,14 @@ public class SquareProgramId implements IProgramId {
 
     private Map<String, Integer> handlers = new HashMap<>(16);
 
+    private int program = -1;
+
     public void init(Context context) {
         String mVertexShader = FileHelper.readShaderFromStream(context, "shaders/square.vert");
         String mfragmentShader = FileHelper.readShaderFromStream(context, "shaders/square.frag");
         int vertexShader = ShaderHelper.loadShader(GLES20.GL_VERTEX_SHADER, mVertexShader);
         int fragmentShader = ShaderHelper.loadShader(GLES20.GL_FRAGMENT_SHADER, mfragmentShader);
-        int program = GLES20.glCreateProgram();
+        program = GLES20.glCreateProgram();
         GLES20.glAttachShader(program, vertexShader);
         GLES20.glAttachShader(program, fragmentShader);
         GLES20.glLinkProgram(program);
@@ -43,6 +45,16 @@ public class SquareProgramId implements IProgramId {
     @Override
     public int get(String key) {
         return handlers.get(key);
+    }
+
+    @Override
+    public void start() {
+        GLES20.glUseProgram(program);
+    }
+
+    @Override
+    public void end() {
+        GLES20.glDeleteProgram(program);
     }
 
 }
