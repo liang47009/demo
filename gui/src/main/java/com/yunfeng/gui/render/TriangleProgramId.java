@@ -29,8 +29,8 @@ public class TriangleProgramId implements IProgramId {
         GLES20.glLinkProgram(program);
 
         int mPositionHandle = GLES20.glGetAttribLocation(program, POSITION_NAME);
-//        int mColorHandle = GLES20.glGetUniformLocation(program, COLOR_NAME);
         int mColorHandle = GLES20.glGetAttribLocation(program, COLOR_NAME);
+//        int mColorHandle = GLES20.glGetUniformLocation(program, COLOR_NAME);
         int mMatrixHandle = GLES20.glGetUniformLocation(program, MVP_MATRIX_NAME);
         int mTextureVertextHandle = GLES20.glGetAttribLocation(program, TEXTURE_VERTEXT_NAME);
 
@@ -54,6 +54,11 @@ public class TriangleProgramId implements IProgramId {
     @Override
     public void end() {
         GLES20.glDeleteProgram(program);
+    }
+
+    @Override
+    public int getType() {
+        return 0;
     }
 
 }

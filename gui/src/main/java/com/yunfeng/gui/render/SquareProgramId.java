@@ -57,4 +57,9 @@ public class SquareProgramId implements IProgramId {
         GLES20.glDeleteProgram(program);
     }
 
+    @Override
+    public int getType() {
+        return 0;
+    }
+
 }

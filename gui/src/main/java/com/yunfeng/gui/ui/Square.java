@@ -6,11 +6,17 @@ import android.opengl.GLES20;
 import com.yunfeng.gui.helper.TextureHelper;
 import com.yunfeng.gui.render.IProgramId;
 import com.yunfeng.gui.render.MatrixState;
+import com.yunfeng.gui.render.ProgramIdManager;
 import com.yunfeng.gui.render.SquareProgramId;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Square extends View {
     private Context mContext;
@@ -40,7 +46,7 @@ public class Square extends View {
         mTextureCoordsBuffer = ByteBuffer.allocateDirect(TEXTURE_COORDS.length * 4).order(ByteOrder.nativeOrder()).asFloatBuffer();
         mTextureCoordsBuffer.put(TEXTURE_COORDS).position(0);
 
-        shaderProgram = new SquareProgramId();
+        shaderProgram =  ProgramIdManager.getInstance().getProgrameId(ProgramIdManager.SQUARE_PROGRAM);
         shaderProgram.init(context);
 
         TextureHelper.loadTexture(context, "andy", "drawable");
@@ -54,12 +60,12 @@ public class Square extends View {
 
     @Override
     protected void drawFrame() {
-        GLES20.glVertexAttribPointer(mPositionHandle, COORDS_PER_VERTEX, GLES20.GL_FLOAT, false, 0, mSquareCoordsBuffer);
-        GLES20.glEnableVertexAttribArray(mPositionHandle);
-
         float[] mvpMatrix = MatrixState.getMvpMatrix();
 
         GLES20.glUniformMatrix4fv(mMatrixHandle, 1, false, mvpMatrix, 0);
+
+        GLES20.glVertexAttribPointer(mPositionHandle, COORDS_PER_VERTEX, GLES20.GL_FLOAT, false, 0, mSquareCoordsBuffer);
+        GLES20.glEnableVertexAttribArray(mPositionHandle);
 
         GLES20.glVertexAttribPointer(mTextureVertextHandle, COORDS_PER_VERTEX, GLES20.GL_FLOAT, false, 0, mTextureCoordsBuffer);
         GLES20.glEnableVertexAttribArray(mTextureVertextHandle);
@@ -72,7 +78,19 @@ public class Square extends View {
 
     @Override
     public void sizeChanged(int width, int height) {
-
+        ExecutorService es = Executors.newCachedThreadPool();
+        List list =new ArrayList();
+        list.add(new Callable<Void>() {
+            @Override
+            public Void call() throws Exception {
+                return null;
+            }
+        });
+        try {
+            es.invokeAll(list);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

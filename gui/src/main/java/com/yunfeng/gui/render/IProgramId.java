@@ -16,4 +16,6 @@ public interface IProgramId {
     void start();
 
     void end();
+
+    int getType();
 }

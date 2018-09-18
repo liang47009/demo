@@ -6,7 +6,7 @@ import android.opengl.Matrix;
 
 import com.yunfeng.gui.render.IProgramId;
 import com.yunfeng.gui.render.MatrixState;
-import com.yunfeng.gui.render.TriangleProgramId;
+import com.yunfeng.gui.render.ProgramIdManager;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -37,7 +37,7 @@ public class Triangle extends View {
         mColorBuffer = ByteBuffer.allocateDirect(color.length * 4).order(ByteOrder.nativeOrder()).asFloatBuffer();
         mColorBuffer.put(color).position(0);
 
-        shaderProgram = new TriangleProgramId();
+        shaderProgram = ProgramIdManager.getInstance().getProgrameId(ProgramIdManager.TRIANGLE_PROGRAM);
         shaderProgram.init(context);
 
         mPositionHandle = shaderProgram.get(IProgramId.POSITION);
@@ -57,16 +57,16 @@ public class Triangle extends View {
             mAngle += 0.1f;
         }
 
-        Matrix.setRotateM(mTransformMatrix, 0, mAngle, 0, 0, -0.1f);
-
+        Matrix.setRotateM(mTransformMatrix, 0, mAngle, -0.1f, -0.1f, -0.1f);
+        Matrix.translateM(mTransformMatrix, 0, 0, 3, 0);
         Matrix.multiplyMM(scratch, 0, MatrixState.getMvpMatrix(), 0, mTransformMatrix, 0);
 
         GLES20.glEnableVertexAttribArray(mPositionHandle);
-        GLES20.glVertexAttribPointer(mPositionHandle, COORDS_PER_VERTEX, GLES20.GL_FLOAT, false, 0, mSquareCoordsBuffer);
+        GLES20.glVertexAttribPointer(mPositionHandle, 3, GLES20.GL_FLOAT, false, 16, mSquareCoordsBuffer);
 
         //设置绘制三角形的颜色
         GLES20.glEnableVertexAttribArray(mColorHandle);
-        GLES20.glVertexAttribPointer(mColorHandle, COORDS_PER_VERTEX, GLES20.GL_FLOAT, false, 0, mColorBuffer);
+        GLES20.glVertexAttribPointer(mColorHandle, 3, GLES20.GL_FLOAT, false, 16, mColorBuffer);
 
         GLES20.glUniformMatrix4fv(mMatrixHandle, 1, false, scratch, 0);
         //设置绘制三角形的颜色
@@ -85,9 +85,9 @@ public class Triangle extends View {
 
     @Override
     public void setPosition(float x, float y, float z) {
-        this.mPosition.set(x, y, z);
-        mSquareCoordsBuffer.put(0, x);
-        mSquareCoordsBuffer.put(1, y);
-        mSquareCoordsBuffer.put(2, z);
+//        this.mPosition.set(x, y, z);
+//        mSquareCoordsBuffer.put(0, x);
+//        mSquareCoordsBuffer.put(1, y);
+//        mSquareCoordsBuffer.put(2, z);
     }
 }

@@ -4,9 +4,8 @@ import android.content.Context;
 import android.opengl.GLES20;
 
 import com.yunfeng.gui.helper.CoordersHelper;
+import com.yunfeng.gui.ui.ColorCube;
 import com.yunfeng.gui.ui.IGeometry;
-import com.yunfeng.gui.ui.Square;
-import com.yunfeng.gui.ui.Triangle;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,8 +28,11 @@ public class GLES2Renderer implements IRenderer {
 //        for (IGeometry geometry : viewList) {
 //            geometry.init(mContext);
 //        }
-        MatrixState.setLookAtM(0, 0, 5f, 0, 0, 0, 0, 1f, 0);
-
+//        MatrixState.setLookAtM(0, 0, 5f, 0, 0, 0, 0, 1f, 0);
+        //打开背面剪裁
+        GLES20.glEnable(GLES20.GL_CULL_FACE);
+        ColorCube cube = new ColorCube();
+        addView(cube, 100, 100);
         return true;
     }
 
@@ -44,7 +46,12 @@ public class GLES2Renderer implements IRenderer {
         // 计算长和宽的比例，由于在OpenGLes坐标系里最大是1，具体的算法是:
         // x / width = 1 / height;
         // 所以 x = width /height;
-        MatrixState.frustumM(-ratio, ratio, -1f, 1f, 3f, 7f);
+//        MatrixState.frustumM(-ratio, ratio, -1f, 1f, 3f, 7f);
+        //设置透视投影
+        MatrixState.frustumM(-ratio, ratio, -1, 1, 3, 20);
+        //设置相机位置
+        MatrixState.setLookAtM(5.0f, 5.0f, 10.0f, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
+        MatrixState.multiplyMM(0, 0, 0);
 
         for (IGeometry geometry : viewList) {
             geometry.sizeChanged(width, height);
@@ -84,8 +91,8 @@ public class GLES2Renderer implements IRenderer {
 //    GL_SRC_ALPHA_SATURATE	(i, i, i)	1
     @Override
     public void drawFrame() {
-        MatrixState.multiplyMM(0, 0, 0);
-
+        // 开启深度测试
+        GLES20.glEnable(GLES20.GL_DEPTH_TEST);
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
         GLES20.glClearColor(0.3f, 0.3f, 0.3f, 0.3f);
 
@@ -95,9 +102,6 @@ public class GLES2Renderer implements IRenderer {
         for (IGeometry geometry : viewList) {
             geometry.draw();
         }
-
-//        mSquare.draw();
-//        mTriangle.draw();
 
         GLES20.glDisable(GLES20.GL_BLEND);
         GLES20.glDisable(GLES20.GL_DEPTH_TEST);

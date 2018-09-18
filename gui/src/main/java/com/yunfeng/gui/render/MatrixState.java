@@ -38,4 +38,5 @@ public class MatrixState {
     public static void rotateM(float angle, float x, float y, float z) {
         Matrix.rotateM(mCameraMatrix, 0, angle, x, y, z);
     }
+
 }
