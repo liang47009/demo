@@ -5,6 +5,7 @@ import android.opengl.GLSurfaceView;
 
 import com.yunfeng.gui.render.GLES2Renderer;
 import com.yunfeng.gui.render.IRenderer;
+import com.yunfeng.gui.test.TestRenderer;
 import com.yunfeng.gui.ui.IGeometry;
 
 import javax.microedition.khronos.egl.EGLConfig;

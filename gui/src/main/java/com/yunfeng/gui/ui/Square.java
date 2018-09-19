@@ -7,7 +7,6 @@ import com.yunfeng.gui.helper.TextureHelper;
 import com.yunfeng.gui.render.IProgramId;
 import com.yunfeng.gui.render.MatrixState;
 import com.yunfeng.gui.render.ProgramIdManager;
-import com.yunfeng.gui.render.SquareProgramId;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -46,7 +45,7 @@ public class Square extends View {
         mTextureCoordsBuffer = ByteBuffer.allocateDirect(TEXTURE_COORDS.length * 4).order(ByteOrder.nativeOrder()).asFloatBuffer();
         mTextureCoordsBuffer.put(TEXTURE_COORDS).position(0);
 
-        shaderProgram =  ProgramIdManager.getInstance().getProgrameId(ProgramIdManager.SQUARE_PROGRAM);
+        shaderProgram = ProgramIdManager.getInstance().getProgrameId(ProgramIdManager.SQUARE_PROGRAM);
         shaderProgram.init(context);
 
         TextureHelper.loadTexture(context, "andy", "drawable");
@@ -79,7 +78,7 @@ public class Square extends View {
     @Override
     public void sizeChanged(int width, int height) {
         ExecutorService es = Executors.newCachedThreadPool();
-        List list =new ArrayList();
+        List<Callable<Void>> list = new ArrayList<>();
         list.add(new Callable<Void>() {
             @Override
             public Void call() throws Exception {

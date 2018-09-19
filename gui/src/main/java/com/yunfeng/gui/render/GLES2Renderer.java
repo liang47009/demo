@@ -12,8 +12,6 @@ import java.util.List;
 
 public class GLES2Renderer implements IRenderer {
     private Context mContext;
-//    private IGeometry mSquare;
-//    private IGeometry mTriangle;
 
     private List<IGeometry> viewList = new ArrayList<>(16);
 
@@ -23,13 +21,9 @@ public class GLES2Renderer implements IRenderer {
 
     @Override
     public boolean init() {
-//        mSquare = new Square();
-//        mTriangle = new Triangle();
-//        for (IGeometry geometry : viewList) {
-//            geometry.init(mContext);
-//        }
-//        MatrixState.setLookAtM(0, 0, 5f, 0, 0, 0, 0, 1f, 0);
-        //打开背面剪裁
+        //设置屏幕背景色RGBA
+        GLES20.glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
+//        //打开背面剪裁
         GLES20.glEnable(GLES20.GL_CULL_FACE);
         ColorCube cube = new ColorCube();
         addView(cube, 100, 100);
@@ -57,20 +51,34 @@ public class GLES2Renderer implements IRenderer {
             geometry.sizeChanged(width, height);
         }
 
-//        mSquare.sizeChanged(width, height);
-//        mTriangle.sizeChanged(width, height);
     }
 
     public void addView(IGeometry geometry, float x, float y) {
         geometry.init(mContext);
-//        x = event.getX()*(x2-x1)/w + x1;
-//        y = (h-event.getY())*(y2-y1)/h + y1;
 
         float tempX = CoordersHelper.toGLX(x);
         float tempY = CoordersHelper.toGLY(y);
 
         geometry.setPosition(tempX, tempY, -1.0f);
         viewList.add(geometry);
+    }
+
+    @Override
+    public void drawFrame() {
+        // 开启深度测试
+        GLES20.glEnable(GLES20.GL_DEPTH_TEST);
+        GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
+        GLES20.glClearColor(0.3f, 0.3f, 0.3f, 0.3f);
+
+//        GLES20.glEnable(GLES20.GL_BLEND);
+//        GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
+
+        for (IGeometry geometry : viewList) {
+            geometry.draw();
+        }
+
+//        GLES20.glDisable(GLES20.GL_BLEND);
+        GLES20.glDisable(GLES20.GL_DEPTH_TEST);
     }
 
     //    Parameter	RGB Factor	Alpha Factor
@@ -89,22 +97,4 @@ public class GLES2Renderer implements IRenderer {
 //    GL_CONSTANT_ALPHA	(Ac, Ac, Ac)	Ac
 //    GL_ONE_MINUS_CONSTANT_ALPHA	(1, 1, 1) - (Ac, Ac, Ac)	1 - Ac
 //    GL_SRC_ALPHA_SATURATE	(i, i, i)	1
-    @Override
-    public void drawFrame() {
-        // 开启深度测试
-        GLES20.glEnable(GLES20.GL_DEPTH_TEST);
-        GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
-        GLES20.glClearColor(0.3f, 0.3f, 0.3f, 0.3f);
-
-        GLES20.glEnable(GLES20.GL_BLEND);
-        GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
-
-        for (IGeometry geometry : viewList) {
-            geometry.draw();
-        }
-
-        GLES20.glDisable(GLES20.GL_BLEND);
-        GLES20.glDisable(GLES20.GL_DEPTH_TEST);
-    }
-
 }
