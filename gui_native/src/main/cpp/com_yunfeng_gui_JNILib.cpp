@@ -2,6 +2,7 @@
 //#include <android/ndk-version.h>
 #include "com_yunfeng_gui_JNILib.h"
 #include "renderer/Renderer.h"
+#include "renderer/VulkanRenderer.h"
 #include "renderer/utils.h"
 
 #ifdef __cplusplus
@@ -20,17 +21,17 @@ JNIEXPORT void JNI_OnUnload(JavaVM *, void *) {
 JNIEXPORT void JNICALL Java_com_yunfeng_guinative_JNILib_nativeOnSurfaceCreated
         (JNIEnv *env, jclass, jobject assetManager) {
     AAssetManager *aAssetManager = AAssetManager_fromJava(env, assetManager);
-    Renderer::getInstance()->init(aAssetManager);
+    VulkanRenderer::getInstance()->init(aAssetManager);
 }
 
 JNIEXPORT void JNICALL Java_com_yunfeng_guinative_JNILib_nativeOnSurfaceChanged
         (JNIEnv *, jclass, jint width, jint height) {
-    Renderer::getInstance()->onChanged(width, height);
+    VulkanRenderer::getInstance()->onChanged(width, height);
 }
 
 JNIEXPORT void JNICALL Java_com_yunfeng_guinative_JNILib_nativeOnDrawFrame
         (JNIEnv *, jclass) {
-    Renderer::getInstance()->onDrawFrame();
+    VulkanRenderer::getInstance()->onDrawFrame();
 }
 
 #ifdef __cplusplus
