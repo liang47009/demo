@@ -6,6 +6,7 @@ import java.nio.FloatBuffer;
 
 import android.content.Context;
 import android.opengl.GLES20;
+import android.opengl.Matrix;
 
 import com.yunfeng.gui.helper.TextureHelper;
 import com.yunfeng.gui.render.IProgramId;
@@ -114,10 +115,21 @@ public class ColorCube extends View {
 
 //    private int textureId = -1;
 
+    private float mAngle = 0.1f;
+
     @Override
     public void drawFrame() {
-        float[] mvpMatrix = MatrixState.getMvpMatrix();
-        GLES20.glUniformMatrix4fv(mMatrixHandle, 1, false, mvpMatrix, 0);
+
+        if (mAngle > 360) {
+            mAngle = 0.1f;
+        } else {
+            mAngle += 0.1f;
+        }
+        Matrix.translateM(mTransformMatrix, 0, 2, 3, 0);
+
+        Matrix.setRotateM(mTransformMatrix, 0, mAngle, -0.1f, -0.1f, -0.1f);
+        Matrix.multiplyMM(scratch, 0, MatrixState.getMvpMatrix(), 0, mTransformMatrix, 0);
+        GLES20.glUniformMatrix4fv(mMatrixHandle, 1, false, scratch, 0);
 
         //---------传入顶点数据数据
         GLES20.glEnableVertexAttribArray(mPositionHandle);
@@ -140,7 +152,7 @@ public class ColorCube extends View {
 
     @Override
     public void setPosition(float x, float y, float z) {
-
+        Matrix.translateM(mTransformMatrix, 0, x, y, z);
     }
 
 }

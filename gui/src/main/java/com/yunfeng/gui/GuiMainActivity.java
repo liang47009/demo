@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.widget.LinearLayout;
 
+import com.yunfeng.gui.ui.ColorCube;
 import com.yunfeng.gui.ui.Triangle;
 import com.yunfeng.gui.view.MyGLSurfaceView;
 
@@ -34,7 +35,7 @@ public class GuiMainActivity extends Activity {
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_UP:
-                view.addView(new Triangle(), event.getX(), event.getY());
+                view.addView(new ColorCube(), event.getX(), event.getY());
                 break;
         }
         return super.onTouchEvent(event);
