@@ -7,8 +7,9 @@
 #include "ProgrameId.h"
 #include "Triangle.h"
 #include "Square.h"
+#include "IRenderer.h"
 
-class Renderer : public Singleton<Renderer> {
+class Renderer : public Singleton<Renderer>, IRenderer {
 public:
     Renderer();
 
