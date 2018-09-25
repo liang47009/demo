@@ -87,13 +87,28 @@
         <activity
             android:name="com.yunfeng.gui.GuiMainActivity"
             android:configChanges="orientation|keyboardHidden|navigation|keyboard|screenSize">
+
+        </activity>
+        <activity
+            android:name="com.yunfeng.guinative.GuiNativeMainActivity"
+            android:exported="true"></activity>
+        <activity
+            android:name="com.yunfeng.mvp.MainActivity"
+            android:exported="true">
+
+        </activity>
+        <activity
+            android:name="com.yunfeng.mvc.BookActivity"
+            android:exported="true"></activity>
+        <activity
+            android:name="com.yunfeng.mvvm.MainActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.yunfeng.guinative.GuiNativeMainActivity"></activity>
         <!-- <service android:name="com.amap.api.location.APSService"></service>-->
         <!--<meta-data
             android:name="com.amap.api.v2.apikey"

@@ -1,11 +1,11 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 25
+    compileSdkVersion 26
     defaultConfig {
         applicationId "com.yunfeng.demo"
-        minSdkVersion 14
-        targetSdkVersion 19
+        minSdkVersion 17
+        targetSdkVersion 26
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -39,6 +39,9 @@ android {
 //            storePassword 'xxxxxxxx'
 //        }
 //    }
+    dataBinding {
+        enabled = true
+    }
     buildTypes {
         debug {
             debuggable true
@@ -87,9 +90,10 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'com.android.support:appcompat-v7:25.0.1'
-    implementation 'com.android.support:design:25.0.1'
-    implementation 'com.android.support:support-annotations:25.0.1'
+    implementation 'com.android.support:support-annotations:26.1.0'
+    implementation 'com.android.support:appcompat-v7:26.1.0'
+    implementation 'com.android.support:design:26.1.0'
+    implementation 'com.android.support:design:26.1.0'
     implementation 'com.squareup.okhttp3:okhttp:3.8.1'
     implementation 'org.apache.httpcomponents:httpcore:4.2.5'
     testImplementation('junit:junit:4.12', {
@@ -107,6 +111,11 @@ dependencies {
     implementation 'xiaofei.library:hermes:0.7.0'
     implementation 'com.google.dexmaker:dexmaker:1.2'
     implementation 'cglib:cglib:3.2.5'
+    //mvvm start
+    implementation 'io.reactivex.rxjava2:rxjava:2.1.5'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    //mvvm end
+
 //    implementation project(':gui')
-    implementation project(':gui_native')
+//    implementation project(':gui_native')
 }
