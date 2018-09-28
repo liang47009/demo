@@ -2,15 +2,12 @@ package com.yunfeng.mvvm;
 
 import android.app.Activity;
 import android.databinding.DataBindingUtil;
-import android.databinding.ObservableArrayList;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.widget.LinearLayoutManager;
 
 import com.yunfeng.demo.R;
 import com.yunfeng.demo.databinding.ActivityMvvmBinding;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * mvvm
@@ -18,24 +15,14 @@ import java.util.List;
  */
 public class MainActivity extends Activity {
 
-    private ActivityMvvmBinding binding;
-    private ObservableListAdapter<Student> adapter;
-    private List<Student> students = new ObservableArrayList<>();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_mvvm);
-        adapter = new ObservableListAdapter<>(this, students, R.layout.mvvm_adapter, 0, R.id.mvvm_tv);
-        binding.listItem.setAdapter(adapter);
+        ActivityMvvmBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_mvvm);
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                students.add(new Student(1, "sadf"));
-                students.add(new Student(2, "sadf"));
-            }
-        }, 5000);
+        binding.recyclerView.setHasFixedSize(true);
+        binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        binding.recyclerView.setAdapter(new StudentAdapter());
     }
 
 
