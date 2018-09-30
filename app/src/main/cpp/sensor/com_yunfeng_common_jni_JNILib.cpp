@@ -1,7 +1,7 @@
 #include "com_yunfeng_common_jni_JNILib.h"
 
 #include <android/asset_manager_jni.h>
-#include <sensor/Sensor.h>
+#include "sensor/Sensor.h"
 #include <dlfcn.h>
 
 Sensor *sensor;

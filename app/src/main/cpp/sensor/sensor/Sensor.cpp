@@ -1,7 +1,7 @@
 
 #include "Sensor.h"
 
-#include <utils/CHelper.h>
+#include "../utils/CHelper.h"
 
 extern Sensor *sensor;
 
