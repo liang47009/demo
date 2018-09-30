@@ -18,11 +18,13 @@ public:
 
     bool init(AAssetManager *pManager);
 
-    void draw(Mat4 &mat4);
+    void draw();
+
+    void changed(int width, int height);
 
 private:
     int _textureId;
-    PROGRAM_P3_TEX _shader;
+    PROGRAM_Tr_U1 _shader;
 
     Mat4 mTransformMatrix;
 

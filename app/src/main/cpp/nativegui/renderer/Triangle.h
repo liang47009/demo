@@ -17,19 +17,14 @@ public:
 
     bool init(AAssetManager *pManager);
 
-    void draw(Mat4 &mat_model_);
+    void draw();
 
     void changed(int width, int height);
 
 private:
     PROGRAM_Tr_U1 _shader;
     int _textureId;
-    Mat4 mProjectionMatrix;
-    Mat4 mViewMatrix;
-    Mat4 mRotationMatrix;
-
     float mAngle;
-
 };
 
 

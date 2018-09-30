@@ -217,14 +217,12 @@ public:
     */
     virtual void begin() {
         glUseProgram(_programId);
-        glEnableVertexAttribArray(_position);
     }
 
     /**
     *   使用完成
     */
     virtual void end() {
-        glDisableVertexAttribArray(_position);
         glUseProgram(0);
     }
 };
@@ -592,7 +590,6 @@ public:
     */
     virtual void begin() {
         glUseProgram(_programId);
-
     }
 
     /**

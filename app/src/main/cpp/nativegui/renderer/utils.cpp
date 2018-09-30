@@ -129,12 +129,8 @@ int utils::loadTextureUseStb(AAssetManager *pManager, const char *fileName) {
     int w, h, n;
     std::vector<uint8_t> vert_data;
     ReadFile(pManager, fileName, &vert_data);
-    unsigned char *pixels = stbi_load_from_memory(vert_data.data(), vert_data.size(), &w, &h, &n, 0);
-    for (int i = 0; i < w * h * 3; i += 3) {
-        uint8_t temp = pixels[i];
-        pixels[i] = pixels[i + 2];
-        pixels[i + 2] = temp;
-    }
+    unsigned char *pixels = stbi_load_from_memory(vert_data.data(), vert_data.size(), &w, &h, &n,
+                                                  0);
     unsigned textureId = 0;
     /**
     *   产生一个纹理Id,可以认为是纹理句柄，后面的操作将书用这个纹理id
@@ -166,7 +162,7 @@ int utils::loadTextureUseStb(AAssetManager *pManager, const char *fileName) {
             GL_UNSIGNED_BYTE,   //! 数据是8bit数据
             pixels
     );
-    return 0;
+    return textureId;
 }
 
 unsigned int utils::loadTextureUseFreeImage(AAssetManager *aAssetManager, const char *fileName) {

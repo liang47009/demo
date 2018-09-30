@@ -4,6 +4,7 @@
 
 #include "Square.h"
 #include "utils.h"
+#include "MatrixStat.h"
 
 Square::Square() {
     m_square_coords = new float[8]{
@@ -26,24 +27,26 @@ Square::~Square() {
 bool Square::init(AAssetManager *pManager) {
     _shader.initialize();
     _textureId = utils::loadTextureUseStb(pManager, "models/andy.png");
-
-    Mat4::setIdentityM(mTransformMatrix.Ptr(), 0);
-    utils::rotateM(mTransformMatrix.Ptr(), 0, 90, 0, 0, 1.0f);
     return true;
 }
 
-void Square::draw(Mat4 &mvpMatrix) {
+void Square::draw() {
     _shader.begin();
 
-    glVertexAttribPointer(_shader._position, 2, GL_FLOAT, false, 0, m_square_coords);
-    Mat4::multiplyMM(mvpMatrix.Ptr(), 0, mvpMatrix.Ptr(), 0, mTransformMatrix.Ptr(), 0);
-    glUniformMatrix4fv(_shader._MVP, 1, false, mvpMatrix.Ptr());
+    glEnableVertexAttribArray(_shader._position);
+    glEnableVertexAttribArray(_shader._color);
 
-    glEnableVertexAttribArray(_shader._uv);
-    glVertexAttribPointer(_shader._uv, 2, GL_FLOAT, false, 0, m_texture_coords);
+    glActiveTexture(_textureId);
+    glVertexAttribPointer(_shader._position, 2, GL_FLOAT, false, 0, m_square_coords);
+    glVertexAttribPointer(_shader._color, 2, GL_FLOAT, false, 0, m_texture_coords);
+
     glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
     glDisableVertexAttribArray(_shader._position);
-    glDisableVertexAttribArray(_shader._uv);
+    glDisableVertexAttribArray(_shader._color);
     _shader.end();
+}
+
+void Square::changed(int width, int height) {
+
 }

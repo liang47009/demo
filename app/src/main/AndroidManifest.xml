@@ -92,18 +92,16 @@
         </activity>
         <activity
             android:name="com.yunfeng.guinative.GuiNativeMainActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name="com.yunfeng.mvp.MainActivity"
-            android:exported="true">
-
-        </activity>
+            android:exported="true" />
         <activity
             android:name="com.yunfeng.mvc.BookActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name="com.yunfeng.mvvm.MainActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name="com.yunfeng.retrofit2.MainActivity"
             android:exported="true" />

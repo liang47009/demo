@@ -1,5 +1,6 @@
 #include <GLES2/gl2.h>
 #include "Renderer.h"
+#include "MatrixStat.h"
 
 #ifdef USE_FREEIMAGE
 #include <freeiamge.h>
@@ -16,7 +17,7 @@ bool Renderer::init(AAssetManager *pManager) {
 #ifdef USE_FREEIMAGE
     FreeImage_Initialise(true);
 #endif
-//    m_square.init(pManager);
+    m_square.init(pManager);
     m_triangle.init(pManager);
 //    _shader.initialize();
     m_AAssetManager = pManager;
@@ -30,20 +31,22 @@ bool Renderer::onChanged(int width, int height) {
     // x / width = 1 / height;
     // 所以 x = width /height;
     float ratio = (float) width / height;
-    Mat4::frustumM(mat_projection_, 0, -ratio, ratio, -1, 1, 3, 7);
+    Mat4::frustumM(MatrixStat::mProjectionMatrix, 0, -ratio, ratio, -1, 1, 3, 20);
+    Mat4::setLookAtM(MatrixStat::mViewMatrix.Ptr(), 0, 5.0f, 5.0f, 10.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+                     1.0f, 0.0f);
+    Mat4::multiplyMM(MatrixStat::mModleMatrix.Ptr(), 0, MatrixStat::mProjectionMatrix.Ptr(), 0,
+                     MatrixStat::mViewMatrix.Ptr(), 0);
 
     m_triangle.changed(width, height);
+    m_square.changed(width, height);
     return true;
 }
 
 void Renderer::onDrawFrame() {
     glClearColor(0.5f, 0.5f, 0.5f, 1.f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    Mat4::setLookAtM(mat_view_.Ptr(), 0, 0, 0, 5.0f, 0, 0, 0, 0, 1.0f, 0);
-    Mat4::multiplyMM(mat_model_.Ptr(), 0, mat_projection_.Ptr(), 0, mat_view_.Ptr(), 0);
-
-//    m_square.draw(mat_model_);
-    m_triangle.draw(mat_model_);
+    m_square.draw();
+    m_triangle.draw();
 }
 
 void Renderer::update() {

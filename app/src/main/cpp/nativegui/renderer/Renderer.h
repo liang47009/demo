@@ -25,9 +25,6 @@ public:
 
 private:
     AAssetManager *m_AAssetManager;
-    Mat4 mat_projection_;
-    Mat4 mat_view_;
-    Mat4 mat_model_;
     Triangle m_triangle;
     Square m_square;
 };
