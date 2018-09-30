@@ -3,6 +3,7 @@
 #include <android/log.h>
 #include <stdlib.h>
 #include <time.h>
+#include <string.h>
 
 #define  LOGI(...) __android_log_print(ANDROID_LOG_INFO, "APP", __VA_ARGS__)
 

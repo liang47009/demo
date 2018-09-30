@@ -17,6 +17,7 @@
 #include <GLES2/gl2.h>
 #include <fstream>
 #include <iostream>
+#include <string.h>
 
 #include "JNIHelper.h"
 

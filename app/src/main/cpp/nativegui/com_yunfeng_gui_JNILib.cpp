@@ -14,7 +14,7 @@ extern "C" {
 JNIEXPORT jint JNI_OnLoad(JavaVM *env, void *) {
     LOGI("JNI_OnLoad");
 
-//    bool initd = initAndroidCrashDump("", "", "", "", "", "", "");
+    bool initd = initAndroidCrashDump("", "", "", "", "", "", "");
 //    delete env;
 //    delete env;
     return JNI_VERSION_1_6;

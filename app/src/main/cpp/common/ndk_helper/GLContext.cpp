@@ -21,6 +21,7 @@
 // includes
 //--------------------------------------------------------------------------------
 #include <unistd.h>
+#include <string.h>
 #include "GLContext.h"
 #include "gl3stub.h"
 

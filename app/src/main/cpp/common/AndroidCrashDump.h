@@ -46,9 +46,17 @@ DEFINE_PARAM(STR_proxy_userpasswd, "", "Proxy username/password in user:pass for
 
 DEFINE_PARAM(STR_PackageName, "org.cocos2dx.hellocpp",
              "Application package name, for LibcurlWrapper dlopen libcurl.so.");
+extern "C" {
+bool dumpCallback(const google_breakpad::MinidumpDescriptor &descriptor,
+                  void *context, bool succeeded);
+bool initAndroidCrashDump(const char *szPath, const char *szVersion, const char *szCrashServerPath,
+                          const char *szPhoneType, const char *szUUID, const char *szDocName,
+                          const char *szFreeMemorySize);
+}
+
 //
-static bool
-dumpCallback(const google_breakpad::MinidumpDescriptor &descriptor, void *context, bool succeeded) {
+bool dumpCallback(const google_breakpad::MinidumpDescriptor &descriptor,
+                  void *context, bool succeeded) {
     LOGD(" =============== >>>>>> Dump path: %s\n", descriptor.path());
 
     if (succeeded) {
@@ -81,10 +89,9 @@ dumpCallback(const google_breakpad::MinidumpDescriptor &descriptor, void *contex
 }
 
 //
-static bool
-initAndroidCrashDump(const char *szPath, const char *szVersion, const char *szCrashServerPath,
-                     const char *szPhoneType,
-                     const char *szUUID, const char *szDocName, const char *szFreeMemorySize) {
+bool initAndroidCrashDump(const char *szPath, const char *szVersion, const char *szCrashServerPath,
+                          const char *szPhoneType, const char *szUUID, const char *szDocName,
+                          const char *szFreeMemorySize) {
     LOGD("=============== >>>>>> szPath %s", szPath);
     STR_product_version = szVersion;
     //STR_crash_server = szCrashServerPath;

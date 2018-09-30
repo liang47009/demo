@@ -16,6 +16,7 @@
 
 #include <EGL/egl.h>
 #include <GLES2/gl2.h>
+#include <malloc.h>
 
 #include "shader.h"
 #include "JNIHelper.h"
