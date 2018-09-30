@@ -130,7 +130,9 @@ public class MainActivity extends AppCompatActivity {
     private void changeBackColor(int position, float positionOffset) {
         int currentLastColor = (int) (argbEvaluator.evaluate(positionOffset, PAGE_COLOR_ONE, PAGE_COLOR_TWO));
         imageViews.get(position).setColorFilter(currentLastColor);
-        imageViews.get(position + 1).setColorFilter(1);
+        if ((position + 1) < imageViews.size()) {
+            imageViews.get(position + 1).setColorFilter(1);
+        }
     }
 
     private void setCurrentItemPic(int position) {
