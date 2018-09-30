@@ -51,4 +51,12 @@ public class MyGLSurfaceView extends GLSurfaceView implements GLSurfaceView.Rend
         });
     }
 
+    public void onTouch(final float x, final float y) {
+        this.queueEvent(new Runnable() {
+            @Override
+            public void run() {
+                mRenderer.onTouch(x, y);
+            }
+        });
+    }
 }

@@ -44,7 +44,7 @@ public class GLES2Renderer implements IRenderer {
         //设置透视投影
         MatrixState.frustumM(-ratio, ratio, -1, 1, 3, 20);
         //设置相机位置
-        MatrixState.setLookAtM(5.0f, 5.0f, 10.0f, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
+        MatrixState.setLookAtM(5.0f, 5.0f, -10.0f, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
         MatrixState.multiplyMM(0, 0, 0);
 
         for (IGeometry geometry : viewList) {
@@ -61,6 +61,14 @@ public class GLES2Renderer implements IRenderer {
 
         geometry.setPosition(tempX, tempY, -1.0f);
         viewList.add(geometry);
+    }
+
+    @Override
+    public void onTouch(float x, float y) {
+        float glx = CoordersHelper.toGLX(x);
+        float gly = CoordersHelper.toGLY(y);
+
+        MatrixState.translate(glx, gly, 0);
     }
 
     @Override

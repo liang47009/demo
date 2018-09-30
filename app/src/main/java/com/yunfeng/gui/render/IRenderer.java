@@ -9,5 +9,7 @@ public interface IRenderer {
 
     void drawFrame();
 
-    void addView(IGeometry geometry, float x, float y);
+    void addView(IGeometry geometry, final float x, final float y);
+
+    void onTouch(final float x, final float y);
 }

@@ -1,9 +1,5 @@
 package com.yunfeng.gui.test;
 
-/**
- * Created by xll on 2018/9/19.
- */
-
 import android.content.Context;
 import android.opengl.GLES20;
 import android.util.Log;
@@ -16,6 +12,10 @@ import static android.opengl.GLES20.glClear;
 import static android.opengl.GLES20.glClearColor;
 import static android.opengl.GLES20.glViewport;
 
+/**
+ * test
+ * Created by xll on 2018/9/19.
+ */
 public class TestRenderer implements IRenderer {
 
     private Context context;
@@ -25,7 +25,7 @@ public class TestRenderer implements IRenderer {
     }
 
     //  Circle circle;
-    TestCube cube;
+    private TestCube cube;
 
     public boolean init() {
         Log.w("MyRender", "onSurfaceCreated");
@@ -60,9 +60,13 @@ public class TestRenderer implements IRenderer {
         cube.draw();
     }
 
-
     @Override
     public void addView(IGeometry geometry, float x, float y) {
+
+    }
+
+    @Override
+    public void onTouch(float x, float y) {
 
     }
 

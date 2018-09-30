@@ -60,7 +60,7 @@ public class MatrixState {
     }
 
     //平移变换
-    public void translate(float x, float y, float z) {
+    public static void translate(float x, float y, float z) {
         Matrix.translateM(mMVPMatrix, 0, x, y, z);
     }
 
