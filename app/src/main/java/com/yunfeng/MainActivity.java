@@ -31,8 +31,9 @@ public class MainActivity extends Activity {
         adapter.addActivity(com.yunfeng.nativecall.MainActivity.class);
         adapter.addActivity(com.yunfeng.nativefork.MainActivity.class);
         adapter.addActivity(com.yunfeng.retrofit2.MainActivity.class);
-        adapter.addActivity(com.yunfeng.sensor.MainActivity.class);
         adapter.addActivity(com.yunfeng.mvc.BookActivity.class);
+        adapter.addActivity(com.yunfeng.sensor.MainActivity.class);
+        adapter.addActivity(com.yunfeng.guinative.GuiNativeMainActivity.class);
     }
 
 }
