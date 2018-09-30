@@ -3,6 +3,7 @@ package com.yunfeng.aop;
 import android.util.Log;
 
 import com.google.dexmaker.stock.ProxyBuilder;
+import com.yunfeng.Const;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationHandler;
@@ -34,11 +35,11 @@ public class DexMakeDynamicProxy implements InvocationHandler {
     }
 
     private void after() {
-        Log.d("app", "invoke after");
+        Log.d(Const.TAG, "invoke after");
     }
 
     private void before() {
-        Log.d("app", "invoke before");
+        Log.d(Const.TAG, "invoke before");
     }
 
     @Override

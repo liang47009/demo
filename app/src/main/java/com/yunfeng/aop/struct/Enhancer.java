@@ -48,7 +48,7 @@ public class Enhancer {
             return null;
         }
         String superClsName = superclass.getName().replace(".", "/");
-        String subClsName = superClsName + Const.SUBCLASS_SUFFIX;
+        String subClsName = superClsName + ConstType.SUBCLASS_SUFFIX;
 
         TypeId<?> superType = TypeId.get("L" + superClsName + ";");
         TypeId<?> subType = TypeId.get("L" + subClsName + ";");
@@ -62,7 +62,7 @@ public class Enhancer {
         generateFieldsAndMethods(dexMaker, superType, subType);
         try {
             ClassLoader loader = dexMaker.generateAndLoad(Enhancer.class.getClassLoader(), new File(path));
-            Class<?> subCls = loader.loadClass(superclass.getName() + Const.SUBCLASS_SUFFIX);
+            Class<?> subCls = loader.loadClass(superclass.getName() + ConstType.SUBCLASS_SUFFIX);
             Object obj = subCls.newInstance();
             ((EnhancerInterface) obj).setMethodInterceptor$Enhancer$(interceptor);
             ((EnhancerInterface) obj).setCallBackFilterMethod$Enhancer$(methodFilter);
@@ -206,7 +206,7 @@ public class Enhancer {
             Local retLocal = code.newLocal(methodReturnType);
             Local retPackLocal = null;
             if (retClass.isPrimitive()) {
-                retPackLocal = code.newLocal(TypeId.get(Const.getPackedType(retClass)));
+                retPackLocal = code.newLocal(TypeId.get(ConstType.getPackedType(retClass)));
             }
 
             Local<Integer> intLocal = code.newLocal(TypeId.INT);
@@ -240,7 +240,7 @@ public class Enhancer {
                     code.aput(argsTypeLocal, intLocal, tmpClassLocal);
 
                     if (argsClass[i].isPrimitive()) {
-                        TypeId packedClassType = TypeId.get(Const.getPackedType(argsClass[i]));
+                        TypeId packedClassType = TypeId.get(ConstType.getPackedType(argsClass[i]));
                         methodId = packedClassType.getMethod(packedClassType, "valueOf", argsTypeId[i]);
                         code.invokeStatic(methodId, tmpNumberLocal, code.getParameter(i, argsTypeId[i]));
                         code.aput(argsValueLocal, intLocal, tmpNumberLocal);
@@ -267,7 +267,7 @@ public class Enhancer {
                     code.compare(Comparison.EQ, ifBody, retObjLocal, retPackLocal);
 
                     code.cast(retPackLocal, retObjLocal);
-                    methodId = TypeId.get(Const.getPackedType(retClass)).getMethod(methodReturnType, Const.getPrimitiveValueMethodName(retClass));
+                    methodId = TypeId.get(ConstType.getPackedType(retClass)).getMethod(methodReturnType, ConstType.getPrimitiveValueMethodName(retClass));
                     code.invokeVirtual(methodId, retLocal, retPackLocal);
                     code.returnValue(retLocal);
 
@@ -282,10 +282,10 @@ public class Enhancer {
 
             // generate method {methodName}$Super$ to invoke super's
             if (hasParams) {
-                subMethodId = subType.getMethod(methodReturnType, methodName + Const.SUBCLASS_INVOKE_SUPER_SUFFIX, argsTypeId);
+                subMethodId = subType.getMethod(methodReturnType, methodName + ConstType.SUBCLASS_INVOKE_SUPER_SUFFIX, argsTypeId);
                 superMethodId = superType.getMethod(methodReturnType, methodName, argsTypeId);
             } else {
-                subMethodId = subType.getMethod(methodReturnType, methodName + Const.SUBCLASS_INVOKE_SUPER_SUFFIX);
+                subMethodId = subType.getMethod(methodReturnType, methodName + ConstType.SUBCLASS_INVOKE_SUPER_SUFFIX);
                 superMethodId = superType.getMethod(methodReturnType, methodName);
             }
             code = dexMaker.declare(subMethodId, method.getModifiers());

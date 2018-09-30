@@ -2,6 +2,8 @@ package com.yunfeng.aop.struct;
 
 import android.util.Log;
 
+import com.yunfeng.Const;
+
 /**
  * cglib
  * Created by xll on 2018/8/24.
@@ -22,11 +24,11 @@ public class CGLibAndroidDynamicProxy implements MethodInterceptor {
     }
 
     private void after() {
-        Log.d("app", "invoke after");
+        Log.d(Const.TAG, "invoke after");
     }
 
     private void before() {
-        Log.d("app", "invoke before");
+        Log.d(Const.TAG, "invoke before");
     }
 
     @Override

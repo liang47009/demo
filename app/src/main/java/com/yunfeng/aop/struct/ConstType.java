@@ -1,6 +1,6 @@
 package com.yunfeng.aop.struct;
 
-public class Const {
+public class ConstType {
 	
 	public static final String SUBCLASS_SUFFIX = "$Enhancer$";
 	

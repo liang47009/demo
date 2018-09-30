@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.yunfeng.Const;
 import com.yunfeng.demo.ui.SectionsPagerAdapter;
 import com.yunfeng.demo.utils.Constants;
 import com.yunfeng.demo.utils.GPSUtil;
@@ -80,18 +81,18 @@ public class MainActivity extends AppCompatActivity {
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                Log.d("app", "onPageScrolled: " + position + ", positionOffset: " + positionOffset);
+                Log.d(Const.TAG, "onPageScrolled: " + position + ", positionOffset: " + positionOffset);
                 changeBackColor(position, positionOffset);
             }
 
             @Override
             public void onPageSelected(int position) {
-                Log.d("app", "onPageSelected: " + position);
+                Log.d(Const.TAG, "onPageSelected: " + position);
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
-                Log.d("app", "onPageScrollStateChanged: " + state);
+                Log.d(Const.TAG, "onPageScrollStateChanged: " + state);
             }
         });
 

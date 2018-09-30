@@ -2,6 +2,7 @@ package com.yunfeng.gui.ui;
 
 import android.util.Log;
 
+import com.yunfeng.Const;
 import com.yunfeng.gui.render.IProgramId;
 import com.yunfeng.gui.render.Position;
 
@@ -20,7 +21,7 @@ public abstract class View implements IGeometry {
     @Override
     public void draw() {
         if (shaderProgram == null) {
-            Log.e("app", "shaderProgram is null");
+            Log.e(Const.TAG, "shaderProgram is null");
             return;
         }
         shaderProgram.start();

@@ -7,6 +7,7 @@ import android.os.RemoteException;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.yunfeng.Const;
 import com.yunfeng.demo.IMyAidlInterface;
 import com.yunfeng.demo.data.Data;
 
@@ -19,7 +20,7 @@ public class AIDLService extends Service {
     private IBinder binder = new IMyAidlInterface.Stub() {
         @Override
         public void send(Data data) throws RemoteException {
-            Log.d("app", data.toString());
+            Log.d(Const.TAG, data.toString());
         }
     };
 

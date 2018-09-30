@@ -8,6 +8,8 @@ import android.opengl.GLES20;
 import android.opengl.GLUtils;
 import android.util.Log;
 
+import com.yunfeng.Const;
+
 import java.util.List;
 
 public class TextureHelper {
@@ -65,7 +67,7 @@ public class TextureHelper {
         for (int i = 0; i < picFilePathVec.size(); i++) {
             final Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), picFilePathVec.get(i));
             if (bitmap == null) {
-                Log.e("app", "Error::loadCubeMapTexture could not load texture file:" + picFilePathVec.get(i));
+                Log.e(Const.TAG, "Error::loadCubeMapTexture could not load texture file:" + picFilePathVec.get(i));
                 return 0;
             }
             GLUtils.texImage2D(GLES20.GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, bitmap, 0);

@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.yunfeng.Const;
 import com.yunfeng.demo.R;
 import com.yunfeng.demo.databinding.MvvmAdapterBinding;
 
@@ -65,6 +66,6 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentH
     }
 
     public void click(Student stu, int position) {
-        Log.d("app", "stu click");
+        Log.d(Const.TAG, "stu click");
     }
 }

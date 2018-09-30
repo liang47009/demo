@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 
+import com.yunfeng.Const;
 import com.yunfeng.common.ui.MyGLSurfaceView;
 
 /**
@@ -35,7 +36,7 @@ public class MainActivity extends Activity {
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("app", "nativecall button on click!");
+                Log.d(Const.TAG, "nativecall button on click!");
                 if (v.getTag().equals("test")) {
                     test();
                 }

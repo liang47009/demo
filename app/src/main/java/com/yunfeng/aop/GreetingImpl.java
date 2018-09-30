@@ -5,6 +5,7 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.TextView;
 
+import com.yunfeng.Const;
 import com.yunfeng.demo.R;
 
 /**
@@ -14,7 +15,7 @@ import com.yunfeng.demo.R;
 public class GreetingImpl implements Greeting {
     @Override
     public void sayHello(Context context) {
-        Log.d("app", "hello aop!");
+        Log.d(Const.TAG, "hello aop!");
         if (context instanceof Activity) {
             Activity activity = (Activity) context;
             TextView textView = activity.findViewById(R.id.greeting_tv);

@@ -9,6 +9,8 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 
+import com.yunfeng.Const;
+
 /**
  * native
  * <p>
@@ -32,7 +34,7 @@ public class MainActivity extends Activity {
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("app", "button on click!");
+                Log.d(Const.TAG, "button on click!");
                 if (v.getTag().equals("native fork")) {
                     fork();
                 } else if (v.getTag().equals("test")) {

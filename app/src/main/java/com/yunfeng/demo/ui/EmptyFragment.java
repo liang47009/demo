@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.yunfeng.Const;
 import com.yunfeng.demo.R;
 import com.yunfeng.demo.io.HttpGetResponse;
 import com.yunfeng.demo.io.HttpResponse;
@@ -83,7 +84,7 @@ public class EmptyFragment extends MMFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        Log.e("app", "emptyfragement has destory: " + this);
+        Log.e(Const.TAG, "emptyfragement has destory: " + this);
     }
 
     private final class HttpRequestListener implements IHttpRequestListener {

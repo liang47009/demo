@@ -28,7 +28,7 @@ public class MethodProxy {
 
     public Method getProxyMethod() {
         try {
-            return subClass.getDeclaredMethod(methodName + Const.SUBCLASS_INVOKE_SUPER_SUFFIX, argsType);
+            return subClass.getDeclaredMethod(methodName + ConstType.SUBCLASS_INVOKE_SUPER_SUFFIX, argsType);
         } catch (NoSuchMethodException e) {
             throw new ProxyException(e.getMessage());
         }

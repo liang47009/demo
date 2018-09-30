@@ -22,4 +22,10 @@
     <string name="to_do">TODO</string>
     <string name="empty" />
     <string name="order">order dinner</string>
+
+    <string name="hello">Hello, Android using native audio!</string>
+    <string-array name="uri_spinner_array">
+        <item>http://upload.wikimedia.org/wikipedia/commons/6/6d/Banana.ogg</item>
+        <item>http://www.freesound.org/data/previews/18/18765_18799-lq.mp3</item>
+    </string-array>
 </resources>

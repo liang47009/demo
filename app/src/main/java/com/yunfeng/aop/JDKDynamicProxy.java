@@ -2,6 +2,8 @@ package com.yunfeng.aop;
 
 import android.util.Log;
 
+import com.yunfeng.Const;
+
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
@@ -68,10 +70,10 @@ public class JDKDynamicProxy implements InvocationHandler {
     }
 
     private void after() {
-        Log.d("app", "invoke after");
+        Log.d(Const.TAG, "invoke after");
     }
 
     private void before() {
-        Log.d("app", "invoke before");
+        Log.d(Const.TAG, "invoke before");
     }
 }

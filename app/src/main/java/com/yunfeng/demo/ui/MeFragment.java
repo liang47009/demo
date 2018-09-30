@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.yunfeng.Const;
 import com.yunfeng.demo.IMyAidlInterface;
 import com.yunfeng.demo.R;
 import com.yunfeng.demo.data.Data;
@@ -29,7 +30,7 @@ public class MeFragment extends MMFragment {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e("app", "MeFragment shade view onclick");
+                Log.e(Const.TAG, "MeFragment shade view onclick");
                 Data data = new Data();
                 try {
                     aidl.send(data);
@@ -62,7 +63,7 @@ public class MeFragment extends MMFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        Log.e("app", "MeFragment has destory: " + this);
+        Log.e(Const.TAG, "MeFragment has destory: " + this);
     }
 
     @Override

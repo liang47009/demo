@@ -2,6 +2,8 @@ package com.yunfeng.aop;
 
 import android.util.Log;
 
+import com.yunfeng.Const;
+
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
@@ -28,11 +30,11 @@ public class CGLibDynamicProxy implements MethodInterceptor {
     }
 
     private void after() {
-        Log.d("app", "invoke after");
+        Log.d(Const.TAG, "invoke after");
     }
 
     private void before() {
-        Log.d("app", "invoke before");
+        Log.d(Const.TAG, "invoke before");
     }
 
 //    @Override

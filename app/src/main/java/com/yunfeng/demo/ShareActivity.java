@@ -9,6 +9,8 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.ImageView;
 
+import com.yunfeng.Const;
+
 import java.util.ArrayList;
 
 /**
@@ -45,7 +47,7 @@ public class ShareActivity extends Activity {
     }
 
     private void handleSendMultipleImages(Intent intent) {
-        Log.d("app", "handleSendMultipleImages");
+        Log.d(Const.TAG, "handleSendMultipleImages");
         ArrayList<Uri> imageUris = intent.getParcelableArrayListExtra(Intent.EXTRA_STREAM);
         if (imageUris != null) {
             // Update UI to reflect multiple images being shared
@@ -58,7 +60,7 @@ public class ShareActivity extends Activity {
     }
 
     private void handleSendImage(Intent intent) {
-        Log.d("app", "handleSendImage");
+        Log.d(Const.TAG, "handleSendImage");
 //        String className = intent.getComponent().getClassName();
         Uri imageUri = intent.getParcelableExtra(Intent.EXTRA_STREAM);
         if (imageUri != null) {
@@ -75,6 +77,6 @@ public class ShareActivity extends Activity {
 //            type.setText("type:text");
 //            text.setText(sharedText);
         }
-        Log.d("app", "handleSendText");
+        Log.d(Const.TAG, "handleSendText");
     }
 }

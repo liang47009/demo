@@ -35,6 +35,7 @@ public class MainActivity extends Activity {
         adapter.addActivity(com.yunfeng.sensor.MainActivity.class);
         adapter.addActivity(com.yunfeng.gui.GuiMainActivity.class);
         adapter.addActivity(com.yunfeng.guinative.GuiNativeMainActivity.class);
+        adapter.addActivity(com.yunfeng.opensles.MainActivity.class);
     }
 
 }

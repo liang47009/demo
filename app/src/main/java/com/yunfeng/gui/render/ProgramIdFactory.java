@@ -2,6 +2,8 @@ package com.yunfeng.gui.render;
 
 import android.util.Log;
 
+import com.yunfeng.Const;
+
 import static com.yunfeng.gui.render.ProgramIdManager.SQUARE_PROGRAM;
 import static com.yunfeng.gui.render.ProgramIdManager.TRIANGLE_PROGRAM;
 
@@ -21,7 +23,7 @@ public class ProgramIdFactory {
                 programId = new SquareProgramId();
                 break;
             default:
-                Log.e("app", "not exist type: " + type);
+                Log.e(Const.TAG, "not exist type: " + type);
         }
         return programId;
     }
