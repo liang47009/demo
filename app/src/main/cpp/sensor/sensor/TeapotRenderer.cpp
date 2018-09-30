@@ -49,7 +49,7 @@ void TeapotRenderer::Init() {
     glFrontFace(GL_CCW);
 
     //Load shader
-    LoadShaders(&shader_param_, "Shaders/VS_ShaderPlain.vsh", "Shaders/ShaderPlain.fsh");
+    LoadShaders(&shader_param_, "shaders/VS_ShaderPlain.vsh", "shaders/ShaderPlain.fsh");
 
     //Create Index buffer
     num_indices_ = sizeof(teapotIndices) / sizeof(teapotIndices[0]);
@@ -200,7 +200,7 @@ void TeapotRenderer::Render() {
 }
 
 bool
-TeapotRenderer::LoadShaders(SHADER_PARAMS *params, const char strVsh[27], const char strFsh[24]) {
+TeapotRenderer::LoadShaders(SHADER_PARAMS *params, const char *strVsh, const char *strFsh) {
     GLuint program;
     GLuint vert_shader, frag_shader;
     vert_shader = frag_shader = 0;

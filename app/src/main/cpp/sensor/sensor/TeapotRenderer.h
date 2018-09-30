@@ -79,7 +79,7 @@ class TeapotRenderer {
 
     SHADER_PARAMS shader_param_;
 
-    bool LoadShaders(SHADER_PARAMS *params, const char strVsh[27], const char strFsh[24]);
+    bool LoadShaders(SHADER_PARAMS *params, const char *strVsh, const char *strFsh);
 
     ndk_helper::Mat4 mat_projection_;
     ndk_helper::Mat4 mat_view_;
