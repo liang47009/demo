@@ -14,13 +14,11 @@ import com.yunfeng.demo.R;
  */
 public class MainActivity extends Activity {
 
-    private ActivityListAdapter adapter;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
-        adapter = new ActivityListAdapter(this.getApplicationContext());
+        ActivityListAdapter adapter = new ActivityListAdapter(this.getApplicationContext());
         ListView list = findViewById(R.id.activitys_list);
         list.setAdapter(adapter);
         LayoutInflaterCompat.setFactory2(this.getLayoutInflater(), new SkinFactoryTwo());

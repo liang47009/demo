@@ -51,8 +51,10 @@ public class ActivityListAdapter extends BaseAdapter {
             final Class activity = activitys.get(position);
             final String className = activity.getName();
 
+            String testName = className.split("\\.")[2];// get test case's name
+
             TextView name = convertView.findViewById(R.id.activity_name);
-            name.setText(className);
+            name.setText(testName);
             TextView clazz = convertView.findViewById(R.id.activity_class);
             clazz.setText(className);
             Button button = convertView.findViewById(R.id.start_activity);

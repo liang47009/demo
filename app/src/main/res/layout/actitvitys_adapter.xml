@@ -6,14 +6,14 @@
 
     <TextView
         android:id="@+id/activity_name"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="activity_name" />
 
     <TextView
         android:id="@+id/activity_class"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
 
@@ -21,9 +21,9 @@
 
     <Button
         android:id="@+id/start_activity"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
 
-        android:text="start activity" />
+        android:text="start" />
 </LinearLayout>
