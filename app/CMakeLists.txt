@@ -1,29 +1,35 @@
 cmake_minimum_required(VERSION 3.4.1)
 
-#-------------------------------------------------updater-------------------------------------------------------------
-#add_library( updater SHARED src/main/jni/updater.cpp
-#                            src/main/jni/Clazz.cpp)
-#target_link_libraries(updater log)
-#---------------------------------------------------updater-----------------------------------------------------------
+#-------------------------------------------------nativecall-------------------------------------------------------------
+add_library( nativecall SHARED src/main/cpp/nativecall/updater.cpp)
+target_link_libraries(nativecall log)
+#---------------------------------------------------nativecall-----------------------------------------------------------
 
-#----------------------------------------------------app----------------------------------------------------------
-#add_library( app SHARED src/main/jni/app.cpp)
-#target_link_libraries(app log updater)
-#-----------------------------------------------------app---------------------------------------------------------
+#----------------------------------------------------nativefork----------------------------------------------------------
+add_library( nativefork SHARED src/main/cpp/nativefork/nativefork.cpp)
+target_link_libraries(nativefork log)
+#-----------------------------------------------------nativefork---------------------------------------------------------
 
 #----------------------------------------------------sensor----------------------------------------------------------
-#include_directories( src/main/jni src/main/jni/include )
+include_directories( src/main/cpp/sensor )
 
-#add_library(cpufeatures STATIC IMPORTED)
-#set_target_properties(cpufeatures PROPERTIES IMPORTED_LOCATION ${Project_SOURCE_DIR}/jniLibs/${ANDROID_ABI}/libcpufeatures.a)
-
-#add_library(ndk_helper STATIC IMPORTED)
-#set_target_properties(ndk_helper PROPERTIES IMPORTED_LOCATION ${Project_SOURCE_DIR}/jniLibs/${ANDROID_ABI}/libndk_helper.a)
-
-#add_library(sensor SHARED src/main/jni/sensor/Sensor.cpp
-#                          src/main/jni/sensor/TeapotRenderer.cpp
-#                          src/main/jni/utils/CHelper.cpp
-#                          src/main/jni/com_yunfeng_common_jni_JNILib.cpp)
-
-#target_link_libraries(sensor log ndk_helper cpufeatures android EGL GLESv2)
+add_library(sensor SHARED src/main/cpp/sensor/com_yunfeng_common_jni_JNILib.cpp
+                          src/main/cpp/sensor/sensor/Sensor.cpp
+                          src/main/cpp/sensor/sensor/TeapotRenderer.cpp
+                          src/main/cpp/sensor/sensor/TeapotNativeActivity.cpp
+                          src/main/cpp/sensor/renderer/Renderer.cpp
+                          src/main/cpp/sensor/utils/CHelper.cpp
+                          src/main/cpp/sensor/cpufeatures/cpu-features.c
+                          src/main/cpp/sensor/native_app_glue/android_native_app_glue.c
+                          src/main/cpp/sensor/ndk_helper/JNIHelper.cpp
+                          src/main/cpp/sensor/ndk_helper/interpolator.cpp
+                          src/main/cpp/sensor/ndk_helper/tapCamera.cpp
+                          src/main/cpp/sensor/ndk_helper/gestureDetector.cpp
+                          src/main/cpp/sensor/ndk_helper/perfMonitor.cpp
+                          src/main/cpp/sensor/ndk_helper/vecmath.cpp
+                          src/main/cpp/sensor/ndk_helper/GLContext.cpp
+                          src/main/cpp/sensor/ndk_helper/shader.cpp
+                          src/main/cpp/sensor/ndk_helper/gl3stub.c
+                          )
+target_link_libraries(sensor log android EGL GLESv2)
 #----------------------------------------------------sensor-----------------------------------------------------------------

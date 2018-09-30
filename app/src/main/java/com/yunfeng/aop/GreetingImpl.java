@@ -1,6 +1,11 @@
 package com.yunfeng.aop;
 
+import android.app.Activity;
+import android.content.Context;
 import android.util.Log;
+import android.widget.TextView;
+
+import com.yunfeng.demo.R;
 
 /**
  * impl
@@ -8,7 +13,12 @@ import android.util.Log;
  */
 public class GreetingImpl implements Greeting {
     @Override
-    public void sayHello() {
+    public void sayHello(Context context) {
         Log.d("app", "hello aop!");
+        if (context instanceof Activity) {
+            Activity activity = (Activity) context;
+            TextView textView = activity.findViewById(R.id.greeting_tv);
+            textView.setText("hello aop: " + this.getClass().getName());
+        }
     }
 }

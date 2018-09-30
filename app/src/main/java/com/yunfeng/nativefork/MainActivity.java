@@ -17,7 +17,7 @@ import android.widget.LinearLayout.LayoutParams;
 public class MainActivity extends Activity {
 
     static {
-        System.loadLibrary("app");
+        System.loadLibrary("nativefork");
     }
 
     @Override

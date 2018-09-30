@@ -79,7 +79,6 @@ public class MainActivity extends Activity {
                     // Fetch and print a list of the contributors to the library.
                     List<Contributor> contributors = call.execute().body();
                     for (Contributor contributor : contributors) {
-                        System.out.println(contributor.login + " (" + contributor.contributions + ")");
                         add(contributor);
                     }
                 } catch (Exception e) {

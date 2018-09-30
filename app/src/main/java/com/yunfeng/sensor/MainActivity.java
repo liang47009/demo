@@ -55,21 +55,6 @@ public class MainActivity extends Activity implements SensorEventListener {
         final LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
         layout.setLayoutParams(params);
 
-        View.OnClickListener listener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d("app", "sensor button on click!");
-                if (v.getTag().equals("load")) {
-                    handler = JNILib.nativeLoadLibrary("/data/data/com.yunfeng.demo/lib/libupdater.so");
-                } else if (v.getTag().equals("unload")) {
-                    JNILib.nativeUnloadLibrary(handler);
-                    handler = 0;
-                }
-            }
-        };
-        UiUtils.createButton(layout, "load", listener);
-        UiUtils.createButton(layout, "unload", listener);
-
         MyGLSurfaceView view = new MyGLSurfaceView(this);
         layout.addView(view);
         setContentView(layout);

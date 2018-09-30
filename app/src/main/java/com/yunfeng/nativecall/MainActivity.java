@@ -20,7 +20,7 @@ import com.yunfeng.common.ui.MyGLSurfaceView;
 public class MainActivity extends Activity {
 
     static {
-        System.loadLibrary("updater");
+        System.loadLibrary("nativecall");
     }
 
     @Override
@@ -42,8 +42,6 @@ public class MainActivity extends Activity {
             }
         };
         createButton(layout, "test", listener);
-        MyGLSurfaceView view = new MyGLSurfaceView(this);
-        layout.addView(view);
         setContentView(layout);
     }
 

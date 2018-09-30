@@ -17,8 +17,6 @@ public class DexMakeDynamicProxy implements InvocationHandler {
 
     private static final DexMakeDynamicProxy instance = new DexMakeDynamicProxy();
 
-    private final HashMap<String, Object> map = new HashMap<>(16);
-
     private DexMakeDynamicProxy() {
     }
 
@@ -26,7 +24,7 @@ public class DexMakeDynamicProxy implements InvocationHandler {
         return instance;
     }
 
-    private <T> T getProxy(Class<T> clazz) {
+    public <T> T getProxy(Class<T> clazz) {
         try {
             return ProxyBuilder.forClass(clazz).handler(this).build();
         } catch (IOException e) {
@@ -45,20 +43,10 @@ public class DexMakeDynamicProxy implements InvocationHandler {
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        Object o = map.get(proxy.getClass().getName());
-        Object result = null;
-        if (o != null) {
-            before();
-            result = ProxyBuilder.callSuper(proxy, method, args);
-            after();
-        }
+        before();
+        Object result = ProxyBuilder.callSuper(proxy, method, args);
+        after();
         return result;
     }
 
-    public void autoWired(Class<?> clazz) {
-        Object o = getProxy(clazz);
-        if (o != null) {
-            map.put(o.getClass().getName(), o);
-        }
-    }
 }
