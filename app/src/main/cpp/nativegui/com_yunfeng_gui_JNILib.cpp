@@ -5,12 +5,18 @@
 #include "renderer/VulkanRenderer.h"
 #include "renderer/utils.h"
 
+#include <AndroidCrashDump.h>
+
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-JNIEXPORT jint JNI_OnLoad(JavaVM *, void *) {
+JNIEXPORT jint JNI_OnLoad(JavaVM *env, void *) {
     LOGI("JNI_OnLoad");
+
+//    bool initd = initAndroidCrashDump("", "", "", "", "", "", "");
+//    delete env;
+//    delete env;
     return JNI_VERSION_1_6;
 }
 
