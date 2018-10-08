@@ -18,7 +18,7 @@
 #ifndef VULKANANDROID_HPP
 #define VULKANANDROID_HPP
 
-#include "external/vulkan/vulkan.h"
+#include "vulkan/vulkan.h"
 
 #if defined(__ANDROID__)
 

@@ -4,6 +4,8 @@ cmake_minimum_required(VERSION 3.4.1)
 add_library(breakpad_client STATIC IMPORTED)
 set_target_properties(breakpad_client PROPERTIES IMPORTED_LOCATION ${PROJECT_SOURCE_DIR}/jniLibs/${ANDROID_ABI}/libbreakpad_client.a)
 
+include_directories( ../common ../common/googlebreakpad/src )
+
 add_library(guinative SHARED    com_yunfeng_gui_JNILib.cpp
 								VulkanAndroid.cpp
 								renderer/vecmath.cpp

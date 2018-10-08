@@ -4,7 +4,7 @@
 #include <android/asset_manager.h>
 #include "Singleton.h"
 #include "IRenderer.h"
-#include "../external/vulkan/vulkan.h"
+#include "vulkan/vulkan.h"
 
 // Function pointer for getting physical device fetures to be enabled
 typedef VkPhysicalDeviceFeatures (*PFN_GetEnabledFeatures)();
