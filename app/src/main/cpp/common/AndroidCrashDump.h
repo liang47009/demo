@@ -3,108 +3,84 @@
 
 #include <android/log.h>
 #include <string>
+#include <map>
 #include "client/linux/handler/exception_handler.h"
-#include "common/linux/google_crashdump_uploader.h"
+#include "common/linux/curl_helper.h"
 #include "common/using_std_string.h"
 
 #define  LOG_TAG    "AndroidCrashDump"
-#define  LOGD(...)  __android_log_print(ANDROID_LOG_DEBUG,LOG_TAG,__VA_ARGS__)
+#define  LOGI(...)  __android_log_print(ANDROID_LOG_INFO,LOG_TAG,__VA_ARGS__)
 
-#define  DEFINE_PARAM(_NAME, _VALUE, _DIS) \
-static std::string _NAME(_VALUE)
+using namespace google_breakpad;
 
-#ifdef PLATFORM_DEBUG
-DEFINE_PARAM(STR_crash_server, "http://www.baidu.com", "The crash server to upload minidumps to.");
-static std::string STR_crash_tracelog_server = "http://www.baidu.com";
-#else
-DEFINE_PARAM(STR_crash_server, "http://www.baidu.com", "The crash server to upload minidumps to.");
-static std::string STR_crash_tracelog_server = "www.baidu.com";
-
-#endif
-
-DEFINE_PARAM(STR_product_name, "demo",
-             "The product name that the minidump corresponds to.");
-
-DEFINE_PARAM(STR_product_version, "1.0.0",
-             "The version of the product that produced the minidump.");
-
-DEFINE_PARAM(STR_client_id, "id", "The client GUID");
-
-DEFINE_PARAM(STR_minidump_path, "minidump.dmp", "The path of the minidump file.");
-
-DEFINE_PARAM(STR_ptime, "0", "The process uptime in milliseconds.");
-
-DEFINE_PARAM(STR_ctime, "100000", "The cumulative process uptime in milliseconds.");
-
-DEFINE_PARAM(STR_email, "type", "The user's email address.");
-
-DEFINE_PARAM(STR_comments, "nothing", "Extra user comments");
-
-DEFINE_PARAM(STR_proxy_host, "", "Proxy host");
-
-DEFINE_PARAM(STR_proxy_userpasswd, "", "Proxy username/password in user:pass format.");
-
-DEFINE_PARAM(STR_PackageName, "org.cocos2dx.hellocpp",
-             "Application package name, for LibcurlWrapper dlopen libcurl.so.");
 extern "C" {
-bool dumpCallback(const google_breakpad::MinidumpDescriptor &descriptor,
-                  void *context, bool succeeded);
-bool initAndroidCrashDump(const char *szPath, const char *szVersion, const char *szCrashServerPath,
-                          const char *szPhoneType, const char *szUUID, const char *szDocName,
-                          const char *szFreeMemorySize);
+std::map<string, string> parameters_;
+CurlHelper curlHelper;
+
+bool initAndroidCrashDump(const char *szPath);
+void addParame(const char *key, const char *value);
+bool dumpCallback(const MinidumpDescriptor &descriptor, void *context, bool succeeded);
+}
+
+const char *const PRODUCT = "prod";
+const char *const VERSION = "ver";
+const char *const GUIDSTR = "guid";
+const char *const PTIME = "ptime";
+const char *const CTIME = "ctime";
+const char *const EMAIL = "email";
+const char *const COMMENTS = "comments";
+const char *const CRASHSERVER = "crash_server";
+const char *const PROXYHOST = "proxy_host";
+const char *const PROXYPWD = "proxy_pwd";
+
+//
+void addParame(const char *key, const char *value) {
+    parameters_[key] = value;
 }
 
 //
-bool dumpCallback(const google_breakpad::MinidumpDescriptor &descriptor,
-                  void *context, bool succeeded) {
-    LOGD(" =============== >>>>>> Dump path: %s\n", descriptor.path());
-
-    if (succeeded) {
-        LOGD(" ============== >>>> Dump success /n%s", (char *) context);
-    }
-
-//    google_breakpad::LibcurlWrapper *http_layer = new google_breakpad::LibcurlWrapper();
-    google_breakpad::GoogleCrashdumpUploader g(STR_product_name,
-                                               STR_product_version,
-                                               STR_client_id,
-                                               STR_ptime,
-                                               STR_ctime,
-                                               STR_email,
-                                               STR_comments,
-                                               descriptor.path(),
-                                               STR_crash_server,
-                                               STR_proxy_host,
-                                               STR_proxy_userpasswd,
-                                               NULL);
-    int http_status_code;
-    std::string http_response_header;
-    std::string http_response_bod;
-    succeeded = g.Upload(&http_status_code, &http_response_header, &http_response_bod);
-    if (succeeded) {
-        LOGD(" ============== >>>> Upload success ");
-    } else {
-        LOGD(" ============== >>>> Upload failed ");
-    }
-    return succeeded;
+bool initAndroidCrashDump(const char *szPath) {
+    LOGI("=============== >>>>>> szPath %s", szPath);
+    MinidumpDescriptor descriptor(szPath);
+    ExceptionHandler exceptionhandler(descriptor, NULL, dumpCallback, NULL, true, -1);
+    LOGI("=============== >>>>>> initAndroidCrashDump");
+    parameters_[PRODUCT] = "demo";
+    parameters_[VERSION] = "1.0.0";
+    parameters_[GUIDSTR] = "guid";
+    parameters_[PTIME] = "1927432789";
+    parameters_[CTIME] = "1290489057";
+    parameters_[EMAIL] = "xiayunfeng2012@gmail.com";
+    parameters_[COMMENTS] = "custom";
+    parameters_[CRASHSERVER] = "http://www.baidu.com";
+    parameters_[PROXYHOST] = "proxy_host";
+    parameters_[PROXYPWD] = "proxy_pwd";
+//    http_layer_.reset(new LibcurlWrapper());
+//    http_layer_->Init();
+    curlHelper.Init();
+    return true;
 }
 
 //
-bool initAndroidCrashDump(const char *szPath, const char *szVersion, const char *szCrashServerPath,
-                          const char *szPhoneType, const char *szUUID, const char *szDocName,
-                          const char *szFreeMemorySize) {
-    LOGD("=============== >>>>>> szPath %s", szPath);
-    STR_product_version = szVersion;
-    //STR_crash_server = szCrashServerPath;
-    STR_email = szPhoneType;
-    STR_client_id = szUUID;
-    STR_product_name = "demo";
-    STR_product_name.append(szDocName);
-    STR_ptime = szFreeMemorySize;
+bool dumpCallback(const MinidumpDescriptor &descriptor, void *context, bool succeeded) {
+    LOGI(" =============== >>>>>> Dump path: %s\n", descriptor.path());
+    if (succeeded) {
+        LOGI(" ============== >>>> Dump success %p \n", context);
+    }
+    string crash_server_ = parameters_[CRASHSERVER];
+    LOGI(" ============== >>>> Sending request to  %s \n", crash_server_.c_str());
+    int http_status_code = -1;
+    string resp_head = "";
+    string resp_body = "";
 
-    static google_breakpad::MinidumpDescriptor descriptor(szPath);
-    static google_breakpad::ExceptionHandler exceptionhandler(descriptor, NULL, dumpCallback, NULL,
-                                                              true, -1);
-    LOGD("=============== >>>>>> initAndroidCrashDump");
+    curlHelper.AddFile(descriptor.path(), "upload_file_minidump");
+
+    bool success = curlHelper.SendRequest(crash_server_,
+                                            parameters_,
+                                            &http_status_code,
+                                            &resp_head,
+                                            &resp_body);
+    LOGI(" ============== >>>> upload ret: %s , %s\n", resp_head.c_str(), resp_body.c_str());
+    return success;
 }
 
 #endif //

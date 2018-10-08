@@ -14,7 +14,7 @@ android {
             cmake {
                 // ndk-build NDK_PROJECT_PATH=. NDK_APPLICATION_MK=Application.mk APP_BUILD_SCRIPT=Android.mk
                 arguments "-DANDROID_ARM_NEON=TRUE", "-DANDROID_TOOLCHAIN=clang", "-DANDROID_PLATFORM=android-21", "-DAPP_STL=c++_static"
-                cppFlags "-D__STDC_FORMAT_MACROS"
+                cppFlags "-D__STDC_FORMAT_MACROS" , "-D__STDC_LIMIT_MACROS"
                 //cppFlags "-D__STDC_LIMIT_MACROS"
                 cppFlags "-fexceptions", "-frtti", "-std=c++11", "-fno-inline"
                 abiFilters "armeabi-v7a", "x86"

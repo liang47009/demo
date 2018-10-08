@@ -4,6 +4,8 @@ INCLUDE_DIRECTORIES(src/main/cpp/common)
 INCLUDE_DIRECTORIES(src/main/cpp/common/googlebreakpad)
 
 ADD_SUBDIRECTORY(src/main/cpp/common)
+ADD_SUBDIRECTORY(src/main/cpp/common/googlebreakpad)
+ADD_SUBDIRECTORY(src/main/cpp/common/zlib)
 ADD_SUBDIRECTORY(src/main/cpp/sensor)
 ADD_SUBDIRECTORY(src/main/cpp/opensles)
 ADD_SUBDIRECTORY(src/main/cpp/nativegui)
