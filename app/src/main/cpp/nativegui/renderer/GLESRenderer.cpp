@@ -1,5 +1,5 @@
 #include <GLES2/gl2.h>
-#include "Renderer.h"
+#include "GLESRenderer.h"
 #include "MatrixStat.h"
 
 #ifdef USE_FREEIMAGE
