@@ -3,7 +3,7 @@
 #include "../VulkanAndroid.h"
 
 #ifdef USE_FREEIMAGE
-#include "freeimage.h"
+#include <freeimage/Source/FreeImage.h>
 #endif
 
 #include "VulkanRenderer.h"

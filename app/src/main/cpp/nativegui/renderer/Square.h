@@ -24,7 +24,7 @@ public:
 
 private:
     int _textureId;
-    PROGRAM_Tr_U1 _shader;
+    PROGRAM_TR_TEX _shader;
 
     Mat4 mTransformMatrix;
 
@@ -33,6 +33,9 @@ private:
 
     // 纹理的顶点坐标
     float *m_texture_coords;
+
+    // 正方形的顶点索引
+    short *m_index_coords;
 
 };
 

@@ -34,6 +34,8 @@ it under the terms of the one of three licenses as you choose:
 
 #include "libraw_const.h"
 #include "libraw_types.h"
+extern int fgetpos(FILE*, const fpos_t*);
+extern int fsetpos(FILE*, const fpos_t*);
 #include <fstream>
 #include <memory>
 

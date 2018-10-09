@@ -3,7 +3,7 @@
 #include "MatrixStat.h"
 
 #ifdef USE_FREEIMAGE
-#include <freeiamge.h>
+#include <freeimage/Source/FreeImage.h>
 #endif
 
 Renderer::Renderer() {

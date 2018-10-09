@@ -171,6 +171,70 @@ public:
     }
 };
 
+class PROGRAM_TR_TEX : public ProgramId {
+public:
+    int vPosition;
+    int vTexCoord;
+    int fTexture;
+public:
+    PROGRAM_TR_TEX() {
+        vPosition = -1;
+        vTexCoord = -1;
+        fTexture = -1;
+    }
+
+    ~PROGRAM_TR_TEX() {
+    }
+
+    /// 初始化函数
+    virtual bool initialize() {
+        const char *vs =
+                {
+                        "attribute vec4 vPosition;"
+                                "attribute vec2 vTexCoord;"
+                                "varying vec2 fTexCoord;"
+                                "void main() {"
+                                "   fTexCoord = vTexCoord;"
+                                "   gl_Position = vPosition;"
+                                "}"
+                };
+        const char *ps =
+                {
+                        "precision mediump float;"
+                                "varying vec2 fTexCoord;"
+                                "uniform sampler2D fTexture;"
+                                "void main() {"
+                                "   gl_FragColor = texture2D(fTexture, fTexCoord);"
+                                "}"
+                };
+        bool res = createProgram(vs, ps);
+        if (res) {
+            vPosition = glGetAttribLocation(_programId, "vPosition");
+            vTexCoord = glGetAttribLocation(_programId, "vTexCoord");
+            fTexture = glGetUniformLocation(_programId, "fTexture");
+        }
+        return res;
+    }
+
+    /**
+    *   使用程序
+    */
+    virtual void begin() {
+        glUseProgram(_programId);
+        glEnableVertexAttribArray(vPosition);
+        glEnableVertexAttribArray(vTexCoord);
+    }
+
+    /**
+    *   使用完成
+    */
+    virtual void end() {
+        glDisableVertexAttribArray(vPosition);
+        glDisableVertexAttribArray(vTexCoord);
+        glUseProgram(0);
+    }
+};
+
 class PROGRAM_Tr_U1 : public ProgramId {
 public:
     int _position;
@@ -590,12 +654,16 @@ public:
     */
     virtual void begin() {
         glUseProgram(_programId);
+        glEnableVertexAttribArray(_uv);
+        glEnableVertexAttribArray(_position);
     }
 
     /**
     *   使用完成
     */
     virtual void end() {
+        glDisableVertexAttribArray(_uv);
+        glDisableVertexAttribArray(_position);
         glUseProgram(0);
     }
 };

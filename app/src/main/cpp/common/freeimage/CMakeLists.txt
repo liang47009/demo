@@ -532,7 +532,7 @@ include_directories(Source/OpenEXR/IlmThread)
 include_directories(Source/OpenEXR/Imath)
 include_directories(Source/ZLib)
 
-add_definitions(-DOPJ_STATIC -DLIBRAW_NODLL -DLIBRAW_LIBRARY_BUILD -DFREEIMAGE_LIB -DNO_LCMS)
+add_definitions(-DOPJ_STATIC -DLIBRAW_NODLL -DLIBRAW_LIBRARY_BUILD -DFREEIMAGE_LIB -DNO_LCMS -Wno-c++11-narrowing)
 add_library(freeimage_static STATIC ${FreeImage_SOURCES})
 if (OGRE_PROJECT_FOLDERS)
 	set_property(TARGET freeimage PROPERTY FOLDER Dependencies)
