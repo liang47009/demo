@@ -47,25 +47,24 @@ public class ActivityListAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
             convertView = LayoutInflater.from(mContext).inflate(R.layout.actitvitys_adapter, null);
-
-            final Class activity = activitys.get(position);
-            final String className = activity.getName();
-
-            String testName = className.split("\\.")[2];// get test case's name
-
-            TextView name = convertView.findViewById(R.id.activity_name);
-            name.setText(testName);
-            TextView clazz = convertView.findViewById(R.id.activity_class);
-            clazz.setText(className);
-            Button button = convertView.findViewById(R.id.start_activity);
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(mContext, activity);
-                    mContext.startActivity(intent);
-                }
-            });
         }
+        final Class activity = activitys.get(position);
+        final String className = activity.getName();
+
+        String testName = className.split("\\.")[2];// get test case's name
+
+        TextView name = convertView.findViewById(R.id.activity_name);
+        name.setText(testName);
+        TextView clazz = convertView.findViewById(R.id.activity_class);
+        clazz.setText(className);
+        Button button = convertView.findViewById(R.id.start_activity);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, activity);
+                mContext.startActivity(intent);
+            }
+        });
         return convertView;
     }
 
