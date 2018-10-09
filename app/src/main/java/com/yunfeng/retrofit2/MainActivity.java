@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.view.View;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 
 import com.yunfeng.demo.R;
 
@@ -56,13 +58,15 @@ public class MainActivity extends Activity {
 
     private Retrofit2Adapter adapter;
 
+    private ProgressBar mProgressBar;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_retrofit2);
-        adapter = new Retrofit2Adapter(this);
-
+        mProgressBar = findViewById(R.id.waiting);
         ListView listView = findViewById(R.id.retrofit2_list_view);
+        adapter = new Retrofit2Adapter(this);
         listView.setAdapter(adapter);
 
         new Thread(new Runnable() {
@@ -78,22 +82,24 @@ public class MainActivity extends Activity {
 
                     // Fetch and print a list of the contributors to the library.
                     List<Contributor> contributors = call.execute().body();
-                    for (Contributor contributor : contributors) {
-                        add(contributor);
-                    }
+                    add(contributors);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
         }).start();
+
     }
 
-    public void add(final Contributor contributor) {
+    public void add(final List<Contributor> contributors) {
         new Handler(this.getMainLooper()).post(new Runnable() {
             @Override
             public void run() {
-                adapter.addData(contributor);
+                for (Contributor contributor : contributors) {
+                    adapter.addData(contributor);
+                }
                 adapter.notifyDataSetChanged();
+                mProgressBar.setVisibility(View.GONE);
             }
         });
     }
