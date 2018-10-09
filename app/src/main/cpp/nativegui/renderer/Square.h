@@ -29,14 +29,12 @@ private:
     Mat4 mTransformMatrix;
 
     // 正方形的顶点坐标
-    float *m_square_coords;
+    float *m_square_vertxs;
 
     // 纹理的顶点坐标
     float *m_texture_coords;
 
-    // 正方形的顶点索引
-    short *m_index_coords;
-
+    float mAngle;
 };
 
 

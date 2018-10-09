@@ -27,15 +27,14 @@ void Triangle::draw() {
         mAngle = 0.0f;
     }
     Mat4::setRotateM(MatrixStat::mModleMatrix.Ptr(), 0, mAngle, 0, 0, -1.0f);
-    Mat4 scratch;
-    Mat4::multiplyMM(scratch.Ptr(), 0, MatrixStat::mModleMatrix.Ptr(), 0,
+    Mat4::multiplyMM(mTransformMatrix.Ptr(), 0, MatrixStat::mModleMatrix.Ptr(), 0,
                      MatrixStat::mModleMatrix.Ptr(), 0);
 
     VertexTriangle vertexs[] = {0, 0.5f, 0, -0.5f, -0.5f, 0, 0.5f, -0.5f, 0};
     _shader.begin();
     glEnableVertexAttribArray(_shader._position);
     glVertexAttribPointer(_shader._position, 3, GL_FLOAT, false, 0, vertexs);
-    glUniformMatrix4fv(_shader._mvp, 1, false, scratch.Ptr());
+    glUniformMatrix4fv(_shader._mvp, 1, false, mTransformMatrix.Ptr());
     glUniform4f(_shader._color, 0, 0.5f, 0, 1.0f);
     glDrawArrays(GL_TRIANGLES, 0, 3);
     glDisableVertexAttribArray(_shader._position);

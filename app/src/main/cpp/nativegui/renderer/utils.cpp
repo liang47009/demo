@@ -11,6 +11,7 @@
 #endif
 
 #define STB_IMAGE_IMPLEMENTATION
+
 #include "stb_image.h"
 
 bool utils::ReadFile(AAssetManager *aAssetManager, const char *fileName,
@@ -135,12 +136,6 @@ int utils::loadTextureUseStb(AAssetManager *pManager, const char *fileName) {
     ReadFile(pManager, fileName, &vert_data);
     unsigned char *pixels = stbi_load_from_memory(vert_data.data(), vert_data.size(), &w, &h, &n,
                                                   4);
-    LOGI("stbi_load_from_memory fileName: %s, %d, %d, %d", fileName, w, h, n);
-    for (int i = 0; i < w * h * 3; i += 3) {
-        uint8_t temp = pixels[i];
-        pixels[i] = pixels[i + 2];
-        pixels[i + 2] = temp;
-    }
     unsigned textureId = 0;
     /**
     *   产生一个纹理Id,可以认为是纹理句柄，后面的操作将书用这个纹理id
@@ -155,20 +150,28 @@ int utils::loadTextureUseStb(AAssetManager *pManager, const char *fileName) {
     /**
     *   指定纹理的放大,缩小滤波，使用线性方式，即当图片放大的时候插值方式
     */
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    //设置缩小过滤为使用纹理中坐标最接近的一个像素的颜色作为需要绘制的像素颜色
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    //设置放大过滤为使用纹理中坐标最接近的若干个颜色，通过加权平均算法得到需要绘制的像素颜色
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    //设置环绕方向S，截取纹理坐标到[1/2n,1-1/2n]。将导致永远不会与border融合
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    //设置环绕方向T，截取纹理坐标到[1/2n,1-1/2n]。将导致永远不会与border融合
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     /**
     *   将图片的rgb数据上传给opengl.
     */
     glTexImage2D(
             GL_TEXTURE_2D,      //! 指定是二维图片
             0,                  //! 指定为第一级别，纹理可以做mipmap,即lod,离近的就采用级别大的，远则使用较小的纹理
-            GL_RGB,             //! 纹理的使用的存储格式
+            GL_RGBA,            //! 纹理的使用的存储格式
             w,                  //! 宽度，老一点的显卡，不支持不规则的纹理，即宽度和高度不是2^n。
             h,                  //! 宽度，老一点的显卡，不支持不规则的纹理，即宽度和高度不是2^n。
             0,                  //! 是否的边
-            GL_RGB,             //! 数据的格式，bmp中，windows,操作系统中存储的数据是bgr格式
+            GL_RGBA,            //! 数据的格式，bmp中，windows,操作系统中存储的数据是bgr格式
             GL_UNSIGNED_BYTE,   //! 数据是8bit数据
             pixels
     );

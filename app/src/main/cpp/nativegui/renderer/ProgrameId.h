@@ -176,11 +176,13 @@ public:
     int vPosition;
     int vTexCoord;
     int fTexture;
+    int uMatrix;
 public:
     PROGRAM_TR_TEX() {
         vPosition = -1;
         vTexCoord = -1;
         fTexture = -1;
+        uMatrix = -1;
     }
 
     ~PROGRAM_TR_TEX() {
@@ -191,27 +193,29 @@ public:
         const char *vs =
                 {
                         "attribute vec4 vPosition;"
-                                "attribute vec2 vTexCoord;"
-                                "varying vec2 fTexCoord;"
-                                "void main() {"
-                                "   fTexCoord = vTexCoord;"
-                                "   gl_Position = vPosition;"
+                                "attribute vec2 vCoordinate;"
+                                "uniform mat4 vMatrix;"
+                                "varying vec2 aCoordinate;"
+                                "void main(){"
+                                "    gl_Position=vMatrix*vPosition;"
+                                "    aCoordinate=vCoordinate;"
                                 "}"
                 };
         const char *ps =
                 {
                         "precision mediump float;"
-                                "varying vec2 fTexCoord;"
-                                "uniform sampler2D fTexture;"
-                                "void main() {"
-                                "   gl_FragColor = texture2D(fTexture, fTexCoord);"
+                                "uniform sampler2D vTexture;"
+                                "varying vec2 aCoordinate;"
+                                "void main(){"
+                                "    gl_FragColor=texture2D(vTexture,aCoordinate);"
                                 "}"
                 };
         bool res = createProgram(vs, ps);
         if (res) {
             vPosition = glGetAttribLocation(_programId, "vPosition");
-            vTexCoord = glGetAttribLocation(_programId, "vTexCoord");
-            fTexture = glGetUniformLocation(_programId, "fTexture");
+            vTexCoord = glGetAttribLocation(_programId, "vCoordinate");
+            uMatrix = glGetUniformLocation(_programId, "vMatrix");
+            fTexture = glGetUniformLocation(_programId, "vTexture");
         }
         return res;
     }

@@ -22,6 +22,7 @@ public:
     void changed(int width, int height);
 
 private:
+    Mat4 mTransformMatrix;
     PROGRAM_Tr_U1 _shader;
     int _textureId;
     float mAngle;
