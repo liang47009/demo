@@ -15,7 +15,7 @@ set_target_properties(ssl PROPERTIES IMPORTED_LOCATION ${PROJECT_SOURCE_DIR}/jni
 add_library(guinative SHARED    com_yunfeng_gui_JNILib.cpp
 								VulkanAndroid.cpp
 								renderer/vecmath.cpp
-								renderer/Renderer.cpp
+								renderer/GLESRenderer.cpp
 								renderer/utils.cpp
 								renderer/Square.cpp
 								renderer/VulkanRenderer.cpp

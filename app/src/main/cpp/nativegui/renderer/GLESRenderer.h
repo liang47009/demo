@@ -9,11 +9,11 @@
 #include "Square.h"
 #include "IRenderer.h"
 
-class Renderer : public Singleton<Renderer>, IRenderer {
+class GLESRenderer : public Singleton<GLESRenderer>, IRenderer {
 public:
-    Renderer();
+    GLESRenderer();
 
-    ~Renderer();
+    ~GLESRenderer();
 
     bool init(AAssetManager *pManager);
 

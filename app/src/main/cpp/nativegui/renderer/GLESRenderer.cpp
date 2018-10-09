@@ -6,14 +6,14 @@
 #include <freeimage/Source/FreeImage.h>
 #endif
 
-Renderer::Renderer() {
+GLESRenderer::GLESRenderer() {
 }
 
-Renderer::~Renderer() {
+GLESRenderer::~GLESRenderer() {
 
 }
 
-bool Renderer::init(AAssetManager *pManager) {
+bool GLESRenderer::init(AAssetManager *pManager) {
 #ifdef USE_FREEIMAGE
     FreeImage_Initialise(true);
 #endif
@@ -29,7 +29,7 @@ bool Renderer::init(AAssetManager *pManager) {
     return true;
 }
 
-bool Renderer::onChanged(int width, int height) {
+bool GLESRenderer::onChanged(int width, int height) {
     glViewport(0, 0, width, height);
     // 计算长和宽的比例，由于在OpenGLes坐标系里最大是1，具体的算法是:
     // x / width = 1 / height;
@@ -49,13 +49,13 @@ bool Renderer::onChanged(int width, int height) {
     return true;
 }
 
-void Renderer::onDrawFrame() {
+void GLESRenderer::onDrawFrame() {
     glClearColor(0.5f, 0.5f, 0.5f, 1.f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     m_square.draw();
     m_triangle.draw();
 }
 
-void Renderer::update() {
+void GLESRenderer::update() {
 
 }
