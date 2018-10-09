@@ -1,6 +1,6 @@
 #include <GLES2/gl2.h>
 #include <assert.h>
-#include "../VulkanAndroid.h"
+#include "VulkanAndroid.h"
 
 #ifdef USE_FREEIMAGE
 #include <freeimage/Source/FreeImage.h>

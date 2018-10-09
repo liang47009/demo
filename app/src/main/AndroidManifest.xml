@@ -113,6 +113,11 @@
             </intent-filter>
         </activity>
         <activity android:name="com.yunfeng.opensles.MainActivity" />
+        <activity android:name="com.yunfeng.vulkan.VulkanActivity">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="vulkanapp" />
+        </activity>
         <!-- <service android:name="com.amap.api.location.APSService"></service>-->
         <!--<meta-data
             android:name="com.amap.api.v2.apikey"

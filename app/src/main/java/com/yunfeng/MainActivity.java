@@ -20,8 +20,6 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_list);
         ActivityListAdapter adapter = new ActivityListAdapter(this.getApplicationContext());
         ListView list = findViewById(R.id.activitys_list);
-        list.setAdapter(adapter);
-        LayoutInflaterCompat.setFactory2(this.getLayoutInflater(), new SkinFactoryTwo());
 
         adapter.addActivity(com.yunfeng.demo.MainActivity.class);
         adapter.addActivity(com.yunfeng.ddd.MainActivity.class);
@@ -36,6 +34,10 @@ public class MainActivity extends Activity {
         adapter.addActivity(com.yunfeng.gui.GuiMainActivity.class);
         adapter.addActivity(com.yunfeng.guinative.GuiNativeMainActivity.class);
         adapter.addActivity(com.yunfeng.opensles.MainActivity.class);
+        adapter.addActivity(com.yunfeng.vulkan.VulkanActivity.class);
+
+        list.setAdapter(adapter);
+        LayoutInflaterCompat.setFactory2(this.getLayoutInflater(), new SkinFactoryTwo());
     }
 
 }

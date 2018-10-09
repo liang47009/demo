@@ -2,7 +2,6 @@
 //#include <android/ndk-version.h>
 #include "com_yunfeng_gui_JNILib.h"
 #include "renderer/GLESRenderer.h"
-#include "renderer/VulkanRenderer.h"
 #include "renderer/utils.h"
 
 #include <AndroidCrashDump.h>

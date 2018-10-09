@@ -13,12 +13,10 @@ add_library(ssl STATIC IMPORTED)
 set_target_properties(ssl PROPERTIES IMPORTED_LOCATION ${PROJECT_SOURCE_DIR}/jniLibs/${ANDROID_ABI}/libssl.a)
 
 add_library(guinative SHARED    com_yunfeng_gui_JNILib.cpp
-								VulkanAndroid.cpp
 								renderer/vecmath.cpp
 								renderer/GLESRenderer.cpp
 								renderer/utils.cpp
 								renderer/Square.cpp
-								renderer/VulkanRenderer.cpp
 								renderer/MatrixStat.cpp
 								renderer/Triangle.cpp)
 target_compile_definitions(guinative PRIVATE VK_NO_PROTOTYPES VK_USE_PLATFORM_ANDROID_KHR )  #USE_FREEIMAGE
