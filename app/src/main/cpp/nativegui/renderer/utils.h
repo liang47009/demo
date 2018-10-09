@@ -5,7 +5,6 @@
 #ifndef _UTILS_H__
 #define _UTILS_H__
 
-#include <android/asset_manager.h>
 #include <android/log.h>
 #include <vector>
 #include "vecmath.h"
@@ -18,9 +17,9 @@ class utils {
 public:
     static float sTemp[];
 
-    static bool ReadFile(AAssetManager *, const char *, std::vector<uint8_t> *);
+    static bool ReadFile(void *, const char *, std::vector<uint8_t> *);
 
-    static unsigned int loadTextureUseFreeImage(AAssetManager *, const char *);
+    static unsigned int loadTextureUseFreeImage(void *, const char *);
 
     static void
     rotateM(float rm[], int rmOffset, float m[], int mOffset, float a, float x, float y, float z);
@@ -29,7 +28,7 @@ public:
 
     static void arraycopy(float *src, int srcPos, float *dst, int dstPos, int length);
 
-    static int loadTextureUseStb(AAssetManager *, const char *);
+    static int loadTextureUseStb(void *, const char *);
 };
 
 

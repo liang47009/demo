@@ -3,6 +3,7 @@
 //
 #include <fstream>
 #include <GLES2/gl2.h>
+#include <android/asset_manager.h>
 #include "utils.h"
 
 #ifdef USE_FREEIMAGE
@@ -14,7 +15,7 @@
 
 #include "stb_image.h"
 
-bool utils::ReadFile(AAssetManager *aAssetManager, const char *fileName,
+bool utils::ReadFile(void *aAssetManager, const char *fileName,
                      std::vector<uint8_t> *buffer_ref) {
     std::ifstream f(fileName, std::ios::binary);
     if (f) {
@@ -31,8 +32,9 @@ bool utils::ReadFile(AAssetManager *aAssetManager, const char *fileName,
 //            LOGE("AssetManager is null!");
             return false;
         }
+        AAssetManager *temp = (AAssetManager *) aAssetManager;
         //Fallback to assetManager
-        AAsset *assetFile = AAssetManager_open(aAssetManager, fileName, AASSET_MODE_BUFFER);
+        AAsset *assetFile = AAssetManager_open(temp, fileName, AASSET_MODE_BUFFER);
         if (!assetFile) {
 //            LOGE("assetFile is null: %s", fileName);
             return false;
@@ -130,7 +132,7 @@ void utils::rotateM(float m[], int mOffset,
     arraycopy(sTemp, 16, m, mOffset, 16);
 }
 
-int utils::loadTextureUseStb(AAssetManager *pManager, const char *fileName) {
+int utils::loadTextureUseStb(void *pManager, const char *fileName) {
     int w, h, n;
     std::vector<uint8_t> vert_data;
     ReadFile(pManager, fileName, &vert_data);
@@ -178,7 +180,7 @@ int utils::loadTextureUseStb(AAssetManager *pManager, const char *fileName) {
     return textureId;
 }
 
-unsigned int utils::loadTextureUseFreeImage(AAssetManager *aAssetManager, const char *fileName) {
+unsigned int utils::loadTextureUseFreeImage(void *aAssetManager, const char *fileName) {
     unsigned textureId = 0;
 #ifdef USE_FREEIMAGE
     FIBITMAP *dib = 0;

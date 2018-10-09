@@ -9,32 +9,30 @@
 #include <android/asset_manager.h>
 #include "ProgrameId.h"
 #include "vecmath.h"
+#include "IGeometry.h"
 
-class Square {
+class Square : public IGeometry {
 public:
     Square();
 
     ~Square();
 
-    bool init(AAssetManager *pManager);
+    bool init(void *pManager);
 
     void draw();
 
     void changed(int width, int height);
 
-private:
+protected:
     int _textureId;
-    PROGRAM_TR_TEX _shader;
-
-    Mat4 mTransformMatrix;
-
+    int vPosition;
+    int vTexCoord;
+    int uMatrix;
+    int fTexture;
     // 正方形的顶点坐标
     float *m_square_vertxs;
-
     // 纹理的顶点坐标
     float *m_texture_coords;
-
-    float mAngle;
 };
 
 

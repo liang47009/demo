@@ -17,8 +17,13 @@ bool GLESRenderer::init(AAssetManager *pManager) {
 #ifdef USE_FREEIMAGE
     FreeImage_Initialise(true);
 #endif
-    m_square.init(pManager);
-    m_triangle.init(pManager);
+
+    geometrys.push_back(new Triangle());
+    geometrys.push_back(new Square());
+
+    for (IGeometry *geometry : geometrys) {
+        geometry->init(pManager);
+    }
 //    _shader.initialize();
     m_AAssetManager = pManager;
     glClearColor(0, 0, 0.5f, 0);
@@ -43,17 +48,18 @@ bool GLESRenderer::onChanged(int width, int height) {
 
     Mat4::multiplyMM(MatrixStat::mModleMatrix.Ptr(), 0, MatrixStat::mProjectionMatrix.Ptr(), 0,
                      MatrixStat::mViewMatrix.Ptr(), 0);
-
-    m_triangle.changed(width, height);
-    m_square.changed(width, height);
+    for (IGeometry *geometry : geometrys) {
+        geometry->changed(width, height);
+    }
     return true;
 }
 
 void GLESRenderer::onDrawFrame() {
     glClearColor(0.5f, 0.5f, 0.5f, 1.f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    m_square.draw();
-    m_triangle.draw();
+    for (IGeometry *geometry : geometrys) {
+        geometry->draw();
+    }
 }
 
 void GLESRenderer::update() {

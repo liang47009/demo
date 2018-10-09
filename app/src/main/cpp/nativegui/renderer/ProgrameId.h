@@ -2,6 +2,9 @@
 #define __PROGRAMID_H__
 
 #include <GLES2/gl2.h>
+#include <vector>
+#include <string>
+#include <map>
 
 class ShaderId {
 public:
@@ -17,6 +20,8 @@ public:
 *   程序
 */
 class ProgramId {
+private:
+    std::map<std::string, int> attributs;
 public:
     GLint _programId;
     ShaderId _vertex;
@@ -27,6 +32,16 @@ public:
     }
 
 public:
+    virtual bool initialize() = 0;
+
+    int getShaderHandler(const char *key) {
+        return attributs[key];
+    }
+
+    void addShaderHandler(const char *key, int handler) {
+        attributs[key] = handler;
+    }
+
     /**
     *   加载函数
     */
@@ -173,16 +188,7 @@ public:
 
 class PROGRAM_TR_TEX : public ProgramId {
 public:
-    int vPosition;
-    int vTexCoord;
-    int fTexture;
-    int uMatrix;
-public:
     PROGRAM_TR_TEX() {
-        vPosition = -1;
-        vTexCoord = -1;
-        fTexture = -1;
-        uMatrix = -1;
     }
 
     ~PROGRAM_TR_TEX() {
@@ -212,10 +218,15 @@ public:
                 };
         bool res = createProgram(vs, ps);
         if (res) {
-            vPosition = glGetAttribLocation(_programId, "vPosition");
-            vTexCoord = glGetAttribLocation(_programId, "vCoordinate");
-            uMatrix = glGetUniformLocation(_programId, "vMatrix");
-            fTexture = glGetUniformLocation(_programId, "vTexture");
+            int vPosition = glGetAttribLocation(_programId, "vPosition");
+            int vTexCoord = glGetAttribLocation(_programId, "vCoordinate");
+            int uMatrix = glGetUniformLocation(_programId, "vMatrix");
+            int fTexture = glGetUniformLocation(_programId, "vTexture");
+
+            addShaderHandler("vPosition", vPosition);
+            addShaderHandler("vCoordinate", vTexCoord);
+            addShaderHandler("vMatrix", uMatrix);
+            addShaderHandler("vTexture", fTexture);
         }
         return res;
     }
@@ -225,30 +236,19 @@ public:
     */
     virtual void begin() {
         glUseProgram(_programId);
-        glEnableVertexAttribArray(vPosition);
-        glEnableVertexAttribArray(vTexCoord);
     }
 
     /**
     *   使用完成
     */
     virtual void end() {
-        glDisableVertexAttribArray(vPosition);
-        glDisableVertexAttribArray(vTexCoord);
         glUseProgram(0);
     }
 };
 
 class PROGRAM_Tr_U1 : public ProgramId {
 public:
-    int _position;
-    int _color;
-    int _mvp;
-public:
     PROGRAM_Tr_U1() {
-        _position = -1;
-        _color = -1;
-        _mvp = -1;
     }
 
     ~PROGRAM_Tr_U1() {
@@ -273,9 +273,14 @@ public:
                 };
         bool res = createProgram(vs, ps);
         if (res) {
-            _position = glGetAttribLocation(_programId, "_position");
-            _color = glGetUniformLocation(_programId, "_color");
-            _mvp = glGetUniformLocation(_programId, "_mvp");
+            int _position = glGetAttribLocation(_programId, "_position");
+            int _color = glGetUniformLocation(_programId, "_color");
+            int _mvp = glGetUniformLocation(_programId, "_mvp");
+
+            addShaderHandler("_position", _position);
+            addShaderHandler("_color", _color);
+            addShaderHandler("_mvp", _mvp);
+
         }
         return res;
     }
@@ -285,14 +290,12 @@ public:
     */
     virtual void begin() {
         glUseProgram(_programId);
-        glEnableVertexAttribArray(_position);
     }
 
     /**
     *   使用完成
     */
     virtual void end() {
-        glDisableVertexAttribArray(_position);
         glUseProgram(0);
     }
 };

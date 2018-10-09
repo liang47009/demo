@@ -8,6 +8,7 @@
 #include "Triangle.h"
 #include "Square.h"
 #include "IRenderer.h"
+#include "IGeometry.h"
 
 class GLESRenderer : public Singleton<GLESRenderer>, IRenderer {
 public:
@@ -25,8 +26,7 @@ public:
 
 private:
     AAssetManager *m_AAssetManager;
-    Triangle m_triangle;
-    Square m_square;
+    std::vector<IGeometry *> geometrys;
 };
 
 #endif//_RENDERER_H_

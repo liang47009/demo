@@ -5,17 +5,17 @@
 #ifndef _TRIANGLE_H__
 #define _TRIANGLE_H__
 
-#include <android/asset_manager.h>
 #include "ProgrameId.h"
 #include "vecmath.h"
+#include "IGeometry.h"
 
-class Triangle {
+class Triangle : public IGeometry {
 public:
     Triangle();
 
     ~Triangle();
 
-    bool init(AAssetManager *pManager);
+    bool init(void *pManager);
 
     void draw();
 
@@ -23,10 +23,11 @@ public:
 
 private:
     float *m_tri_vertxs;
-    Mat4 mTransformMatrix;
-    PROGRAM_Tr_U1 _shader;
     int _textureId;
-    float mAngle;
+
+    int _position;
+    int _color;
+    int _mvp ;
 };
 
 
