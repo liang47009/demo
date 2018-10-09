@@ -22,6 +22,10 @@ bool Renderer::init(AAssetManager *pManager) {
 //    _shader.initialize();
     m_AAssetManager = pManager;
     glClearColor(0, 0, 0.5f, 0);
+    //打开背面剪裁
+    glEnable(GL_CULL_FACE);
+    // 开启深度测试
+    glEnable(GL_DEPTH_TEST);
     return true;
 }
 
@@ -31,9 +35,12 @@ bool Renderer::onChanged(int width, int height) {
     // x / width = 1 / height;
     // 所以 x = width /height;
     float ratio = (float) width / height;
+    //设置透视投影
     Mat4::frustumM(MatrixStat::mProjectionMatrix, 0, -ratio, ratio, -1, 1, 3, 20);
+    //设置相机位置
     Mat4::setLookAtM(MatrixStat::mViewMatrix.Ptr(), 0, 5.0f, 5.0f, 10.0f, 0.0f, 0.0f, 0.0f, 0.0f,
                      1.0f, 0.0f);
+
     Mat4::multiplyMM(MatrixStat::mModleMatrix.Ptr(), 0, MatrixStat::mProjectionMatrix.Ptr(), 0,
                      MatrixStat::mViewMatrix.Ptr(), 0);
 
