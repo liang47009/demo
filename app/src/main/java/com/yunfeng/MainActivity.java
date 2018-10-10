@@ -4,13 +4,12 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.view.LayoutInflaterCompat;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.yunfeng.demo.R;
+import com.yunfeng.floatwindow.FloatService;
 
 /**
  * main
@@ -39,25 +38,10 @@ public class MainActivity extends Activity {
         adapter.addActivity(com.yunfeng.guinative.GuiNativeMainActivity.class);
         adapter.addActivity(com.yunfeng.opensles.MainActivity.class);
         adapter.addActivity(com.yunfeng.vulkan.VulkanActivity.class);
+        adapter.addActivity(com.yunfeng.floatwindow.FloatActivity.class);
 
         list.setAdapter(adapter);
         LayoutInflaterCompat.setFactory2(this.getLayoutInflater(), new SkinFactoryTwo());
-
-        if (Build.VERSION.SDK_INT >= 23) {
-//            if (Settings.canDrawOverlays(MainActivity.this)) {
-            Intent intent = new Intent(MainActivity.this, FloatService.class);
-//            Toast.makeText(MainActivity.this, "已开启Toucher", Toast.LENGTH_SHORT).show();
-            startService(intent);
-//            } else {
-//                //若没有权限，提示获取.
-//                Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
-//                Toast.makeText(MainActivity.this, "需要取得权限以使用悬浮窗", Toast.LENGTH_SHORT).show();
-//                startActivity(intent);
-//            }
-        } else { //SDK在23以下，不用管.
-            Intent intent = new Intent(MainActivity.this, FloatService.class);
-            startService(intent);
-        }
 
     }
 

@@ -1,4 +1,4 @@
-package com.yunfeng;
+package com.yunfeng.floatwindow;
 
 import android.app.Service;
 import android.content.Context;
@@ -17,6 +17,7 @@ import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.yunfeng.Const;
 import com.yunfeng.demo.R;
 
 /**
