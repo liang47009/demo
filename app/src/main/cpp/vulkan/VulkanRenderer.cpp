@@ -8,18 +8,11 @@
 
 #include "VulkanRenderer.h"
 
-#ifndef ENABLEDFEATURESFN
-#define ENABLEDFEATURESFN true
-#endif
-
 VulkanRenderer::VulkanRenderer() {
     bool libLoaded = loadVulkanLibrary();
     assert(libLoaded);
     PFN_GetEnabledFeatures enabledFeaturesFn;
-    if (ENABLEDFEATURESFN) {
         this->enabledFeatures = enabledFeaturesFn();
-    }
-
 }
 
 VulkanRenderer::~VulkanRenderer() {
