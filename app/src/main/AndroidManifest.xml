@@ -121,7 +121,8 @@
                 android:value="vulkanapp" />
         </activity>
         <activity android:name="com.yunfeng.floatwindow.FloatActivity" />
-        <activity android:name="com.yunfeng.toastfloatwindow.MainActivity" />
+
+        <service android:name="com.yunfeng.floatwindow.FloatService" />
         <!-- <service android:name="com.amap.api.location.APSService"></service>-->
         <!--<meta-data
             android:name="com.amap.api.v2.apikey"
@@ -132,7 +133,6 @@
             android:exported="true"
             android:permission="com.yunfeng"
             android:process=":aidl" />
-        <service android:name="com.yunfeng.floatwindow.FloatService" />
     </application>
 
 </manifest>
