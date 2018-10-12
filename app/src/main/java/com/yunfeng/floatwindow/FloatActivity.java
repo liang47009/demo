@@ -5,6 +5,10 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.MotionEvent;
+import android.view.View;
+
+import com.yunfeng.MyContext;
 
 /**
  * float
@@ -14,6 +18,7 @@ public class FloatActivity extends Activity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        MyContext.getInstance().setContext(this);
 
         if (Build.VERSION.SDK_INT >= 23) {
 //            if (Settings.canDrawOverlays(MainActivity.this)) {
@@ -31,5 +36,28 @@ public class FloatActivity extends Activity {
             startService(intent);
         }
 
+        showFloatView();
+    }
+
+    private FloatView floatView;
+
+    public void showFloatView() {
+        if (floatView == null) {
+            floatView = new FloatView(this);
+        }
+        floatView.setVisibility(View.VISIBLE);
+    }
+
+    public void dismissFloatView() {
+        if (floatView != null) {
+            floatView.setVisibility(View.GONE);
+        }
+    }
+
+    public void destroyFloatView() {
+        if (floatView != null) {
+            floatView.destroy();
+            floatView = null;
+        }
     }
 }
