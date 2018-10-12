@@ -6,10 +6,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.LayoutInflaterCompat;
+import android.view.View;
 import android.widget.ListView;
 
 import com.yunfeng.demo.R;
 import com.yunfeng.floatwindow.FloatService;
+import com.yunfeng.floatwindow.FloatView;
 
 /**
  * main
@@ -17,9 +19,32 @@ import com.yunfeng.floatwindow.FloatService;
  */
 public class MainActivity extends Activity {
 
+    private FloatView floatView;
+
+    public void showFloatView() {
+        if (floatView == null) {
+            floatView = new FloatView(this);
+        }
+        floatView.setVisibility(View.VISIBLE);
+    }
+
+    public void dismissFloatView() {
+        if (floatView != null) {
+            floatView.setVisibility(View.GONE);
+        }
+    }
+
+    public void destroyFloatView() {
+        if (floatView != null) {
+            floatView.destroy();
+            floatView = null;
+        }
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        MyContext.getInstance().setContext(this);
         setContentView(R.layout.activity_list);
         ActivityListAdapter adapter = new ActivityListAdapter(this.getApplicationContext());
         ListView list = findViewById(R.id.activitys_list);
@@ -43,6 +68,7 @@ public class MainActivity extends Activity {
         list.setAdapter(adapter);
         LayoutInflaterCompat.setFactory2(this.getLayoutInflater(), new SkinFactoryTwo());
 
+        showFloatView();
     }
 
 }
