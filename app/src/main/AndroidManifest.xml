@@ -121,6 +121,7 @@
                 android:value="vulkanapp" />
         </activity>
         <activity android:name="com.yunfeng.floatwindow.FloatActivity" />
+        <activity android:name="com.yunfeng.fmod.FModeActivity" />
 
         <service android:name="com.yunfeng.floatwindow.FloatService" />
         <!-- <service android:name="com.amap.api.location.APSService"></service>-->

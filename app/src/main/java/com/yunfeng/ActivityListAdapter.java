@@ -20,7 +20,7 @@ import java.util.List;
  * Created by xll on 2018/9/30.
  */
 public class ActivityListAdapter extends BaseAdapter {
-    private List<Class<? extends Activity>> activitys = new ArrayList<>();
+    private List<Class<? extends Activity>> activitys;
 
     private final Context mContext;
 
@@ -68,7 +68,7 @@ public class ActivityListAdapter extends BaseAdapter {
         return convertView;
     }
 
-    public void addActivity(Class<? extends Activity> activity) {
-        activitys.add(activity);
+    public void setData(List<Class<? extends Activity>> data) {
+        this.activitys = data;
     }
 }
