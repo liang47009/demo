@@ -76,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
         activitys.add(com.yunfeng.vulkan.VulkanActivity.class);
         activitys.add(com.yunfeng.floatwindow.FloatActivity.class);
         activitys.add(com.yunfeng.fmod.FModeActivity.class);
+        activitys.add(com.yunfeng.twowaysample.ui.MainActivity.class);
     }
 
     @Override
