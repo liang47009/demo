@@ -46,7 +46,7 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentH
         }
     }
 
-    public static class StudentHolder extends RecyclerView.ViewHolder {
+    public class StudentHolder extends RecyclerView.ViewHolder {
         private MvvmAdapterBinding mBinding;
 
         public StudentHolder(View itemView) {
