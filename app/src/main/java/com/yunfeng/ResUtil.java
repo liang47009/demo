@@ -9,7 +9,7 @@ import android.util.Log;
  */
 public class ResUtil {
 
-    public static final int getResId(String name, String type) {
+    public static int getResId(String name, String type) {
         Context context = MyContext.getInstance().getContext();
         if (context == null) {
             Log.e(Const.TAG, "context of getResId is null");
@@ -18,28 +18,35 @@ public class ResUtil {
         return context.getResources().getIdentifier(name, type, context.getPackageName());
     }
 
-    public static final int getLayoutId(String name) {
+    public static int getLayoutId(String name) {
         return getResId(name, "layout");
     }
 
-    public static final int getViewId(String name) {
+    public static int getViewId(String name) {
         return getResId(name, "id");
     }
 
-    public static final int getDrawableId(String name) {
+    public static int getDrawableId(String name) {
         return getResId(name, "drawable");
     }
 
-    public static final int getStringId(String name) {
+    public static int getStringId(String name) {
         return getResId(name, "string");
     }
 
-    public static final String getString(String name) {
+    public static String getString(String name) {
         Context context = MyContext.getInstance().getContext();
+        String ret = "";
         if (context == null) {
             Log.e(Const.TAG, "context of getString is null");
-            return "";
+        } else {
+            int id = getResId(name, "string");
+            if (id == 0) {
+                Log.e(Const.TAG, String.format("identifier string, name:%s not found!", name));
+            } else {
+                ret = context.getString(id);
+            }
         }
-        return context.getString(getResId(name, "string"));
+        return ret;
     }
 }

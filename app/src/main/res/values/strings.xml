@@ -29,7 +29,9 @@
         <item>http://www.freesound.org/data/previews/18/18765_18799-lq.mp3</item>
     </string-array>
 
-
+    <string name="demo_permission_text">request permission</string>
+    <string name="demo_permission_cancel">cancel request</string>
+    <string name="demo_permission_setting">open settings</string>
     <string name="start">Start</string>
     <string name="stop">Reset</string>
     <string name="pause">Pause</string>

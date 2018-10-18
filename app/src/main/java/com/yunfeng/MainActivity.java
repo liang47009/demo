@@ -1,7 +1,9 @@
 package com.yunfeng;
 
+import android.Manifest;
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -24,8 +26,15 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private FloatView floatView;
+    private PermissionRequest permissionRequest;
 
     private List<Class<? extends Activity>> activitys = new ArrayList<>();
+
+    private String[] permissions = {Manifest.permission.INTERNET, Manifest.permission.GET_ACCOUNTS, Manifest.permission.READ_CONTACTS,
+            Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_NETWORK_STATE,
+            Manifest.permission.ACCESS_WIFI_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.SYSTEM_ALERT_WINDOW,};
+
+    private int PERMISSION_REQUESE_CODE = 1100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,30 +42,42 @@ public class MainActivity extends AppCompatActivity {
         MyContext.getInstance().setContext(this);
         initData();
         setContentView(R.layout.activity_list);
-        ActivityListAdapter adapter = new ActivityListAdapter(this.getApplicationContext());
-        ListView listView = findViewById(R.id.activitys_list);
-        adapter.setData(activitys);
-        listView.setAdapter(adapter);
 
-        //通过findViewById拿到RecyclerView实例
-        RecyclerView mRecyclerView = findViewById(R.id.recyclerView);
-        //设置RecyclerView管理器
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
-        //初始化适配器
-        RecyclerViewAdapter mAdapter = new RecyclerViewAdapter();
-        mAdapter.setData(activitys);
-        //设置添加或删除item时的动画，这里使用默认动画
-        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        //设置适配器
-        mRecyclerView.setAdapter(mAdapter);
+        permissionRequest = new PermissionRequest(this);
+        permissionRequest.startRequest(permissions, PERMISSION_REQUESE_CODE, new PermissionRequest.Callback() {
+            @Override
+            public void onCallback(boolean paramBoolean) {
+                MainActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        ActivityListAdapter adapter = new ActivityListAdapter(MainActivity.this.getApplicationContext());
+                        ListView listView = findViewById(R.id.activitys_list);
+                        adapter.setData(activitys);
+                        listView.setAdapter(adapter);
 
-        LayoutInflater.Factory2 factory2 = this.getLayoutInflater().getFactory2();
-        if (null == factory2) {
-            this.getLayoutInflater().setFactory2(new SkinFactoryTwo());
-        }
+                        //通过findViewById拿到RecyclerView实例
+                        RecyclerView mRecyclerView = findViewById(R.id.recyclerView);
+                        //设置RecyclerView管理器
+                        mRecyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this, LinearLayoutManager.VERTICAL, false));
+                        mRecyclerView.addItemDecoration(new DividerItemDecoration(MainActivity.this, LinearLayoutManager.VERTICAL));
+                        //初始化适配器
+                        RecyclerViewAdapter mAdapter = new RecyclerViewAdapter();
+                        mAdapter.setData(activitys);
+                        //设置添加或删除item时的动画，这里使用默认动画
+                        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+                        //设置适配器
+                        mRecyclerView.setAdapter(mAdapter);
 
-        showFloatView();
+                        LayoutInflater.Factory2 factory2 = MainActivity.this.getLayoutInflater().getFactory2();
+                        if (null == factory2) {
+                            MainActivity.this.getLayoutInflater().setFactory2(new SkinFactoryTwo());
+                        }
+                        showFloatView();
+                    }
+                });
+            }
+        });
+
     }
 
     private void initData() {
@@ -84,6 +105,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         destroyFloatView();
         super.onDestroy();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        permissionRequest.onResponse(requestCode, permissions, grantResults);
     }
 
     @Override
