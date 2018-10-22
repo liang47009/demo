@@ -113,6 +113,11 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="/data" />
+            </intent-filter>
         </activity>
         <activity android:name="com.yunfeng.opensles.MainActivity" />
         <activity android:name="com.yunfeng.vulkan.VulkanActivity">
@@ -121,7 +126,7 @@
                 android:value="vulkanapp" />
         </activity>
         <activity android:name="com.yunfeng.floatwindow.FloatActivity" />
-        <activity android:name="com.yunfeng.fmod.FModeActivity" />
+        <activity android:name="com.yunfeng.fmod.FmodActivity" />
         <activity android:name="com.yunfeng.twowaysample.ui.MainActivity" />
         <activity android:name="com.yunfeng.rxcpp.MainActivity" />
 

@@ -91,9 +91,12 @@ LOCAL_SRC_FILES := \
     src/common/linux/linux_libc_support.cc \
     src/common/linux/memory_mapped_file.cc \
 	src/common/linux/google_crashdump_uploader.cc \
+	src/common/linux/curl_helper.cc \
+	src/common/linux/libcurl_wrapper.cc \
     src/common/linux/safe_readlink.cc
 
 LOCAL_C_INCLUDES        := $(LOCAL_PATH)/src/common/android/include \
+                           $(LOCAL_PATH)/../ \
                            $(LOCAL_PATH)/src
 
 LOCAL_EXPORT_C_INCLUDES := $(LOCAL_C_INCLUDES)

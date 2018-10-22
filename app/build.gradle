@@ -14,9 +14,13 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         externalNativeBuild {
+//            ndkBuild {
+//                arguments "-j8" //, "NDK_OUT=${pd}/obj", "NDK_LIBS_OUT=${pd}/jniLibs/armeabi-v7a/"
+//                abiFilters "armeabi-v7a", "x86"
+//            }
             cmake {
                 // ndk-build NDK_PROJECT_PATH=. APP_BUILD_SCRIPT=Android.mk NDK_APPLICATION_MK=Application.mk
-                arguments "-DANDROID_ARM_NEON=TRUE", "-DANDROID_TOOLCHAIN=clang", "-DANDROID_PLATFORM=android-21", "-DAPP_STL=c++_static"
+                arguments "-DANDROID_TOOLCHAIN=clang", "-DANDROID_PLATFORM=android-21"
                 cppFlags "-D__STDC_FORMAT_MACROS", "-D__STDC_LIMIT_MACROS"
                 //cppFlags "-D__STDC_LIMIT_MACROS"
                 cppFlags "-fexceptions", "-frtti", "-std=c++11", "-fno-inline"
@@ -26,7 +30,7 @@ android {
     }
     sourceSets {
         main {
-//            jniLibs.srcDirs = ['jniLibs']
+            jniLibs.srcDirs = ['jniLibs']
         }
     }
     //签名
@@ -73,6 +77,9 @@ android {
         }
     }
     externalNativeBuild {
+//        ndkBuild {
+//            path 'Android.mk'
+//        }
         cmake {
             path 'CMakeLists.txt'
         }
