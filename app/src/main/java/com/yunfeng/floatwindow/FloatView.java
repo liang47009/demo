@@ -2,8 +2,9 @@ package com.yunfeng.floatwindow;
 
 import android.content.Context;
 import android.graphics.PixelFormat;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -11,11 +12,11 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.yunfeng.Const;
 import com.yunfeng.Res;
+import com.yunfeng.ResUtil;
 
 import java.lang.reflect.Method;
 
@@ -34,8 +35,25 @@ public class FloatView extends LinearLayout implements View.OnClickListener {
     private int viewWidth;
     private int viewHeight;
     private boolean isAnim = false;
+    private Handler handler;
+    private ImageView imageView;
 
     private float[] temp = new float[4];
+
+    private Runnable runnable = new Runnable() {
+        public void run() {
+            try {
+//                if (FloatView.this.isPopup()) {
+//                    FloatView.this.setVisibility(0);
+//                    FloatView.this.mWindowManager.removeView(FloatView.this.allLayout);
+//                    FloatView.this.isPopup = false;
+//                }
+                FloatView.this.setFloatImageHide();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    };
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
@@ -46,8 +64,9 @@ public class FloatView extends LinearLayout implements View.OnClickListener {
     public FloatView(Context context) {
         super(context);
         this.context = context;
+        this.handler = new Handler(Looper.getMainLooper());
         LayoutInflater.from(context).inflate(Res.getLayoutId("float_window_layout"), this);
-        ImageButton imageView = ((ImageButton) findViewById(Res.getViewId("floatview_img")));
+        imageView = findViewById(Res.getViewId("floatview_img"));
         this.mWindowManager = ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE));
         initLayoutParams();
         refresh();
@@ -61,6 +80,14 @@ public class FloatView extends LinearLayout implements View.OnClickListener {
         this.wLayoutParams.type = WindowManager.LayoutParams.TYPE_APPLICATION;
         this.wLayoutParams.gravity = Gravity.START | Gravity.TOP;
         this.wLayoutParams.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_FULLSCREEN | WindowManager.LayoutParams.FLAG_LAYOUT_INSET_DECOR;
+    }
+
+    private void setFloatImageNormal() {
+        this.imageView.setImageResource(ResUtil.getDrawableId("discover"));
+    }
+
+    private void setFloatImageHide() {
+        this.imageView.setImageResource(ResUtil.getDrawableId("discover_green"));
     }
 
     private void refresh() {
@@ -117,7 +144,7 @@ public class FloatView extends LinearLayout implements View.OnClickListener {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
 //                setFloatImageNormal();
-//                this.handler.removeCallbacks(this.runnable);
+                this.handler.removeCallbacks(this.runnable);
                 this.temp[0] = event.getX();
                 this.temp[1] = event.getY();
                 this.temp[2] = (event.getX() - getLeft());
@@ -136,7 +163,7 @@ public class FloatView extends LinearLayout implements View.OnClickListener {
                 break;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
-//                this.handler.postDelayed(this.runnable, 15000L);
+                this.handler.postDelayed(this.runnable, 15000L);
                 if (this.lastAction == 0) {
                     onClick(this);
                 } else if ((this.wLayoutParams.x != 0) && (this.wLayoutParams.x != this.screenWidth - this.viewWidth)) {
